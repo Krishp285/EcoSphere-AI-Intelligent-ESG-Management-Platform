@@ -211,7 +211,9 @@ export const MainLayout = () => {
         )}
 
         {/* Content Outlet */}
-        <main className={`flex-1 overflow-y-auto focus:outline-none p-4 md:p-6 pb-24 transition-all duration-300 ${presentationMode ? 'bg-slate-950' : 'bg-background'}`}>
+        <main className={`flex-1 overflow-y-auto focus:outline-none p-4 md:p-6 pb-24 transition-all duration-300 ${
+          presentationMode ? 'bg-slate-950 presentation-mode-active-layout' : 'bg-background'
+        }`}>
           {/* Active Demo Mode Status Bar */}
           {demoMode && !presentationMode && (
             <div className="mb-4 bg-slate-900 border border-slate-800 p-3 rounded-2xl flex flex-wrap gap-4 items-center justify-between text-xs text-white shadow-xl backdrop-blur relative overflow-hidden">

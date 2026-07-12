@@ -209,60 +209,30 @@ export const Walkthrough = () => {
 
   // Derive placement coordinates of tooltip based on the target position
   const getTooltipStyle = () => {
-    if (!targetRect) {
+    const viewportWidth = window.innerWidth;
+    const pad = 24;
+    const tooltipWidth = 360;
+
+    // If the screen is wide enough to support the side panel layout (desktop):
+    // Position it fixed in the left channel where the sidebar used to be.
+    if (viewportWidth >= 1200) {
       return {
         position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
+        left: `${pad}px`,
+        top: '120px',
+        width: `${tooltipWidth}px`,
         zIndex: 9999
       };
     }
 
-    const viewportHeight = window.innerHeight;
-    const viewportWidth = window.innerWidth;
-    const pad = 16;
-    const tooltipWidth = 380;
-    const tooltipHeight = 360; // Estimated height of tooltip details
-
-    const spaceBelow = viewportHeight - (targetRect.top + targetRect.height + pad);
-    const spaceAbove = targetRect.top - pad;
-    const spaceRight = viewportWidth - (targetRect.left + targetRect.width + pad);
-    const spaceLeft = targetRect.left - pad;
-
-    let bestTop = targetRect.top + targetRect.height + 15;
-    let bestLeft = targetRect.left;
-
-    if (spaceBelow >= tooltipHeight) {
-      // Below target
-      bestTop = targetRect.top + targetRect.height + 15;
-      bestLeft = targetRect.left;
-    } else if (spaceAbove >= tooltipHeight) {
-      // Above target
-      bestTop = targetRect.top - tooltipHeight - 15;
-      bestLeft = targetRect.left;
-    } else if (spaceRight >= tooltipWidth) {
-      // Right of target
-      bestTop = targetRect.top;
-      bestLeft = targetRect.left + targetRect.width + 15;
-    } else if (spaceLeft >= tooltipWidth) {
-      // Left of target
-      bestTop = targetRect.top;
-      bestLeft = targetRect.left - tooltipWidth - 15;
-    } else {
-      // Fallback center of screen
-      bestTop = (viewportHeight - tooltipHeight) / 2;
-      bestLeft = (viewportWidth - tooltipWidth) / 2;
-    }
-
-    // Clip to safe borders inside the visible area
-    const leftVal = Math.max(pad, Math.min(bestLeft, viewportWidth - tooltipWidth - pad));
-    const topVal = Math.max(pad, Math.min(bestTop, viewportHeight - tooltipHeight - pad));
-
+    // On smaller screens, display it centered at the bottom
     return {
       position: 'fixed',
-      left: `${leftVal}px`,
-      top: `${topVal}px`,
+      left: '50%',
+      bottom: `${pad}px`,
+      transform: 'translateX(-50%)',
+      width: `calc(100% - ${pad * 2}px)`,
+      maxWidth: `${tooltipWidth}px`,
       zIndex: 9999
     };
   };
