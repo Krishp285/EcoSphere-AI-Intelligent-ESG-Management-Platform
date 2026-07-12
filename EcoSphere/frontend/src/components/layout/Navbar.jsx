@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Bell, Search, Menu, Leaf, LogOut, Play, Square, Presentation } from 'lucide-react';
 import { useSidebar } from '../../context/SidebarContext';
 import { useUser } from '../../context/UserContext';
@@ -12,9 +12,26 @@ export const Navbar = () => {
   const { toggleSidebar } = useSidebar();
   const { currentOrganization, organizations } = useUser();
   const { user, logout } = useAuth();
-  const { unreadCount } = useNotifications();
+  const { notifications, markAsRead, unreadCount } = useNotifications();
   const { kpis, demoMode, setDemoMode, setPresentationMode } = useEsg();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showNotifMenu, setShowNotifMenu] = useState(false);
+
+  const notifMenuRef = useRef(null);
+  const userMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (notifMenuRef.current && !notifMenuRef.current.contains(e.target)) {
+        setShowNotifMenu(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setShowUserMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   const initials = user?.name
     ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
@@ -107,14 +124,67 @@ export const Navbar = () => {
           </Badge>
         </div>
 
-        <button className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
-          <Bell className="h-5 w-5" />
-          {unreadCount > 0 && (
-            <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
+        <div ref={notifMenuRef} className="relative">
+          <button 
+            onClick={() => setShowNotifMenu(v => !v)}
+            className={`relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-full transition-colors ${showNotifMenu ? 'bg-gray-100 text-gray-600' : ''}`}
+          >
+            <Bell className="h-5 w-5" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white animate-pulse" />
+            )}
+          </button>
+          
+          {showNotifMenu && (
+            <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50 animate-slide-up">
+              <div className="px-4 py-2 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                <span className="font-bold text-gray-800 text-xs">Notifications</span>
+                {unreadCount > 0 && (
+                  <button 
+                    onClick={() => {
+                      notifications.forEach(n => {
+                        if (!n.read) markAsRead(n.id);
+                      });
+                    }}
+                    className="text-[10px] text-primary-600 hover:text-primary-700 font-extrabold uppercase font-sans"
+                  >
+                    Mark all read
+                  </button>
+                )}
+              </div>
+              <div className="max-h-64 overflow-y-auto divide-y divide-gray-100">
+                {notifications.length === 0 ? (
+                  <div className="p-4 text-center text-xs text-gray-400">
+                    No notifications
+                  </div>
+                ) : (
+                  notifications.map(notif => (
+                    <div 
+                      key={notif.id}
+                      onClick={() => !notif.read && markAsRead(notif.id)}
+                      className={`p-3 text-left hover:bg-gray-50 cursor-pointer flex gap-2.5 items-start transition-colors ${notif.read ? 'opacity-70' : 'bg-primary-50/10 font-semibold'}`}
+                    >
+                      <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
+                        notif.type === 'success' ? 'bg-green-500' :
+                        notif.type === 'warning' ? 'bg-yellow-500' :
+                        'bg-blue-500'
+                      }`} />
+                      <div className="flex-1 space-y-0.5">
+                        <p className="text-gray-700 text-xs leading-snug">{notif.message}</p>
+                        <span className="text-[9px] text-gray-400 font-bold block">{notif.time || 'Just now'}</span>
+                      </div>
+                      {!notif.read && (
+                        <span className="text-[8px] bg-primary-100 text-primary-700 px-1.5 py-0.5 rounded font-black uppercase">New</span>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           )}
-        </button>
+        </div>
 
-        <div className="relative">
+        <div ref={userMenuRef} className="relative">
           <button onClick={() => setShowUserMenu(v => !v)} className="flex items-center focus:outline-none" title={user?.name}>
             <Avatar initials={initials} size="sm" className="ring-2 ring-white shadow-sm" />
           </button>

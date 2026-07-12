@@ -82,3 +82,187 @@
     animation: fadeIn 0.4s ease-out forwards;
   }
 }
+
+/* Presentation / Show Mode Custom CSS Overrides */
+.presentation-mode {
+  background-color: #020617 !important;
+  color: #f8fafc !important;
+}
+
+.presentation-mode main {
+  background-color: #020617 !important;
+}
+
+/* Glassmorphism for Cards, Headers, Footers, and Modals */
+.presentation-mode .bg-white,
+.presentation-mode .bg-surface {
+  background-color: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(16px) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Headings and Primary Text Color Contrast fixes */
+.presentation-mode h1,
+.presentation-mode h2,
+.presentation-mode h3,
+.presentation-mode h4,
+.presentation-mode h5,
+.presentation-mode h6,
+.presentation-mode .text-gray-900,
+.presentation-mode .text-gray-800,
+.presentation-mode .text-gray-950,
+.presentation-mode .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+/* Supporting text contrast fixes */
+.presentation-mode p,
+.presentation-mode span:not([class*="bg-"]):not([class*="text-"]):not(.recharts-legend-item-text),
+.presentation-mode td,
+.presentation-mode .text-gray-700,
+.presentation-mode .text-gray-600,
+.presentation-mode .text-gray-500,
+.presentation-mode .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+
+.presentation-mode .text-gray-400,
+.presentation-mode .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+.presentation-mode .border-gray-100,
+.presentation-mode .border-gray-150,
+.presentation-mode .border-gray-200,
+.presentation-mode .border-gray-250,
+.presentation-mode .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.presentation-mode .bg-gray-50,
+.presentation-mode .bg-slate-50,
+.presentation-mode .bg-gray-100 {
+  background-color: rgba(30, 41, 59, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Input Fields inside Presentation Mode */
+.presentation-mode input,
+.presentation-mode select,
+.presentation-mode textarea {
+  background-color: rgba(30, 41, 59, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.presentation-mode input:focus,
+.presentation-mode select:focus,
+.presentation-mode textarea:focus {
+  border-color: var(--color-primary-500) !important;
+  box-shadow: 0 0 0 1px var(--color-primary-500) !important;
+}
+
+/* Progress bar rail contrast fixes */
+.presentation-mode .bg-gray-200 {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Chart readability overrides */
+.presentation-mode .recharts-cartesian-grid-line line {
+  stroke: rgba(255, 255, 255, 0.08) !important;
+}
+
+.presentation-mode .recharts-default-tooltip {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.presentation-mode .recharts-default-tooltip .recharts-tooltip-item {
+  color: #f8fafc !important;
+}
+
+.presentation-mode .recharts-tooltip-label {
+  color: #cbd5e1 !important;
+}
+
+.presentation-mode .recharts-legend-item-text {
+  color: #cbd5e1 !important;
+}
+
+/* Scrollbar styles for presentation mode */
+.presentation-mode ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.presentation-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Table Hover in Presentation Mode */
+.presentation-mode tr:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+.presentation-mode thead {
+  background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+.presentation-mode thead th {
+  color: #f8fafc !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Badge colors adjustments for dark mode */
+.presentation-mode .bg-primary-50 { background-color: rgba(0, 168, 107, 0.15) !important; }
+.presentation-mode .text-primary-800 { color: #5ce6b0 !important; }
+.presentation-mode .bg-green-50 { background-color: rgba(34, 197, 94, 0.15) !important; }
+.presentation-mode .text-green-700, .presentation-mode .text-green-800 { color: #4ade80 !important; }
+.presentation-mode .bg-pink-50 { background-color: rgba(236, 72, 153, 0.15) !important; }
+.presentation-mode .text-pink-700 { color: #f472b6 !important; }
+.presentation-mode .bg-yellow-50 { background-color: rgba(251, 191, 36, 0.15) !important; }
+.presentation-mode .text-yellow-700 { color: #fbbf24 !important; }
+.presentation-mode .bg-blue-50 { background-color: rgba(96, 165, 250, 0.15) !important; }
+.presentation-mode .text-blue-700 { color: #60a5fa !important; }
+.presentation-mode .bg-red-50 { background-color: rgba(239, 68, 68, 0.15) !important; }
+.presentation-mode .text-red-800 { color: #f87171 !important; }
+
+/* Non-interactive override elements (e.g. keep actual inputs untampered layout) */
+.presentation-mode select option {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* Floating badge keyframes */
+@keyframes floatUp {
+  0% {
+    transform: translate(-50%, 0) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(-50%, -20px) scale(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -80px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -120px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+.animate-float-up {
+  animation: floatUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Presentation Mode Layout Split Override */
+@media (min-width: 1200px) {
+  .presentation-mode-active-layout {
+    padding-left: 410px !important;
+    transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+

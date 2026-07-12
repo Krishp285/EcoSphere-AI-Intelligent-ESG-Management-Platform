@@ -106,7 +106,7 @@ export const Reports = () => {
   }, [isBuilding]); // eslint-disable-line
 
   return (
-    <div className="space-y-6">
+    <div id="walkthrough-reports-content" className="space-y-6">
       {/* Module Title */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>

@@ -18,7 +18,8 @@ import {
   AlertTriangle,
   Globe,
   Coins,
-  ArrowRight
+  ArrowRight,
+  RefreshCw
 } from 'lucide-react';
 import Card, { CardHeader, CardContent } from '../components/common/Card';
 import Badge from '../components/common/Badge';
@@ -58,7 +59,7 @@ const ACTIVITY_ICONS = {
 
 export const Dashboard = () => {
   const { user, currentOrganization } = useUser();
-  const { kpis, departments, transactions, aiInsights, monthlyTrend, liveActivities, executiveBrief } = useEsg();
+  const { kpis, departments, transactions, aiInsights, monthlyTrend, liveActivities, executiveBrief, isAiThinking, aiThinkingText } = useEsg();
   const [activeTab, setActiveTab] = useState('executive');
 
   // Digital Twin state
@@ -139,7 +140,7 @@ export const Dashboard = () => {
       {activeTab === 'executive' && (
         <div className="space-y-6">
           {/* Executive Command Center Hero */}
-          <div className="relative overflow-hidden rounded-[2rem] border border-slate-800/40 bg-gradient-to-br from-slate-950 via-slate-900 to-primary-950 p-6 text-white shadow-[0_30px_80px_-30px_rgba(0,0,0,0.65)]">
+          <div id="walkthrough-dashboard-hero" className="relative overflow-hidden rounded-[2rem] border border-slate-800/40 bg-gradient-to-br from-slate-950 via-slate-900 to-primary-950 p-6 text-white shadow-[0_30px_80px_-30px_rgba(0,0,0,0.65)]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,168,107,0.18),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(148,163,184,0.14),transparent_30%)]" />
             <div className="absolute -top-10 right-0 text-white/5">
               <Leaf className="w-96 h-96" />
@@ -166,11 +167,18 @@ export const Dashboard = () => {
                   </p>
                 </div>
 
-                <div className="bg-white/8 backdrop-blur border border-white/10 rounded-2xl p-4 space-y-3 shadow-lg">
+                <div id="walkthrough-exec-ai" className="bg-white/8 backdrop-blur border border-white/10 rounded-2xl p-4 space-y-3 shadow-lg min-h-[100px] flex flex-col justify-center">
                   <div className="flex items-center gap-2 text-xs font-bold text-primary-200 tracking-[0.22em] uppercase">
                     <Bot className="w-4.5 h-4.5 animate-bounce text-primary-300" /> AI Executive Assessment
                   </div>
-                  <p className="text-sm text-slate-200 leading-relaxed font-medium">{executiveBrief.summary}</p>
+                  {isAiThinking ? (
+                    <div className="flex items-center gap-2 text-xs text-primary-200 animate-pulse py-1">
+                      <RefreshCw className="w-4 h-4 animate-spin text-primary-300" />
+                      <span>{aiThinkingText}</span>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-200 leading-relaxed font-medium">{executiveBrief.summary}</p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -203,16 +211,25 @@ export const Dashboard = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-5 text-center shadow-2xl">
+                <div id="walkthrough-esg-grade" className="rounded-2xl border border-white/10 bg-slate-950/70 p-5 text-center shadow-2xl transition-all duration-500 hover:scale-102">
                   <div className="text-[10px] uppercase tracking-[0.28em] text-slate-400 font-bold">Organization ESG Grade</div>
-                  <div className="mt-3 text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-primary-300 to-sky-300">{grade}</div>
+                  <div className="mt-3 text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-primary-300 to-sky-300 transition-all duration-500">{grade}</div>
                   <p className="mt-2 text-xs text-slate-400">Live executive-grade performance snapshot</p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div id="walkthrough-risk-meter" className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-500">
                   <div className="flex items-center justify-between text-xs text-slate-300">
                     <span className="font-semibold">Live ESG Risk Meter</span>
-                    <span className="font-bold text-emerald-300">{executiveBrief.liveRiskMeter}/100</span>
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase transition-all ${
+                        executiveBrief.riskLevel === 'HIGH' || executiveBrief.riskLevel === 'CRITICAL' ? 'bg-red-500/20 text-red-300 border border-red-500/30 animate-pulse' :
+                        executiveBrief.riskLevel === 'MEDIUM' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                        'bg-green-500/20 text-green-300 border border-green-500/30'
+                      }`}>
+                        {executiveBrief.riskLevel}
+                      </span>
+                      <span className="font-bold text-emerald-300">{executiveBrief.liveRiskMeter}/100</span>
+                    </div>
                   </div>
                   <Progress value={100 - executiveBrief.liveRiskMeter} color="bg-gradient-to-r from-emerald-400 to-amber-400" className="mt-3 h-2.5" />
                   <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
@@ -332,27 +349,34 @@ export const Dashboard = () => {
                 action={<Badge variant="primary">Smart Engine</Badge>}
               />
               <CardContent>
-                <div className="space-y-3">
-                  {aiInsights.slice(0, 2).map(insight => (
-                    <div key={insight.id} className="p-4 bg-white rounded-xl border border-primary-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <h4 className="font-bold text-gray-900 flex items-center text-xs">
-                          <Target className="w-4 h-4 mr-2 text-primary-600" />
-                          {insight.recommendation}
-                        </h4>
-                        <Badge variant={insight.priority === 'Critical' ? 'danger' : 'warning'}>
-                          {insight.priority}
-                        </Badge>
+                {isAiThinking ? (
+                  <div className="flex flex-col items-center justify-center py-10 gap-3 text-xs text-primary-600 font-bold animate-pulse">
+                    <Bot className="w-8 h-8 animate-bounce text-primary-500" />
+                    <span>{aiThinkingText}</span>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {aiInsights.slice(0, 2).map(insight => (
+                      <div key={insight.id} className="p-4 bg-white rounded-xl border border-primary-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <h4 className="font-bold text-gray-900 flex items-center text-xs">
+                            <Target className="w-4 h-4 mr-2 text-primary-600" />
+                            {insight.recommendation}
+                          </h4>
+                          <Badge variant={insight.priority === 'Critical' ? 'danger' : 'warning'}>
+                            {insight.priority}
+                          </Badge>
+                        </div>
+                        <p className="text-2xs text-gray-500 leading-normal">{insight.root_cause}</p>
+                        <div className="flex items-center gap-4 text-2xs text-gray-600 mt-2 pt-2 border-t border-gray-100">
+                          <span className="text-green-600 font-bold">↓ {insight.expected_carbon_reduction} Carbon</span>
+                          <span className="text-blue-600 font-bold">+{insight.esg_score_improvement} ESG points</span>
+                          <span className="font-bold">{insight.confidence}% confidence</span>
+                        </div>
                       </div>
-                      <p className="text-2xs text-gray-500 leading-normal">{insight.root_cause}</p>
-                      <div className="flex items-center gap-4 text-2xs text-gray-600 mt-2 pt-2 border-t border-gray-100">
-                        <span className="text-green-600 font-bold">↓ {insight.expected_carbon_reduction} Carbon</span>
-                        <span className="text-blue-600 font-bold">+{insight.esg_score_improvement} ESG points</span>
-                        <span className="font-bold">{insight.confidence}% confidence</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
 

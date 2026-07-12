@@ -80,7 +80,7 @@ export const Governance = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div id="walkthrough-governance-content" className="space-y-6">
       {/* Module Title */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Governance & Compliance</h1>

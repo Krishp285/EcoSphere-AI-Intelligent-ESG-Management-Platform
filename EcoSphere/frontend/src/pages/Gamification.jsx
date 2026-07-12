@@ -64,7 +64,7 @@ export const Gamification = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div id="walkthrough-gamification-content" className="space-y-6">
       {/* Module Header */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>

@@ -81,7 +81,7 @@ export const TrustCenter = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div id="walkthrough-trust-content" className="space-y-6">
       {/* Module Title */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Blockchain Trust Center</h1>

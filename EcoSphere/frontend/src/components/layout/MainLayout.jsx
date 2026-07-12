@@ -6,6 +6,7 @@ import { useEsg } from '../../context/EsgContext';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import Walkthrough from '../common/Walkthrough';
 import { 
   Bot, Send, X, Sparkles, Layout, TreePine, Users, Scale, Trophy, FileBarChart, 
   ShieldCheck, Presentation, Settings, Play, Square, RefreshCw, ChevronUp 
@@ -17,7 +18,14 @@ export const MainLayout = () => {
   const { 
     presentationMode, setPresentationMode, 
     demoMode, setDemoMode, resetDemoData, 
-    executiveBrief, recordReportGeneration, recordVerificationEvent 
+    executiveBrief, recordReportGeneration, recordVerificationEvent,
+    simSpeed, setSimSpeed,
+    scenarioMode, setScenarioMode,
+    sensorsCount,
+    carbonEventsToday,
+    aiRecsCount,
+    lastUpdateSeconds,
+    floatingBadges
   } = useEsg();
   const location = useLocation();
 
@@ -206,13 +214,76 @@ export const MainLayout = () => {
         <main className={`flex-1 overflow-y-auto focus:outline-none p-4 md:p-6 pb-24 transition-all duration-300 ${presentationMode ? 'bg-slate-950' : 'bg-background'}`}>
           {/* Active Demo Mode Status Bar */}
           {demoMode && !presentationMode && (
-            <div className="mb-4 bg-green-50/80 border border-green-200 p-2.5 rounded-xl flex items-center justify-between text-xs text-green-800 shadow-sm backdrop-blur animate-pulse">
+            <div className="mb-4 bg-slate-900 border border-slate-800 p-3 rounded-2xl flex flex-wrap gap-4 items-center justify-between text-xs text-white shadow-xl backdrop-blur relative overflow-hidden">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
-                <span className="font-semibold">Demo Simulation Active:</span>
-                <span>Incoming carbon logs, volunteers and audits are auto-generated to demonstrate scoring updates.</span>
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                </span>
+                <span className="font-extrabold uppercase text-[10px] tracking-wider text-green-400">TELEMETRY STREAM:</span>
+                <span className="text-slate-300 hidden sm:inline">Monitoring live enterprise ESG data</span>
               </div>
-              <button onClick={() => setDemoMode(false)} className="text-[10px] bg-green-600 text-white font-bold px-2 py-0.5 rounded uppercase hover:bg-green-700">Stop</button>
+
+              {/* Tickers */}
+              <div className="flex items-center gap-4 flex-wrap text-[11px] font-semibold">
+                <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
+                  <span className="text-slate-500 text-[10px]">SYNC:</span>
+                  <span className="text-primary-400">{lastUpdateSeconds}s ago</span>
+                </div>
+                <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
+                  <span className="text-slate-500 text-[10px]">SENSORS:</span>
+                  <span className="text-sky-400">{sensorsCount} online</span>
+                </div>
+                <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
+                  <span className="text-slate-500 text-[10px]">CARBON EVENTS:</span>
+                  <span className="text-green-400">{carbonEventsToday} logs</span>
+                </div>
+                <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
+                  <span className="text-slate-500 text-[10px]">AI ADVISORIES:</span>
+                  <span className="text-indigo-400">{aiRecsCount} files</span>
+                </div>
+              </div>
+
+              {/* Toggles and buttons */}
+              <div className="flex items-center gap-3">
+                {/* Speed Controls */}
+                <div className="flex items-center bg-slate-950 rounded-lg p-0.5 border border-slate-800">
+                  {['slow', 'normal', 'fast'].map(speed => (
+                    <button
+                      key={speed}
+                      onClick={() => setSimSpeed(speed)}
+                      type="button"
+                      className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold transition-all ${
+                        simSpeed === speed ? 'bg-primary-500 text-white' : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      {speed}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Scenario Toggle */}
+                <button
+                  onClick={() => setScenarioMode(v => !v)}
+                  type="button"
+                  className={`px-2.5 py-1 rounded-lg border text-[10px] uppercase font-extrabold transition-all ${
+                    scenarioMode 
+                      ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/20' 
+                      : 'bg-slate-850 text-slate-400 border-slate-800'
+                  }`}
+                  title={scenarioMode ? 'Switch to Randomized Events' : 'Switch to Scripted Enterprise Demo Scenario'}
+                >
+                  {scenarioMode ? 'Scenario Mode' : 'Random Mode'}
+                </button>
+
+                <button 
+                  onClick={() => setDemoMode(false)} 
+                  type="button"
+                  className="bg-red-500/10 hover:bg-red-500 hover:text-white border border-red-500/20 text-red-400 font-extrabold px-3 py-1 rounded-lg text-[10px] uppercase transition-colors"
+                >
+                  Stop
+                </button>
+              </div>
             </div>
           )}
 
@@ -337,6 +408,20 @@ export const MainLayout = () => {
           )}
         </div>
       </div>
+
+      {/* Floating Event Badges Overlay */}
+      {floatingBadges && floatingBadges.map(badge => (
+        <div
+          key={badge.id}
+          style={badge.style}
+          className="fixed z-50 bg-slate-900 border border-slate-700 text-primary-400 font-extrabold px-3 py-1.5 rounded-full text-xs shadow-2xl pointer-events-none animate-float-up"
+        >
+          {badge.text}
+        </div>
+      ))}
+
+      {/* Guided Presentation Walkthrough overlay */}
+      {presentationMode && <Walkthrough />}
     </div>
   );
 };

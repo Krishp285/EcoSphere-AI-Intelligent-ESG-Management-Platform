@@ -37,7 +37,7 @@ const EnvironmentalDashboard = () => {
   const goalProgress = goals.map(g => ({ ...g, completion: Math.round((g.current / g.target) * 100) }));
 
   return (
-    <div className="space-y-6">
+    <div id="walkthrough-environmental-content" className="space-y-6">
       {/* KPI Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total CO2 card */}

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { envApi } from '../services/api';
 import { useNotifications } from './NotificationContext';
 
@@ -152,6 +152,34 @@ const MONTHLY_TREND = [
   { name: 'Jun', actual: 2.9, target: 3.0 },
 ];
 
+const INSIGHTS_POOL = [
+  "AI recommends solar migration for Logistic warehouses.",
+  "Logistics fleet carbon intensity reduced by 4.2% today.",
+  "Waste recycling at Chennai Plant B exceeded target index.",
+  "Renewable energy grids installation improved overall ESG score.",
+  "Manufacturing operations power efficiency is stable.",
+  "Water consumption reduced by 15% through recycle loops.",
+  "Procurement reduced single-use packaging elements.",
+  "IT department achieved compliance on security ledger audit.",
+  "AI advises deploying double-glazed windows at office sites.",
+  "CSR volunteering hours achieved the monthly target milestone.",
+  "Logistics team finished 'Zero Idle Fuel' routing milestone.",
+  "On-chain verification verified 120 tCO2 carbon offsets.",
+  "HR compliance checklists completed without delay.",
+  "Water reclamation loop offsets Chennai municipal load.",
+  "Executive advisory recommends scaling smart grid telemetry.",
+  "Carbon intensity mapping identifies logistics efficiency bottlenecks.",
+  "Green building certification audit completed for main campus.",
+  "Smart sensor arrays deployed at Chennai Warehouse B.",
+  "Electric vehicle courier fleet expanded by 12 courier vans.",
+  "AI detected 8% potential reduction in packaging footprints.",
+  "Governance compliance audits completed successfully.",
+  "Bio-waste composting system certified at Logistics Hub.",
+  "Single-use plastic ban acknowledged by 100% of employees.",
+  "ISO 14001 certification goals verified by external auditors.",
+  "Grid electricity carbon factor updated from CEA 2024 source."
+];
+
 const EMISSION_DISTRIBUTION = [
   { name: 'Electricity', value: 45, color: '#34d399' },
   { name: 'Fuel', value: 28, color: '#fbbf24' },
@@ -163,22 +191,57 @@ const EMISSION_DISTRIBUTION = [
 // ─── Provider ─────────────────────────────────────────────────────────────────
 export const EsgProvider = ({ children }) => {
   const { showToast } = useNotifications();
-  const [kpis, setKpis] = useState(INITIAL_KPIS);
-  const [departments, setDepartments] = useState(INITIAL_DEPARTMENTS);
-  const [transactions, setTransactions] = useState(() => load(TX_KEY, SEED_TRANSACTIONS));
-  const [goals, setGoals] = useState(() => load(GOALS_KEY, SEED_GOALS));
-  const [emissionFactors, setEmissionFactors] = useState(() => load(EF_KEY, SEED_EMISSION_FACTORS));
-  const [aiInsights, setAiInsights] = useState(INITIAL_AI_INSIGHTS);
-  const [liveActivities, setLiveActivities] = useState(INITIAL_ACTIVITIES);
-  const [monthlyTrend, setMonthlyTrend] = useState(MONTHLY_TREND);
+
+  // Load baseline/simulation states if demoMode was previously active
+  const hasSavedSim = localStorage.getItem('eco_demo_active') === 'true';
+  let savedSimData = {};
+  if (hasSavedSim) {
+    try {
+      const raw = localStorage.getItem('eco_simulation_state');
+      if (raw && raw !== 'undefined' && raw !== 'null') {
+        savedSimData = JSON.parse(raw) || {};
+      }
+    } catch (err) {
+      console.warn("Failed to parse eco_simulation_state:", err);
+    }
+  }
+
+  const [kpis, setKpis] = useState(() => savedSimData.kpis || INITIAL_KPIS);
+  const [departments, setDepartments] = useState(() => savedSimData.departments || INITIAL_DEPARTMENTS);
+  const [transactions, setTransactions] = useState(() => savedSimData.transactions || load(TX_KEY, SEED_TRANSACTIONS));
+  const [goals, setGoals] = useState(() => savedSimData.goals || load(GOALS_KEY, SEED_GOALS));
+  const [emissionFactors, setEmissionFactors] = useState(() => savedSimData.emissionFactors || load(EF_KEY, SEED_EMISSION_FACTORS));
+  const [aiInsights, setAiInsights] = useState(() => savedSimData.aiInsights || INITIAL_AI_INSIGHTS);
+  const [liveActivities, setLiveActivities] = useState(() => savedSimData.liveActivities || INITIAL_ACTIVITIES);
+  const [monthlyTrend, setMonthlyTrend] = useState(() => savedSimData.monthlyTrend || MONTHLY_TREND);
   const [emissionDistribution] = useState(EMISSION_DISTRIBUTION);
 
   // Demo & Presentation Mode
-  const [demoMode, setDemoMode] = useState(false);
-  const [presentationMode, setPresentationMode] = useState(false);
+  const [demoMode, setDemoMode] = useState(() => localStorage.getItem('eco_demo_active') === 'true');
+  const [presentationMode, setPresentationMode] = useState(() => localStorage.getItem('eco_presentation_active') === 'true');
+
+  // Simulation Speed & Mode Configuration
+  const [simSpeed, setSimSpeed] = useState(() => localStorage.getItem('eco_sim_speed') || 'normal');
+  const [scenarioMode, setScenarioMode] = useState(() => localStorage.getItem('eco_scenario_mode') !== 'false');
+
+  // AI Thinking state
+  const [isAiThinking, setIsAiThinking] = useState(false);
+  const [aiThinkingText, setAiThinkingText] = useState('');
+
+  // Ticker statistics
+  const [sensorsCount, setSensorsCount] = useState(() => parseInt(localStorage.getItem('eco_sim_sensors') || '148', 10));
+  const [carbonEventsToday, setCarbonEventsToday] = useState(() => parseInt(localStorage.getItem('eco_sim_carbon_events') || '48', 10));
+  const [aiRecsCount, setAiRecsCount] = useState(() => parseInt(localStorage.getItem('eco_sim_ai_recs') || '16', 10));
+  const [lastUpdateSeconds, setLastUpdateSeconds] = useState(0);
+
+  // Floating badges list
+  const [floatingBadges, setFloatingBadges] = useState([]);
+
+  // Scripted scenario step
+  const [scenarioStep, setScenarioStep] = useState(() => parseInt(localStorage.getItem('eco_scenario_step') || '0', 10));
 
   // Digital Twin parameters
-  const [digitalTwinSim, setDigitalTwinSim] = useState({
+  const [digitalTwinSim, setDigitalTwinSim] = useState(() => savedSimData.digitalTwinSim || {
     renewablePercent: 30,
     evPercent: 10,
     treeCount: 500,
@@ -186,6 +249,21 @@ export const EsgProvider = ({ children }) => {
     csrInvestment: 1000000,
     greenMfg: 20
   });
+
+  // Ref to hold baseline state
+  const baselineRef = useRef(null);
+
+  // Sync baseline state cache on mount
+  useEffect(() => {
+    const savedBaseline = localStorage.getItem('eco_baseline_state');
+    if (savedBaseline && savedBaseline !== 'undefined' && savedBaseline !== 'null') {
+      try {
+        baselineRef.current = JSON.parse(savedBaseline);
+      } catch (err) {
+        console.warn("Failed to parse eco_baseline_state:", err);
+      }
+    }
+  }, []);
 
   // ── Recalculate scores ────────────────────────────────────────────────────
   const recalculate = useCallback((newTransactions) => {
@@ -203,7 +281,7 @@ export const EsgProvider = ({ children }) => {
         ...activity,
       },
       ...prev,
-    ].slice(0, 12));
+    ].slice(0, 30));
   }, []);
 
   const emitExecutiveEvent = useCallback(({ activity, kpiDeltas, toast }) => {
@@ -234,6 +312,10 @@ export const EsgProvider = ({ children }) => {
   // ── Sync with backend on startup ──────────────────────────────────────────
   useEffect(() => {
     const fetchBackendData = async () => {
+      // Do not overwrite backend sync if demoMode is already active
+      if (localStorage.getItem('eco_demo_active') === 'true') {
+        return;
+      }
       try {
         const txRes = await envApi.getTransactions({ per_page: 100 });
         const backendTx = txRes.items || txRes;
@@ -267,103 +349,480 @@ export const EsgProvider = ({ children }) => {
   }, []); // eslint-disable-line
 
   // ── Persist to localStorage on change ─────────────────────────────────────
-  useEffect(() => { save(TX_KEY, transactions); }, [transactions]);
-  useEffect(() => { save(GOALS_KEY, goals); }, [goals]);
-  useEffect(() => { save(EF_KEY, emissionFactors); }, [emissionFactors]);
+  useEffect(() => { 
+    if (!demoMode) {
+      save(TX_KEY, transactions);
+      save(GOALS_KEY, goals);
+      save(EF_KEY, emissionFactors);
+    }
+  }, [transactions, goals, emissionFactors, demoMode]);
 
-  // Demo simulation effect
-  useEffect(() => {
-    if (!demoMode) return;
+  // Trigger floating badges helper
+  const triggerFloatingBadge = useCallback((text) => {
+    const id = `badge-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const left = 20 + Math.random() * 60;
+    const top = 30 + Math.random() * 40;
+    setFloatingBadges(prev => [...prev, { id, text, style: { left: `${left}%`, top: `${top}%` } }]);
+    setTimeout(() => {
+      setFloatingBadges(prev => prev.filter(b => b.id !== id));
+    }, 2000);
+  }, []);
 
-    const interval = setInterval(() => {
-      const eventType = Math.floor(Math.random() * 6);
-      const timestamp = new Date().toLocaleTimeString();
+  // Scripted scenario simulation step player
+  const runScriptedStep = useCallback(() => {
+    setLastUpdateSeconds(0);
+    const currentStep = scenarioStep;
+    const nextStep = (currentStep + 1) % 7;
+    setScenarioStep(nextStep);
 
-      if (eventType === 0) {
-        // Sim new transaction
-        const depts = ['Manufacturing', 'Logistics', 'IT', 'HR'];
-        const chosenDept = depts[Math.floor(Math.random() * depts.length)];
-        const sources = ['Electricity', 'Fuel', 'Waste', 'Transport'];
-        const chosenSrc = sources[Math.floor(Math.random() * sources.length)];
-        const qty = Math.floor(Math.random() * 2000) + 100;
-        
-        const newTx = {
-          id: `CTX-${Math.floor(Math.random() * 9000) + 1100}`,
-          department: chosenDept,
-          source: chosenSrc,
-          activity_type: `${chosenSrc} Usage log`,
-          quantity: qty,
-          unit: chosenSrc === 'Fuel' ? 'Liters' : chosenSrc === 'Waste' ? 'kg' : 'kWh',
-          emission_factor: 0.0004,
-          total_co2: parseFloat((qty * 0.0004).toFixed(2)),
-          date: new Date().toISOString().slice(0, 10),
-          location: 'Global Site',
-          description: 'Simulated realtime load telemetry',
-          status: 'Verified',
-          blockchain_hash: `0x${Array.from({ length: 8 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}d7e9...f${Math.floor(Math.random() * 90) + 10}`,
-          verification_ts: new Date().toISOString(),
-          verification_history: [{ state: 'Pending', ts: new Date().toISOString() }, { state: 'Verified', ts: new Date().toISOString() }]
+    if (currentStep === 0) {
+      // 1. Manufacturing emissions increase
+      const co2Spike = 4.2;
+      const newTx = {
+        id: `CTX-SIM-SCR-${Date.now()}`,
+        department: 'Manufacturing',
+        source: 'Electricity',
+        activity_type: 'Heavy Production Line Spike',
+        quantity: 10500,
+        unit: 'kWh',
+        emission_factor: 0.0004,
+        total_co2: co2Spike,
+        date: new Date().toISOString().slice(0, 10),
+        location: 'Plant A, Chennai',
+        description: 'Simulated machinery overload telemetry spike',
+        status: 'Pending',
+        blockchain_hash: null,
+        verification_ts: null,
+        verification_history: [{ state: 'Pending', ts: new Date().toISOString() }]
+      };
+
+      setTransactions(prev => [newTx, ...prev]);
+      setSensorsCount(prev => prev + 1);
+      setCarbonEventsToday(prev => prev + 1);
+
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'overall_score') return { ...k, value: String(Math.max(40, parseInt(k.value) - 1)), trend: 'down', change: '-1.0' };
+        if (k.id === 'env_score') return { ...k, value: String(Math.max(40, parseFloat(k.value) - 1.5)), trend: 'down', change: '-1.5' };
+        return k;
+      }));
+
+      appendLiveActivity({
+        title: 'Manufacturing telemetry spike',
+        desc: `MACH-2 machinery draw registered 10,500 kWh draw (+4.2 tCO₂).`,
+        type: 'blockchain',
+        badgeColor: 'bg-red-50 text-red-700 border-red-200'
+      });
+
+      triggerFloatingBadge('Carbon Overload');
+      showToast('[Demo] Warning: Manufacturing emissions exceeded baseline limits!', 'warning');
+
+    } else if (currentStep === 1) {
+      // 2. AI recommendation generated
+      setIsAiThinking(true);
+      setAiThinkingText('Analyzing carbon anomalies...');
+
+      setTimeout(() => {
+        setIsAiThinking(false);
+        const newInsight = {
+          id: `AI-SIM-SCR-${Date.now()}`,
+          root_cause: 'Grid power draw spike on heavy Manufacturing lines',
+          recommendation: 'AI recommends solar migration for Manufacturing plant',
+          expected_carbon_reduction: '18%',
+          estimated_cost_savings: '₹24,00,000/year',
+          esg_score_improvement: '+6.2 pts',
+          confidence: 94,
+          priority: 'Critical',
+          risk_level: 'High',
+          category: 'Energy Efficiency'
         };
-
-        setTransactions(prev => {
-          const updated = [newTx, ...prev];
-          recalculate(updated);
-          return updated;
-        });
+        setAiInsights(prev => [newInsight, ...prev.slice(0, 2)]);
+        setAiRecsCount(prev => prev + 1);
 
         appendLiveActivity({
-          title: 'Carbon telemetry tracked',
-          desc: `${chosenDept} logged ${newTx.total_co2} tCO2e from ${chosenSrc}.`,
-          type: 'blockchain',
-          badgeColor: 'bg-green-50 text-green-700 border-green-200'
-        });
-
-        showToast(`[Demo] Telemetry verified for ${chosenDept}: ${newTx.total_co2} tCO₂e sealed.`, 'success');
-      } else if (eventType === 1) {
-        // Sim employee volunteering
-        const csrHours = Math.floor(Math.random() * 10) + 2;
-        const depts = ['Manufacturing', 'Logistics', 'IT', 'HR'];
-        const chosenDept = depts[Math.floor(Math.random() * depts.length)];
-
-        setKpis(prev => prev.map(k => k.id === 'social_score' ? { ...k, value: String(Math.min(100, parseInt(k.value) + 1)) } : k));
-        
-        appendLiveActivity({
-          title: 'CSR volunteering logged',
-          desc: `Employee from ${chosenDept} contributed ${csrHours} hours.`,
-          type: 'challenge',
-          badgeColor: 'bg-yellow-50 text-yellow-700 border-yellow-200'
-        });
-
-        showToast(`[Demo] CSR volunteering verified. +${csrHours} hrs Social Impact.`, 'success');
-      } else if (eventType === 2) {
-        // Sim policy acknowledgement
-        emitExecutiveEvent({
-          kpiDeltas: { governance_score: 1 },
-          activity: {
-            title: 'Compliance checklist complete',
-            desc: 'Global Risk Officer approved ISO 26000 review checklist.',
-            type: 'governance',
-            badgeColor: 'bg-blue-50 text-blue-700 border-blue-200'
-          },
-          toast: { message: '[Demo] Compliance audit complete. Trust ledger integrity: 100%.', type: 'info' }
-        });
-      } else if (eventType === 3) {
-        // Sim challenge complete
-        showToast('[Demo] ESG Challenge: "Zero Waste IT Operations" milestone reached!', 'success');
-      } else if (eventType === 4) {
-        // Sim AI recommendation
-        appendLiveActivity({
-          title: 'AI audit complete',
-          desc: 'AI recommendation engine detected new compliance optimisations.',
+          title: 'AI carbon assessment report',
+          desc: 'Solar transition advisory compiled: estimated +6.2 ESG points.',
           type: 'ai',
           badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200'
         });
+
+        triggerFloatingBadge('AI Advisor Sync');
+        showToast('[Demo] AI Copilot: Generated carbon recovery recommendation report.', 'info');
+      }, 1000);
+
+    } else if (currentStep === 2) {
+      // 3. Solar installation completed
+      setDigitalTwinSim(prev => ({
+        ...prev,
+        renewablePercent: 45,
+        greenMfg: 35
+      }));
+
+      appendLiveActivity({
+        title: 'Renewables grid operational',
+        desc: 'Phase-I Solar array connected (45% energy share achieved).',
+        type: 'challenge',
+        badgeColor: 'bg-yellow-50 text-yellow-700 border-yellow-200'
+      });
+
+      triggerFloatingBadge('+15% Solar Grid');
+      showToast('[Demo] Green Alert: Renewable energy share increased to 45%!', 'success');
+
+    } else if (currentStep === 3) {
+      // 4. Carbon reduced
+      const carbonReducedTons = 42;
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'carbon_saved') return { ...k, value: String(parseInt(k.value) + carbonReducedTons), trend: 'up', change: '+14%' };
+        if (k.id === 'env_score') return { ...k, value: String(Math.min(100, parseFloat(k.value) + 2.5)), trend: 'up', change: '+2.5' };
+        return k;
+      }));
+
+      setMonthlyTrend(prev => prev.map((m, idx) => {
+        if (idx === prev.length - 1) {
+          return { ...m, actual: parseFloat((parseFloat(m.actual) - 0.5).toFixed(1)) };
+        }
+        return m;
+      }));
+
+      appendLiveActivity({
+        title: 'Carbon offset recorded',
+        desc: 'Solar grid generation successfully offset 5.2 tCO₂ emissions.',
+        type: 'blockchain',
+        badgeColor: 'bg-green-50 text-green-700 border-green-200'
+      });
+
+      triggerFloatingBadge('Carbon Reduced');
+      showToast('[Demo] Carbon Saved: Grid power offset of 5.2 tCO₂e recorded.', 'success');
+
+    } else if (currentStep === 4) {
+      // 5. ESG score improved
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'overall_score') return { ...k, value: String(Math.min(100, parseInt(k.value) + 2)), trend: 'up', change: '+2.0' };
+        if (k.id === 'social_score') return { ...k, value: String(Math.min(100, parseInt(k.value) + 1.2)), trend: 'up', change: '+1.2' };
+        return k;
+      }));
+
+      appendLiveActivity({
+        title: 'ESG Score recalculated',
+        desc: 'Overall rating improved to A (Score index 86/100).',
+        type: 'report',
+        badgeColor: 'bg-slate-50 text-slate-700 border-slate-200'
+      });
+
+      triggerFloatingBadge('ESG +2');
+      showToast('[Demo] Scoring Engine: Organization ESG rating improved to A!', 'success');
+
+    } else if (currentStep === 5) {
+      // 6. Audit completed
+      setTransactions(prev => prev.map(tx => {
+        if (tx.id.startsWith('CTX-SIM-SCR-')) {
+          return {
+            ...tx,
+            status: 'Verified',
+            blockchain_hash: `0x${Array.from({ length: 8 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}ea2d...f${Math.floor(Math.random() * 90) + 10}`,
+            verification_ts: new Date().toISOString(),
+            verification_history: [...(tx.verification_history || []), { state: 'Verified', ts: new Date().toISOString() }]
+          };
+        }
+        return tx;
+      }));
+
+      appendLiveActivity({
+        title: 'Auditor verification complete',
+        desc: 'Green Carbon Alliance validated machinery offset entries.',
+        type: 'governance',
+        badgeColor: 'bg-blue-50 text-blue-700 border-blue-200'
+      });
+
+      triggerFloatingBadge('Audit Passed');
+      showToast('[Demo] Compliance: Third-party auditor completed Q1 offset verification.', 'success');
+
+    } else if (currentStep === 6) {
+      // 7. Compliance verified
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'governance_score') return { ...k, value: String(Math.min(100, parseInt(k.value) + 4)), trend: 'up', change: '+4.0' };
+        return k;
+      }));
+
+      appendLiveActivity({
+        title: 'Blockchain block sealed',
+        desc: 'Transaction cryptographically signed and sealed in Arbitrum block #308492.',
+        type: 'blockchain',
+        badgeColor: 'bg-green-50 text-green-700 border-green-200'
+      });
+
+      triggerFloatingBadge('Policy Approved');
+      showToast('[Demo] Trust Center: Cryptographic seal complete. Ledger integrity 100%.', 'success');
+    }
+  }, [scenarioStep, appendLiveActivity, triggerFloatingBadge, showToast]);
+
+  // Randomized simulation step player
+  const runRandomStep = useCallback(() => {
+    setLastUpdateSeconds(0);
+    const eventType = Math.floor(Math.random() * 6);
+    setSensorsCount(prev => prev + (Math.random() > 0.5 ? 1 : -1));
+
+    if (eventType === 0) {
+      // Transaction telemetry update
+      const depts = ['Manufacturing', 'Logistics', 'IT', 'HR'];
+      const chosenDept = depts[Math.floor(Math.random() * depts.length)];
+      const sources = ['Electricity', 'Fuel', 'Waste', 'Transport'];
+      const chosenSrc = sources[Math.floor(Math.random() * sources.length)];
+      const qty = Math.floor(Math.random() * 1500) + 100;
+      const co2Val = parseFloat((qty * 0.0004).toFixed(2));
+      
+      const newTx = {
+        id: `CTX-SIM-RND-${Math.floor(Math.random() * 9000) + 1100}`,
+        department: chosenDept,
+        source: chosenSrc,
+        activity_type: `${chosenSrc} Telemetry Log`,
+        quantity: qty,
+        unit: chosenSrc === 'Fuel' ? 'Liters' : chosenSrc === 'Waste' ? 'kg' : 'kWh',
+        emission_factor: 0.0004,
+        total_co2: co2Val,
+        date: new Date().toISOString().slice(0, 10),
+        location: 'Global Site',
+        description: 'Simulated realtime load telemetry',
+        status: 'Verified',
+        blockchain_hash: `0x${Array.from({ length: 8 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}d7e9...f${Math.floor(Math.random() * 90) + 10}`,
+        verification_ts: new Date().toISOString(),
+        verification_history: [{ state: 'Pending', ts: new Date().toISOString() }, { state: 'Verified', ts: new Date().toISOString() }]
+      };
+
+      setTransactions(prev => [newTx, ...prev]);
+      setCarbonEventsToday(prev => prev + 1);
+
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'carbon_saved') {
+          const nextSaved = Math.max(0, parseInt(k.value) - Math.round(co2Val));
+          return { ...k, value: String(nextSaved), trend: 'down', change: '-2%' };
+        }
+        if (k.id === 'env_score') {
+          const nextVal = Math.max(40, parseFloat(k.value) - 0.2);
+          return { ...k, value: nextVal.toFixed(1), trend: 'down', change: '-0.2' };
+        }
+        return k;
+      }));
+
+      appendLiveActivity({
+        title: 'Carbon telemetry tracked',
+        desc: `${chosenDept} logged ${co2Val} tCO2e from ${chosenSrc}.`,
+        type: 'blockchain',
+        badgeColor: 'bg-green-50 text-green-700 border-green-200'
+      });
+
+      triggerFloatingBadge('Carbon Overload');
+      showToast(`[Demo] Telemetry verified for ${chosenDept}: ${co2Val} tCO₂e sealed.`, 'success');
+
+    } else if (eventType === 1) {
+      // CSR volunteer activity
+      const csrHours = Math.floor(Math.random() * 8) + 2;
+      const depts = ['Manufacturing', 'Logistics', 'IT', 'HR'];
+      const chosenDept = depts[Math.floor(Math.random() * depts.length)];
+
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'social_score') return { ...k, value: String(Math.min(100, parseInt(k.value) + 1)), trend: 'up', change: '+1.0' };
+        if (k.id === 'overall_score') return { ...k, value: String(Math.min(100, parseInt(k.value) + 1)), trend: 'up', change: '+0.5' };
+        return k;
+      }));
+
+      appendLiveActivity({
+        title: 'CSR volunteering logged',
+        desc: `Employee from ${chosenDept} contributed ${csrHours} hours.`,
+        type: 'challenge',
+        badgeColor: 'bg-yellow-50 text-yellow-700 border-yellow-200'
+      });
+
+      triggerFloatingBadge('+12 CSR Points');
+      showToast(`[Demo] CSR volunteering verified. +${csrHours} hrs Social Impact.`, 'success');
+
+    } else if (eventType === 2) {
+      // Compliance checklist / policy approved
+      setKpis(prev => prev.map(k => {
+        if (k.id === 'governance_score') return { ...k, value: String(Math.min(100, parseInt(k.value) + 1)), trend: 'up', change: '+1.0' };
+        return k;
+      }));
+
+      appendLiveActivity({
+        title: 'Compliance checklist complete',
+        desc: 'Global Risk Officer approved ISO 26000 review checklist.',
+        type: 'governance',
+        badgeColor: 'bg-blue-50 text-blue-700 border-blue-200'
+      });
+
+      triggerFloatingBadge('Policy Approved');
+      showToast('[Demo] Compliance audit complete. Trust ledger integrity: 100%.', 'info');
+
+    } else if (eventType === 3) {
+      // AI insights rotation
+      setIsAiThinking(true);
+      setAiThinkingText('Optimizing recommendations...');
+
+      setTimeout(() => {
+        setIsAiThinking(false);
+        const randomInsightText = INSIGHTS_POOL[Math.floor(Math.random() * INSIGHTS_POOL.length)];
+        
+        const newInsight = {
+          id: `AI-SIM-RND-${Date.now()}`,
+          root_cause: 'Periodic telemetry analysis matrix scan',
+          recommendation: randomInsightText,
+          expected_carbon_reduction: `${Math.floor(Math.random() * 15) + 5}%`,
+          estimated_cost_savings: `₹${Math.floor(Math.random() * 15) + 10},00,000/year`,
+          esg_score_improvement: `+${(Math.random() * 4 + 1).toFixed(1)} pts`,
+          confidence: Math.floor(Math.random() * 15) + 80,
+          priority: Math.random() > 0.5 ? 'High' : 'Medium',
+          risk_level: Math.random() > 0.5 ? 'Medium' : 'Low',
+          category: 'Telemetry Optimization'
+        };
+
+        setAiInsights(prev => [newInsight, ...prev.slice(0, 2)]);
+        setAiRecsCount(prev => prev + 1);
+
+        appendLiveActivity({
+          title: 'AI recommendations updated',
+          desc: 'Advisory engine compiled energy efficiency savings report.',
+          type: 'ai',
+          badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200'
+        });
+
+        triggerFloatingBadge('AI Report Updated');
         showToast('[Demo] AI Copilot: Sustainability advisory report updated.', 'info');
+      }, 1000);
+
+    } else if (eventType === 4) {
+      // Goal milestone completed
+      triggerFloatingBadge('Goal Completed!');
+      showToast('[Demo] ESG Challenge: "Zero Waste IT Operations" milestone reached!', 'success');
+
+    } else if (eventType === 5) {
+      // Vary digital twin parameters
+      setDigitalTwinSim(prev => ({
+        ...prev,
+        renewablePercent: Math.max(0, Math.min(100, prev.renewablePercent + (Math.random() > 0.5 ? 1 : -1))),
+        evPercent: Math.max(0, Math.min(100, prev.evPercent + (Math.random() > 0.5 ? 1 : -1))),
+        greenMfg: Math.max(0, Math.min(100, prev.greenMfg + (Math.random() > 0.5 ? 1 : -1))),
+      }));
+
+      triggerFloatingBadge('Twin Sync');
+      showToast('[Demo] Digital Twin: Telemetry parameters synchronized.', 'info');
+    }
+  }, [appendLiveActivity, triggerFloatingBadge, showToast]);
+
+  // Demo simulation effect loop
+  useEffect(() => {
+    if (!demoMode) return;
+
+    const intervalTime = simSpeed === 'fast' ? 2000 : simSpeed === 'slow' ? 8000 : 5000;
+    const interval = setInterval(() => {
+      if (scenarioMode) {
+        runScriptedStep();
+      } else {
+        runRandomStep();
       }
-    }, 12000);
+    }, intervalTime);
 
     return () => clearInterval(interval);
-  }, [demoMode, recalculate, showToast]);
+  }, [demoMode, simSpeed, scenarioMode, runScriptedStep, runRandomStep]);
+
+  // Telemetry counting timer
+  useEffect(() => {
+    if (!demoMode) return;
+    const interval = setInterval(() => {
+      setLastUpdateSeconds(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [demoMode]);
+
+  // Backup / Restore logic when demoMode toggles
+  useEffect(() => {
+    if (demoMode) {
+      // Sync active state attributes
+      localStorage.setItem('eco_demo_active', 'true');
+      if (!localStorage.getItem('eco_baseline_state')) {
+        const currentBaseline = {
+          kpis,
+          departments,
+          transactions,
+          goals,
+          emissionFactors,
+          aiInsights,
+          liveActivities,
+          monthlyTrend,
+          digitalTwinSim
+        };
+        baselineRef.current = currentBaseline;
+        localStorage.setItem('eco_baseline_state', JSON.stringify(currentBaseline));
+      }
+    } else {
+      localStorage.removeItem('eco_demo_active');
+      const baseline = baselineRef.current || {
+        kpis: INITIAL_KPIS,
+        departments: INITIAL_DEPARTMENTS,
+        transactions: SEED_TRANSACTIONS,
+        goals: SEED_GOALS,
+        emissionFactors: SEED_EMISSION_FACTORS,
+        aiInsights: INITIAL_AI_INSIGHTS,
+        liveActivities: INITIAL_ACTIVITIES,
+        monthlyTrend: MONTHLY_TREND,
+        digitalTwinSim: {
+          renewablePercent: 30,
+          evPercent: 10,
+          treeCount: 500,
+          wastePercent: 15,
+          csrInvestment: 1000000,
+          greenMfg: 20
+        }
+      };
+
+      setKpis(baseline.kpis);
+      setDepartments(baseline.departments);
+      setTransactions(baseline.transactions);
+      setGoals(baseline.goals);
+      setEmissionFactors(baseline.emissionFactors);
+      setAiInsights(baseline.aiInsights);
+      setLiveActivities(baseline.liveActivities);
+      setMonthlyTrend(baseline.monthlyTrend);
+      setDigitalTwinSim(baseline.digitalTwinSim);
+      setScenarioStep(0);
+      setSensorsCount(148);
+      setCarbonEventsToday(48);
+      setAiRecsCount(16);
+
+      localStorage.removeItem('eco_simulation_state');
+      localStorage.removeItem('eco_baseline_state');
+      localStorage.removeItem('eco_scenario_step');
+    }
+  }, [demoMode]);
+
+  // Serialize updated states to simulation storage if demoMode is active
+  useEffect(() => {
+    localStorage.setItem('eco_presentation_active', String(presentationMode));
+    localStorage.setItem('eco_sim_speed', simSpeed);
+    localStorage.setItem('eco_scenario_mode', String(scenarioMode));
+    localStorage.setItem('eco_sim_sensors', String(sensorsCount));
+    localStorage.setItem('eco_sim_carbon_events', String(carbonEventsToday));
+    localStorage.setItem('eco_sim_ai_recs', String(aiRecsCount));
+    localStorage.setItem('eco_scenario_step', String(scenarioStep));
+
+    if (demoMode) {
+      const stateObj = {
+        kpis,
+        departments,
+        transactions,
+        goals,
+        emissionFactors,
+        aiInsights,
+        liveActivities,
+        monthlyTrend,
+        digitalTwinSim
+      };
+      localStorage.setItem('eco_simulation_state', JSON.stringify(stateObj));
+    }
+  }, [
+    demoMode, presentationMode, simSpeed, scenarioMode,
+    sensorsCount, carbonEventsToday, aiRecsCount, scenarioStep,
+    kpis, departments, transactions, goals, emissionFactors,
+    aiInsights, liveActivities, monthlyTrend, digitalTwinSim
+  ]);
 
   // ─ Transactions ───────────────────────────────────────────────────────────
   const addTransaction = useCallback(async (data) => {
@@ -630,6 +1089,17 @@ export const EsgProvider = ({ children }) => {
     appendLiveActivity,
     emitExecutiveEvent,
     executiveBrief,
+    simSpeed, setSimSpeed,
+    scenarioMode, setScenarioMode,
+    isAiThinking, setIsAiThinking,
+    aiThinkingText, setAiThinkingText,
+    sensorsCount, setSensorsCount,
+    carbonEventsToday, setCarbonEventsToday,
+    aiRecsCount, setAiRecsCount,
+    lastUpdateSeconds, setLastUpdateSeconds,
+    floatingBadges, setFloatingBadges,
+    scenarioStep, setScenarioStep,
+    triggerFloatingBadge,
   };
 
   return <EsgContext.Provider value={value}>{children}</EsgContext.Provider>;

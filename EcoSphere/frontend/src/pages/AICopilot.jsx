@@ -144,7 +144,7 @@ export const AICopilot = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-140px)]">
+    <div id="walkthrough-ai-copilot-content" className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-140px)]">
       
       {/* Chat Interface */}
       <Card className="lg:col-span-2 flex flex-col h-full overflow-hidden border border-gray-250" noPadding>

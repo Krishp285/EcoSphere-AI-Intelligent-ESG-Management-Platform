@@ -99,7 +99,7 @@ export const Social = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div id="walkthrough-social-content" className="space-y-6">
       {/* Module Title */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Social Responsibility & CSR</h1>
