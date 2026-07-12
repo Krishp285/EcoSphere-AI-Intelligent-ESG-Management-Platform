@@ -5,6 +5,7 @@ import Badge from '../components/common/Badge';
 import Progress from '../components/common/Progress';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
+import { useEsg } from '../context/EsgContext';
 
 const INITIAL_CHALLENGES = [
   { id: 'CHALL-01', title: 'Zero Waste Week', description: 'Minimize single-use plastics and packaging items corporate-wide.', xp: 300, category: 'Waste Management', current: 75, target: 100, active: true },
@@ -26,6 +27,7 @@ const REWARDS = [
 ];
 
 export const Gamification = () => {
+  const { recordChallengeCompletion } = useEsg();
   const [challenges, setChallenges] = useState(INITIAL_CHALLENGES);
   const [rewards, setRewards] = useState(REWARDS);
   const [userXP, setUserXP] = useState(1250);
@@ -36,10 +38,16 @@ export const Gamification = () => {
 
   const handleJoinChallenge = (id) => {
     setChallenges(prev => prev.map(c => {
-      if (c.id === id) {
-        return { ...c, current: Math.min(c.target, c.current + 10) };
+      if (c.id !== id) return c;
+      const nextCurrent = Math.min(c.target, c.current + 10);
+      if (nextCurrent >= c.target && c.current < c.target) {
+        recordChallengeCompletion({
+          challenge: c.title,
+          description: `${c.title} completed and reflected in the live ESG scoreboard.`,
+          toast: `Challenge completed: ${c.title}`
+        });
       }
-      return c;
+      return { ...c, current: nextCurrent };
     }));
   };
 

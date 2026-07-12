@@ -19,12 +19,12 @@ export const Modal = ({ isOpen, onClose, title, children, footer, className = ''
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900/50 p-4 sm:p-0">
       <div 
-        className="fixed inset-0 transition-opacity" 
+        className="fixed inset-0 transition-opacity backdrop-blur-[2px]" 
         onClick={onClose}
         aria-hidden="true"
       />
       
-      <div className={`relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg ${className}`}>
+      <div className={`relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl ring-1 ring-black/5 transition-all duration-300 animate-fade-in sm:my-8 sm:w-full sm:max-w-lg ${className}`}>
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
           <h3 className="text-lg font-medium leading-6 text-gray-900">{title}</h3>
           <button

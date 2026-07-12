@@ -6,6 +6,7 @@ import Progress from '../components/common/Progress';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import Modal from '../components/common/Modal';
+import { useEsg } from '../context/EsgContext';
 
 const INITIAL_POLICIES = [
   { id: 'POL-001', title: 'Carbon Reduction Policy', category: 'Environmental', version: '2.1', published_date: '2023-11-12', acknowledged_count: 142, total_required_count: 150 },
@@ -20,6 +21,7 @@ const INITIAL_ISSUES = [
 ];
 
 export const Governance = () => {
+  const { recordPolicyAcknowledgement } = useEsg();
   const [policies, setPolicies] = useState(INITIAL_POLICIES);
   const [issues, setIssues] = useState(INITIAL_ISSUES);
   const [search, setSearch] = useState('');
@@ -43,6 +45,13 @@ export const Governance = () => {
       }
       return p;
     }));
+    const policy = policies.find(p => p.id === id);
+    recordPolicyAcknowledgement({
+      policy: policy?.title,
+      department: policy?.category,
+      description: `${policy?.title || 'Policy'} was acknowledged and synced to the enterprise ledger.`,
+      toast: `${policy?.title || 'Policy'} acknowledgement recorded in real time.`
+    });
   };
 
   const handleCreatePolicy = (e) => {

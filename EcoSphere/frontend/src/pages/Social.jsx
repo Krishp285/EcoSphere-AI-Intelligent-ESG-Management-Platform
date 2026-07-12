@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Heart, Plus, Users, ShieldAlert, Award, FileText, Check, X, Search } from 'lucide-react';
+import { Heart, Plus, Users, ShieldAlert, Award, FileText, Check, X, Search, FileUp, Download } from 'lucide-react';
 import Card, { CardHeader, CardContent } from '../components/common/Card';
 import Badge from '../components/common/Badge';
 import Progress from '../components/common/Progress';
@@ -7,22 +7,31 @@ import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import Modal from '../components/common/Modal';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useEsg } from '../context/EsgContext';
+import { useNotifications } from '../context/NotificationContext';
 
 const INITIAL_ACTIVITIES = [
-  { id: 'CSR-001', title: 'Community Tree Planting', description: 'Volunteering drive to plant 200 saplings in the local park.', department: 'Manufacturing', volunteer_hours: 45.0, points_awarded: 150, status: 'Approved', participant_count: 15, date: '2024-02-10' },
-  { id: 'CSR-002', title: 'E-Waste Recycling Drive', description: 'Collecting and properly recycling obsolete corporate electronics.', department: 'IT', volunteer_hours: 28.0, points_awarded: 100, status: 'Approved', participant_count: 8, date: '2024-02-15' },
-  { id: 'CSR-003', title: 'Food Bank Support Day', description: 'Volunteering at the regional food shelter distribution center.', department: 'HR', volunteer_hours: 16.0, points_awarded: 50, status: 'Pending', participant_count: 4, date: '2024-02-22' },
-  { id: 'CSR-004', title: 'Logistics Safety Training Seminars', description: 'Seminars covering eco-driving and safe routing procedures.', department: 'Logistics', volunteer_hours: 32.0, points_awarded: 80, status: 'Approved', participant_count: 12, date: '2024-02-18' },
+  { id: 'CSR-001', title: 'Community Tree Planting', description: 'Volunteering drive to plant 200 saplings in the local park.', department: 'Manufacturing', volunteer_hours: 45.0, points_awarded: 150, status: 'Approved', participant_count: 15, date: '2024-02-10', evidence: 'tree_plantation_invoice.pdf' },
+  { id: 'CSR-002', title: 'E-Waste Recycling Drive', description: 'Collecting and properly recycling obsolete corporate electronics.', department: 'IT', volunteer_hours: 28.0, points_awarded: 100, status: 'Approved', participant_count: 8, date: '2024-02-15', evidence: 'ewaste_receipt_green_earth.pdf' },
+  { id: 'CSR-003', title: 'Food Bank Support Day', description: 'Volunteering at the regional food shelter distribution center.', department: 'HR', volunteer_hours: 16.0, points_awarded: 50, status: 'Pending', participant_count: 4, date: '2024-02-22', evidence: 'food_bank_participation_sheet.jpg' },
+  { id: 'CSR-004', title: 'Logistics Safety Training Seminars', description: 'Seminars covering eco-driving and safe routing procedures.', department: 'Logistics', volunteer_hours: 32.0, points_awarded: 80, status: 'Approved', participant_count: 12, date: '2024-02-18', evidence: 'safe_driver_certificates.zip' },
 ];
 
 const DEPARTMENTS = ['All', 'Manufacturing', 'Logistics', 'IT', 'HR'];
 
 export const Social = () => {
+  const { recordCSRApproval } = useEsg();
+  const { showToast } = useNotifications();
   const [activities, setActivities] = useState(INITIAL_ACTIVITIES);
   const [search, setSearch] = useState('');
   const [deptFilter, setDeptFilter] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newActivity, setNewActivity] = useState({ title: '', description: '', department: 'Manufacturing', volunteer_hours: '', points_awarded: '', date: '' });
+  const [newActivity, setNewActivity] = useState({ 
+    title: '', description: '', department: 'Manufacturing', 
+    volunteer_hours: '', points_awarded: '', date: '', evidence: '' 
+  });
+  
+  const [evidenceFile, setEvidenceFile] = useState(null);
 
   const filtered = useMemo(() => {
     return activities.filter(act => {
@@ -44,25 +53,49 @@ export const Social = () => {
 
   const handleApprove = (id) => {
     setActivities(prev => prev.map(a => a.id === id ? { ...a, status: 'Approved' } : a));
+    const act = activities.find(a => a.id === id);
+    recordCSRApproval({
+      department: act?.department,
+      description: `${act?.title || 'CSR activity'} approved and reflected in the live ESG scoreboard.`,
+      toast: `CSR Approved: "${act?.title}". ${act?.points_awarded} points awarded to ${act?.department} department!`
+    });
+    showToast(`CSR Approved: "${act?.title}". ${act?.points_awarded} points awarded to ${act?.department} department!`, 'success');
   };
 
   const handleReject = (id) => {
     setActivities(prev => prev.map(a => a.id === id ? { ...a, status: 'Rejected' } : a));
+    const act = activities.find(a => a.id === id);
+    showToast(`CSR Rejected: "${act?.title}" approval declined.`, 'error');
   };
 
   const handleCreate = (e) => {
     e.preventDefault();
+    if (!newActivity.title || !newActivity.volunteer_hours) {
+      showToast('Please complete all required fields.', 'error');
+      return;
+    }
     const act = {
       id: `CSR-${Math.floor(Math.random() * 900) + 100}`,
       ...newActivity,
       volunteer_hours: parseFloat(newActivity.volunteer_hours) || 0,
-      points_awarded: parseInt(newActivity.points_awarded) || 0,
+      points_awarded: parseInt(newActivity.points_awarded) || 100,
       status: 'Pending',
-      participant_count: 0
+      participant_count: 1,
+      evidence: evidenceFile ? evidenceFile.name : 'uploaded_evidence.pdf'
     };
     setActivities(prev => [act, ...prev]);
     setIsModalOpen(false);
-    setNewActivity({ title: '', description: '', department: 'Manufacturing', volunteer_hours: '', points_awarded: '', date: '' });
+    setEvidenceFile(null);
+    setNewActivity({ title: '', description: '', department: 'Manufacturing', volunteer_hours: '', points_awarded: '', date: '', evidence: '' });
+    showToast('CSR log entry submitted for administrative audit.', 'success');
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setEvidenceFile(file);
+      showToast(`Selected evidence artifact: ${file.name}`, 'info');
+    }
   };
 
   return (
@@ -75,39 +108,39 @@ export const Social = () => {
 
       {/* KPI Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="hover:-translate-y-1 transition-transform duration-200">
+        <Card className="hover:-translate-y-1 transition-transform duration-200 border border-gray-150">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm font-medium text-gray-500">Total Volunteer Hours</p>
-              <h3 className="text-3xl font-bold text-gray-900 mt-1">{stats.totalHours} hrs</h3>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Volunteer Hours</p>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">{stats.totalHours} hrs</h3>
             </div>
-            <div className="p-2 rounded-lg bg-pink-50 text-pink-500">
+            <div className="p-2 rounded-xl bg-pink-50 text-pink-500 border border-pink-100">
               <Heart className="w-5 h-5" />
             </div>
           </div>
         </Card>
 
-        <Card className="hover:-translate-y-1 transition-transform duration-200">
+        <Card className="hover:-translate-y-1 transition-transform duration-200 border border-gray-150">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm font-medium text-gray-500">CSR Activity Points</p>
-              <h3 className="text-3xl font-bold text-gray-900 mt-1">{stats.totalPoints} pts</h3>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">CSR Activity Points</p>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">{stats.totalPoints} pts</h3>
             </div>
-            <div className="p-2 rounded-lg bg-blue-50 text-blue-500">
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-500 border border-blue-100">
               <Award className="w-5 h-5" />
             </div>
           </div>
         </Card>
 
-        <Card className="hover:-translate-y-1 transition-transform duration-200">
+        <Card className="hover:-translate-y-1 transition-transform duration-200 border border-gray-150">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm font-medium text-gray-500">Participating Employees</p>
-              <h3 className="text-3xl font-bold text-gray-900 mt-1">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Participating Employees</p>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">
                 {activities.reduce((acc, curr) => acc + curr.participant_count, 0)} users
               </h3>
             </div>
-            <div className="p-2 rounded-lg bg-purple-50 text-purple-500">
+            <div className="p-2 rounded-xl bg-purple-50 text-purple-500 border border-purple-100">
               <Users className="w-5 h-5" />
             </div>
           </div>
@@ -116,7 +149,7 @@ export const Social = () => {
 
       {/* Charts & Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 border border-gray-200">
           <CardHeader title="Volunteer Hours by Department" subtitle="Active contributions in Q1" />
           <CardContent>
             <div className="h-64">
@@ -133,24 +166,32 @@ export const Social = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-gray-200">
           <CardHeader title="Pending Approvals" subtitle="Validate CSR volunteering activities" />
           <CardContent>
             <div className="space-y-4">
               {activities.filter(a => a.status === 'Pending').length === 0 ? (
-                <p className="text-center text-sm text-gray-400 py-8">No pending activity approvals</p>
+                <p className="text-center text-xs text-gray-400 py-8">No pending activity approvals</p>
               ) : (
                 activities.filter(a => a.status === 'Pending').map(act => (
-                  <div key={act.id} className="border border-gray-150 rounded-lg p-3 bg-gray-50/50">
-                    <h4 className="font-semibold text-sm text-gray-900">{act.title}</h4>
-                    <p className="text-xs text-gray-500 mt-1">{act.description}</p>
+                  <div key={act.id} className="border border-gray-250 rounded-xl p-3.5 bg-gray-50/50 space-y-2">
+                    <h4 className="font-bold text-sm text-gray-900">{act.title}</h4>
+                    <p className="text-xs text-gray-500 leading-normal">{act.description}</p>
+                    
+                    {act.evidence && (
+                      <div className="flex items-center gap-1.5 text-[10px] text-primary-600 bg-primary-50 p-1.5 rounded font-semibold border border-primary-100">
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Evidence: {act.evidence}</span>
+                      </div>
+                    )}
+
                     <div className="flex items-center justify-between mt-3">
-                      <span className="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded">{act.department}</span>
+                      <span className="text-2xs font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-200">{act.department}</span>
                       <div className="flex gap-1.5">
-                        <button onClick={() => handleApprove(act.id)} className="p-1 rounded bg-green-500 text-white hover:bg-green-600 transition-colors">
+                        <button onClick={() => handleApprove(act.id)} className="p-1 rounded bg-green-500 text-white hover:bg-green-600 transition-colors shadow-sm" title="Approve">
                           <Check className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={() => handleReject(act.id)} className="p-1 rounded bg-red-500 text-white hover:bg-red-600 transition-colors">
+                        <button onClick={() => handleReject(act.id)} className="p-1 rounded bg-red-500 text-white hover:bg-red-600 transition-colors shadow-sm" title="Reject">
                           <X className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -164,7 +205,7 @@ export const Social = () => {
       </div>
 
       {/* Main List Table */}
-      <Card>
+      <Card className="border border-gray-200">
         <CardHeader
           title="CSR Activity Logs"
           action={<Button icon={Plus} onClick={() => setIsModalOpen(true)}>Log CSR Activity</Button>}
@@ -175,7 +216,7 @@ export const Social = () => {
             <div className="flex-1 min-w-[200px]">
               <Input placeholder="Search activities..." icon={Search} value={search} onChange={e => setSearch(e.target.value)} />
             </div>
-            <select className="rounded-md border border-gray-300 py-2 px-3 text-sm focus:ring-primary-500 focus:border-primary-500 outline-none"
+            <select className="rounded-md border border-gray-300 py-2 px-3 text-sm focus:ring-primary-500 focus:border-primary-500 outline-none font-semibold text-gray-600 bg-white"
               value={deptFilter} onChange={e => setDeptFilter(e.target.value)}>
               {DEPARTMENTS.map(d => <option key={d}>{d}</option>)}
             </select>
@@ -185,7 +226,7 @@ export const Social = () => {
             <table className="min-w-full divide-y divide-gray-200 bg-white">
               <thead className="bg-gray-50">
                 <tr>
-                  {['Title', 'Department', 'Volunteering Hours', 'Points', 'Date', 'Status'].map(h => (
+                  {['Title', 'Department', 'Volunteering Hours', 'Points', 'Date', 'Evidence File', 'Status'].map(h => (
                     <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
@@ -195,12 +236,21 @@ export const Social = () => {
                   <tr key={act.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3 text-sm">
                       <div className="font-semibold text-gray-900">{act.title}</div>
-                      <div className="text-xs text-gray-500 truncate max-w-xs">{act.description}</div>
+                      <div className="text-2xs text-gray-500 truncate max-w-xs">{act.description}</div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-700">{act.department}</td>
-                    <td className="px-4 py-3 text-sm font-medium text-gray-900">{act.volunteer_hours} hrs</td>
-                    <td className="px-4 py-3 text-sm text-gray-900 font-bold">{act.points_awarded}</td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{act.date}</td>
+                    <td className="px-4 py-3 text-sm text-gray-700 font-semibold">{act.department}</td>
+                    <td className="px-4 py-3 text-sm font-bold text-gray-900">{act.volunteer_hours} hrs</td>
+                    <td className="px-4 py-3 text-sm text-gray-950 font-black">{act.points_awarded}</td>
+                    <td className="px-4 py-3 text-sm text-gray-500 font-semibold">{act.date}</td>
+                    <td className="px-4 py-3 text-xs text-gray-500 font-semibold">
+                      {act.evidence ? (
+                        <span className="flex items-center gap-1 text-primary-600">
+                          <FileText className="w-3.5 h-3.5" /> {act.evidence}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400">None uploaded</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3">
                       <Badge variant={act.status === 'Approved' ? 'success' : act.status === 'Pending' ? 'warning' : 'danger'}>
                         {act.status}
@@ -215,19 +265,19 @@ export const Social = () => {
       </Card>
 
       {/* Log Activity Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Log New CSR Activity"
+      <Modal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEvidenceFile(null); }} title="Log New CSR Activity"
         footer={<>
-          <Button variant="secondary" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+          <Button variant="secondary" onClick={() => { setIsModalOpen(false); setEvidenceFile(null); }}>Cancel</Button>
           <Button onClick={handleCreate}>Save Activity</Button>
         </>}
       >
-        <div className="space-y-4">
+        <div className="space-y-4 text-xs font-semibold">
           <Input label="Activity Title" placeholder="e.g. Clean Energy Seminar"
             value={newActivity.title} onChange={e => setNewActivity({ ...newActivity, title: e.target.value })} />
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-            <select className="block w-full rounded-md border border-gray-300 py-2 px-3 text-sm outline-none focus:ring-primary-500"
+            <select className="block w-full rounded-md border border-gray-300 py-2 px-3 text-sm outline-none focus:ring-primary-500 text-gray-700 bg-white"
               value={newActivity.department} onChange={e => setNewActivity({ ...newActivity, department: e.target.value })}>
               {DEPARTMENTS.filter(d => d !== 'All').map(d => <option key={d}>{d}</option>)}
             </select>
@@ -243,9 +293,25 @@ export const Social = () => {
           <Input label="Date" type="date"
             value={newActivity.date} onChange={e => setNewActivity({ ...newActivity, date: e.target.value })} />
 
+          {/* Evidence Upload Input */}
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-700">Evidence Upload</label>
+            <div className="flex items-center gap-3">
+              <label className="cursor-pointer bg-white border border-gray-300 hover:bg-gray-50 px-3 py-2 rounded-lg text-xs font-bold text-gray-700 flex items-center gap-1.5 shadow-sm">
+                <FileUp className="w-4 h-4 text-gray-500" />
+                <span>Upload Document</span>
+                <input type="file" onChange={handleFileUpload} className="hidden" accept=".pdf,.png,.jpg,.jpeg,.zip" />
+              </label>
+              {evidenceFile && (
+                <span className="text-[11px] text-green-600 font-bold truncate max-w-xs">{evidenceFile.name}</span>
+              )}
+            </div>
+            <p className="text-[10px] text-gray-400 mt-1">Acceptable forms: volunteer signoff lists, photographs or invoices.</p>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <textarea rows={2} className="block w-full rounded-md border border-gray-300 py-2 px-3 text-sm outline-none focus:ring-primary-500"
+            <textarea rows={2} className="block w-full rounded-md border border-gray-300 py-2 px-3 text-sm outline-none focus:ring-primary-500 font-medium"
               placeholder="Volunteering details..." value={newActivity.description} onChange={e => setNewActivity({ ...newActivity, description: e.target.value })} />
           </div>
         </div>

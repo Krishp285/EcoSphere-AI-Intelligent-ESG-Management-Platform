@@ -14,7 +14,7 @@ export const Progress = ({ value = 0, max = 100, color = 'bg-primary-500', size 
   return (
     <div className={`w-full bg-gray-200 rounded-full overflow-hidden ${sizeClass} ${className}`}>
       <div 
-        className={`${color} h-full rounded-full transition-all duration-500 ease-out`}
+        className={`${color} h-full rounded-full transition-all duration-700 ease-out shadow-[0_0_0_1px_rgba(255,255,255,0.3)_inset]`}
         style={{ width: `${percentage}%` }}
       />
     </div>
