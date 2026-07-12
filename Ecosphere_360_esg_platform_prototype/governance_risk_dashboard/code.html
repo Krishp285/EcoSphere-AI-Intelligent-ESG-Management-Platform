@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Governance Module | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#00873a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2a1700",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#a36700",
+                        "surface-bright": "#f4fcf0",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9f0e5",
+                        "on-surface": "#171d16",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#f4fcf0",
+                        "tertiary": "#825100",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#f7fff2",
+                        "on-primary-fixed": "#002109",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary": "#006b2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#171d16",
+                        "outline": "#6e7b6c",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff6ea",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-surface-variant": "#3e4a3d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#dde5d9",
+                        "secondary": "#0051d5",
+                        "outline-variant": "#bdcaba",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed": "#7ffc97",
+                        "on-secondary-fixed": "#00174b",
+                        "background": "#f4fcf0",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary-fixed-variant": "#005320",
+                        "inverse-primary": "#62df7d",
+                        "secondary-container": "#316bf3",
+                        "surface-dim": "#d5dcd1",
+                        "primary-fixed-dim": "#62df7d",
+                        "surface-variant": "#dde5d9",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006e2d",
+                        "inverse-surface": "#2b322b",
+                        "inverse-on-surface": "#ecf3e7",
+                        "surface-container-high": "#e3eadf",
+                        "secondary-fixed": "#dbe1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xs": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "sm": "12px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "table-text": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid #E2E8F0; }
+        .heatmap-cell { transition: all 0.2s ease; cursor: pointer; }
+        .heatmap-cell:hover { filter: brightness(0.9); transform: scale(1.02); }
+        .audit-scroll::-webkit-scrollbar { width: 4px; }
+        .audit-scroll::-webkit-scrollbar-track { background: transparent; }
+        .audit-scroll::-webkit-scrollbar-thumb { background: #bdcaba; border-radius: 10px; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .active-nav { font-weight: 700 !important; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Integration -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-lg px-md z-50">
+<div class="mb-xl px-xs">
+<h1 class="font-title-lg text-title-lg font-bold text-primary">EcoSphere 360</h1>
+<p class="text-[10px] uppercase tracking-widest text-outline">Enterprise ESG Intelligence</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="font-body-md text-body-md">Environmental</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body-md text-body-md">Social</span>
+</a>
+<!-- Governance is Active -->
+<a class="flex items-center gap-md p-sm rounded-lg text-primary font-bold bg-primary-container/10 border-l-4 border-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="gavel" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="font-body-md text-body-md">Governance</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span class="font-body-md text-body-md">Gamification</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-body-md text-body-md">Trust Center</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-body-md text-body-md">AI Assistant</span>
+</a>
+<a class="flex items-center gap-md p-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-md bg-primary/5 rounded-xl border border-primary/10">
+<p class="font-label-caps text-label-caps text-primary mb-xs">Enterprise Plan</p>
+<button class="w-full bg-primary text-on-primary py-xs rounded-lg font-title-lg text-[14px]">Upgrade to Pro</button>
+</div>
+</aside>
+<!-- TopNavBar Integration -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant z-40 flex justify-between items-center px-lg">
+<div class="flex items-center gap-lg flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Search governance records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-xs"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-right hidden sm:block">
+<p class="font-title-lg text-[14px] leading-none">Sarah Jenkins</p>
+<p class="text-[11px] text-outline">Chief Compliance Officer</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary/20 object-cover" data-alt="Professional headshot of a female executive in her 40s, confident expression, neutral business attire, soft corporate office background with bokeh lighting, consistent with a premium enterprise software interface aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFOLTJ2CU2EJu9jt62La1pq9mOWqO3rnVNfEr7miN244ATrP4tiiZiRmgWzT2jTMao1S-WYhbaWHD_KT7czPDbUkf8AY7bWXZOycR94_CDoqDtfv9TPYuti6E9PUmbHCWSLpi0XKbhYGReH1iNUbL9Mzp3dBUcj7sXfxEVMkPVlyMrC7AZn8ZyZIqtd00KumTZzfOtFBDP5f3RSRMW7HYdS39tqELXVNSNDTupYOt12li97yS52ROlgMPAwv1fxlgu0hCPCFKk6sVD"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 p-lg min-h-screen">
+<div class="max-w-[1600px] mx-auto">
+<header class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Governance Risk Dashboard</h2>
+<p class="text-on-surface-variant font-body-md">Real-time oversight of organizational risk, compliance benchmarks, and immutable audit trails.</p>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm border border-outline-variant rounded-lg bg-white font-label-caps text-on-surface-variant hover:bg-surface-container-low transition-colors">Export Report</button>
+<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-caps flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span> New Risk Assessment
+                    </button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Risk Heatmap (Impact vs Probability) -->
+<div class="col-span-12 lg:col-span-5 glass-card rounded-xl p-lg shadow-sm">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-title-lg text-title-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="grid_view">grid_view</span> Risk Heatmap
+                        </h3>
+<span class="text-[12px] font-medium text-on-surface-variant px-2 py-1 bg-surface-container rounded">Q3 Fiscal Year</span>
+</div>
+<div class="relative pt-xs pb-lg">
+<div class="grid grid-cols-5 gap-2 h-64">
+<!-- Matrix cells (simulated heatmap colors) -->
+<div class="heatmap-cell bg-primary-container/20 rounded border border-white/50"></div>
+<div class="heatmap-cell bg-primary-container/40 rounded border border-white/50"></div>
+<div class="heatmap-cell bg-tertiary-container/40 rounded border border-white/50"></div>
+<div class="heatmap-cell bg-tertiary-container/60 rounded border border-white/50"></div>
+<div class="heatmap-cell bg-error-container/80 rounded border border-white/50 flex items-center justify-center">
+<div class="w-3 h-3 bg-error rounded-full animate-pulse shadow-lg shadow-error/20"></div>
+</div>
+<!-- Row 2 -->
+<div class="heatmap-cell bg-primary-container/10 rounded"></div>
+<div class="heatmap-cell bg-primary-container/30 rounded"></div>
+<div class="heatmap-cell bg-primary-container/40 rounded"></div>
+<div class="heatmap-cell bg-tertiary-container/30 rounded"></div>
+<div class="heatmap-cell bg-tertiary-container/50 rounded"></div>
+<!-- Row 3 -->
+<div class="heatmap-cell bg-primary-container/5 rounded"></div>
+<div class="heatmap-cell bg-primary-container/10 rounded"></div>
+<div class="heatmap-cell bg-primary-container/20 rounded"></div>
+<div class="heatmap-cell bg-primary-container/30 rounded"></div>
+<div class="heatmap-cell bg-tertiary-container/20 rounded"></div>
+<!-- Labels -->
+<div class="absolute -left-8 top-1/2 -rotate-90 text-[10px] font-bold text-outline tracking-widest">IMPACT</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-outline tracking-widest">PROBABILITY</div>
+</div>
+</div>
+<div class="mt-lg flex gap-md justify-center">
+<div class="flex items-center gap-xs text-[11px] font-medium"><span class="w-2 h-2 rounded-full bg-primary"></span> Low</div>
+<div class="flex items-center gap-xs text-[11px] font-medium"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Moderate</div>
+<div class="flex items-center gap-xs text-[11px] font-medium"><span class="w-2 h-2 rounded-full bg-error"></span> Critical</div>
+</div>
+</div>
+<!-- Compliance Tracker -->
+<div class="col-span-12 lg:col-span-4 glass-card rounded-xl p-lg shadow-sm">
+<h3 class="font-title-lg text-title-lg mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="task_alt">task_alt</span> Compliance Tracker
+                    </h3>
+<div class="space-y-lg">
+<div>
+<div class="flex justify-between items-center mb-xs">
+<span class="text-body-md font-semibold">ISO 14001 (Environmental)</span>
+<span class="text-primary font-bold">92%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-xs">
+<span class="text-body-md font-semibold">GDPR Compliance</span>
+<span class="text-secondary font-bold">100%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-xs">
+<span class="text-body-md font-semibold">ESG Disclosures (BRSR)</span>
+<span class="text-tertiary font-bold">68%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-tertiary h-2 rounded-full" style="width: 68%"></div>
+</div>
+</div>
+</div>
+<div class="mt-lg p-md bg-surface-container-low rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div>
+<p class="text-[12px] font-bold">Blockchain Verified Status</p>
+<p class="text-[11px] text-on-surface-variant leading-tight">All compliance benchmarks are hashed on the private ledger.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Policy Acknowledgement Gauge -->
+<div class="col-span-12 lg:col-span-3 glass-card rounded-xl p-lg shadow-sm flex flex-col items-center justify-center text-center">
+<h3 class="font-title-lg text-title-lg mb-xl w-full text-left">Policy Acknowledgement</h3>
+<div class="relative flex items-center justify-center">
+<svg class="w-40 h-40 transform -rotate-90">
+<circle class="text-surface-container" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="44" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center rotate-90">
+<span class="font-display-lg text-[32px] leading-none text-primary">90%</span>
+<span class="text-label-caps text-outline">Total Progress</span>
+</div>
+</div>
+<p class="mt-lg text-body-md text-on-surface-variant">4,520 of 5,023 Employees have signed the updated Code of Conduct.</p>
+<button class="mt-md text-primary font-bold text-label-caps hover:underline">View Non-Compliant List</button>
+</div>
+<!-- Active Compliance Issues Table -->
+<div class="col-span-12 lg:col-span-8 glass-card rounded-xl shadow-sm flex flex-col">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-title-lg text-title-lg">Active Compliance Issues</h3>
+<div class="flex gap-xs">
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]" data-icon="filter_list">filter_list</span></button>
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]" data-icon="download">download</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low font-label-caps text-on-surface-variant">
+<tr>
+<th class="px-lg py-md border-b border-outline-variant">Issue ID</th>
+<th class="px-lg py-md border-b border-outline-variant">Description</th>
+<th class="px-lg py-md border-b border-outline-variant">Severity</th>
+<th class="px-lg py-md border-b border-outline-variant">Owner</th>
+<th class="px-lg py-md border-b border-outline-variant">Due Date</th>
+<th class="px-lg py-md border-b border-outline-variant">Status</th>
+</tr>
+</thead>
+<tbody class="text-table-text">
+<tr class="hover:bg-surface-container-lowest transition-colors border-b border-outline-variant">
+<td class="px-lg py-md font-mono text-[12px] text-primary">#CMP-982</td>
+<td class="px-lg py-md font-medium">Water usage variance in Cluster B</td>
+<td class="px-lg py-md"><span class="px-2 py-1 bg-tertiary-container/20 text-tertiary-container rounded-full text-[10px] font-bold">MEDIUM</span></td>
+<td class="px-lg py-md">Robert Chen</td>
+<td class="px-lg py-md text-outline">Oct 24, 2023</td>
+<td class="px-lg py-md text-primary font-bold flex items-center gap-xs">Verified <span class="material-symbols-outlined text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span></td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors border-b border-outline-variant">
+<td class="px-lg py-md font-mono text-[12px] text-primary">#CMP-1044</td>
+<td class="px-lg py-md font-medium">Supply chain Tier 2 audit pending</td>
+<td class="px-lg py-md"><span class="px-2 py-1 bg-error-container text-error rounded-full text-[10px] font-bold">HIGH</span></td>
+<td class="px-lg py-md">Elena Rodriguez</td>
+<td class="px-lg py-md text-outline">Oct 12, 2023</td>
+<td class="px-lg py-md text-on-surface-variant flex items-center gap-xs">Pending <span class="material-symbols-outlined text-[16px]" data-icon="pending">pending</span></td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-md font-mono text-[12px] text-primary">#CMP-1102</td>
+<td class="px-lg py-md font-medium">Renewable energy certificate renewal</td>
+<td class="px-lg py-md"><span class="px-2 py-1 bg-primary-container/20 text-primary-container rounded-full text-[10px] font-bold">LOW</span></td>
+<td class="px-lg py-md">Marcus Thorne</td>
+<td class="px-lg py-md text-outline">Nov 05, 2023</td>
+<td class="px-lg py-md text-primary font-bold flex items-center gap-xs">Verified <span class="material-symbols-outlined text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- AI Copilot Panel -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-primary p-lg rounded-xl shadow-xl text-on-primary relative overflow-hidden flex-1">
+<div class="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-[32px]" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<h3 class="font-headline-md text-headline-md leading-none">AI Governance Copilot</h3>
+</div>
+<div class="bg-white/10 p-md rounded-lg backdrop-blur-sm border border-white/20 mb-md">
+<p class="text-body-md italic">"High risk detected in Supply Chain Tier 2. Audit recommended for 'Supplier Alpha' to mitigate governance risk."</p>
+</div>
+<div class="space-y-sm">
+<button class="w-full py-sm bg-white text-primary rounded-lg font-bold text-label-caps hover:bg-opacity-90 transition-all">Initiate Supplier Audit</button>
+<button class="w-full py-sm bg-transparent border border-white/50 text-white rounded-lg font-bold text-label-caps hover:bg-white/10 transition-all">Analyze Impact</button>
+</div>
+</div>
+</div>
+<!-- Audit Trail (Blockchain records) -->
+<div class="glass-card rounded-xl p-lg shadow-sm flex flex-col flex-1 h-[250px]">
+<h3 class="font-title-lg text-title-lg mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span> Audit Trail
+                        </h3>
+<div class="audit-scroll flex-1 overflow-y-auto space-y-sm pr-2">
+<div class="p-sm bg-surface-container-low rounded-lg border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold text-secondary uppercase">Policy Updated</span>
+<span class="text-[10px] text-outline">2m ago</span>
+</div>
+<p class="text-[12px] leading-tight mb-1">Environmental Impact Strategy v4.2 committed to ledger.</p>
+<p class="text-[10px] font-mono text-outline-variant break-all">0x71C9...8f4b</p>
+</div>
+<div class="p-sm bg-surface-container-low rounded-lg border-l-4 border-primary">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold text-primary uppercase">Verification</span>
+<span class="text-[10px] text-outline">1h ago</span>
+</div>
+<p class="text-[12px] leading-tight mb-1">Scope 1 Emissions data verified by External Auditor.</p>
+<p class="text-[10px] font-mono text-outline-variant break-all">0x3A2D...9e12</p>
+</div>
+<div class="p-sm bg-surface-container-low rounded-lg border-l-4 border-tertiary">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold text-tertiary uppercase">Access Log</span>
+<span class="text-[10px] text-outline">3h ago</span>
+</div>
+<p class="text-[12px] leading-tight mb-1">Privileged access granted to SEC Compliance Team.</p>
+<p class="text-[10px] font-mono text-outline-variant break-all">0xBB41...4c90</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction for Heatmap Cells -->
+<script>
+        document.querySelectorAll('.heatmap-cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                const colors = ['#ba1a1a', '#825100', '#006b2c'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                this.style.backgroundColor = randomColor + '40';
+                this.style.borderColor = randomColor;
+                
+                // Alert Toast Simulation
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-lg right-lg bg-inverse-surface text-inverse-on-surface px-lg py-md rounded-xl shadow-2xl z-[100] animate-bounce';
+                toast.innerHTML = `<p class="font-body-md">Risk Cell [${Array.from(this.parentNode.children).indexOf(this)}] analysis refreshed.</p>`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            });
+        });
+    </script>
+</body></html>

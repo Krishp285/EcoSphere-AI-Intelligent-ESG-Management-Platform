@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Environmental | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#3e4a3d",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "primary-fixed-dim": "#62df7d",
+                    "surface-container": "#e9f0e5",
+                    "surface-dim": "#d5dcd1",
+                    "inverse-on-surface": "#ecf3e7",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "tertiary-fixed": "#ffddb8",
+                    "tertiary": "#825100",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#bdcaba",
+                    "surface-container-high": "#e3eadf",
+                    "on-surface": "#171d16",
+                    "secondary": "#0051d5",
+                    "inverse-surface": "#2b322b",
+                    "surface-variant": "#dde5d9",
+                    "primary": "#006b2c",
+                    "inverse-primary": "#62df7d",
+                    "surface-tint": "#006e2d",
+                    "on-tertiary-container": "#fffbff",
+                    "on-primary-fixed-variant": "#005320",
+                    "surface-container-low": "#eff6ea",
+                    "background": "#f4fcf0",
+                    "surface-container-highest": "#dde5d9",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-secondary-container": "#fefcff",
+                    "on-primary-fixed": "#002109",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-tertiary-fixed": "#2a1700",
+                    "outline": "#6e7b6c",
+                    "surface": "#f4fcf0",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#f7fff2",
+                    "secondary-container": "#316bf3",
+                    "primary-container": "#00873a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#00174b",
+                    "on-background": "#171d16",
+                    "tertiary-container": "#a36700",
+                    "primary-fixed": "#7ffc97",
+                    "surface-bright": "#f4fcf0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "xl": "32px",
+                    "container-max": "1440px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "table-text": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4fcf0; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .custom-shadow { box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="w-60 h-screen fixed left-0 top-0 overflow-y-auto border-r border-outline-variant bg-surface flex flex-col gap-sm p-md z-50">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EcoSphere 360</h1>
+<p class="text-on-surface-variant font-body-md opacity-75">ESG Intelligence</p>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Navigation Items Mapping from JSON -->
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<!-- Active State: Environmental -->
+<a class="flex items-center gap-md p-md bg-secondary-container text-on-secondary-container font-semibold rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="font-body-md">Environmental</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body-md">Social</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-body-md">Governance</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span class="font-body-md">Gamification</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span class="font-body-md">Blockchain Verification</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-body-md">AI Assistant</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-md">
+<button class="w-full py-md px-lg bg-primary text-on-primary rounded-xl font-semibold flex items-center justify-center gap-xs shadow-md active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                New ESG Audit
+            </button>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex items-center justify-between px-lg">
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-lg py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-md focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all w-64" placeholder="Search facilities or data..." type="text"/>
+</div>
+<nav class="hidden md:flex items-center gap-xl">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Analytics</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary font-bold" href="#">Audits</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Forecasting</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-primary-container/10 rounded-full transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-sm border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate executive in a modern, brightly lit office environment. The executive is wearing a sharp, tailored navy suit and looking confidently toward the camera. The background is softly blurred, showing glass partitions and minimalist office decor, evoking a high-end SaaS corporate feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc6T5tit3_CjL2gRfnHyv5TbO-U4FzalTKT8RUO8E-M4JyT9o39AAPwamGrCqhL5zYbZDD6ZajxfM-a-OhRM487jNgphpFt-lxwx_zUCF1BPFVQhAsLZUqW3x_-DnZgTO_R30nLy6N2J6rxnAK390Q-GXm-ICaNLwLjOhJHvnaw95DeSJVe7aVWbOlK8pzYeBqqWPiNEBknNIdN3p-9OWeg1U6zHCf6ll4F3aCwn5zFz_3T_gNgK549EtOFVWsNv15yWX7s7z7Vjfk"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-60 pt-16 p-lg min-h-screen">
+<div class="max-w-[1400px] mx-auto space-y-lg">
+<!-- Page Header & Filters -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Environmental Stewardship</h2>
+<p class="text-on-surface-variant font-body-md">Monitoring real-time carbon tracking and resource optimization across 14 global facilities.</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="flex items-center bg-surface-container-highest rounded-lg p-1">
+<button class="px-md py-1.5 bg-surface text-on-surface font-body-md rounded-md shadow-sm">Monthly</button>
+<button class="px-md py-1.5 text-on-surface-variant font-body-md">Quarterly</button>
+<button class="px-md py-1.5 text-on-surface-variant font-body-md">Annual</button>
+</div>
+<button class="flex items-center gap-xs px-md py-2 border border-outline-variant bg-surface rounded-lg font-body-md text-on-surface hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+                        Locations
+                    </button>
+<button class="flex items-center gap-xs px-md py-2 bg-primary-container text-on-primary-container rounded-lg font-body-md hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                        Export Data
+                    </button>
+</div>
+</div>
+<!-- Emission Statistic Cards (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg custom-shadow flex flex-col justify-between h-48 relative overflow-hidden group">
+<div class="z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Scope 1 Emissions</span>
+<span class="material-symbols-outlined text-primary/40" data-icon="factory">factory</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-on-surface">1,248</span>
+<span class="text-on-surface-variant font-body-md ml-xs text-sm">tCO2e</span>
+</div>
+</div>
+<div class="z-10 flex items-center gap-xs text-error font-body-md text-sm mt-auto">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>4.2% from last period</span>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-96" data-icon="waves" style="font-size: 120px;">waves</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg custom-shadow flex flex-col justify-between h-48 relative overflow-hidden group">
+<div class="z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Scope 2 Emissions</span>
+<span class="material-symbols-outlined text-secondary/40" data-icon="bolt">bolt</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-on-surface">8,520</span>
+<span class="text-on-surface-variant font-body-md ml-xs text-sm">tCO2e</span>
+</div>
+</div>
+<div class="z-10 flex items-center gap-xs text-primary font-body-md text-sm mt-auto">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_down">trending_down</span>
+<span>12.5% reduction</span>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-96" data-icon="electric_bolt" style="font-size: 120px;">electric_bolt</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg custom-shadow flex flex-col justify-between h-48 relative overflow-hidden group">
+<div class="z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-tertiary uppercase tracking-widest">Scope 3 Emissions</span>
+<span class="material-symbols-outlined text-tertiary/40" data-icon="local_shipping">local_shipping</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-on-surface">24,110</span>
+<span class="text-on-surface-variant font-body-md ml-xs text-sm">tCO2e</span>
+</div>
+</div>
+<div class="z-10 flex items-center gap-xs text-on-surface-variant font-body-md text-sm mt-auto">
+<span class="material-symbols-outlined text-[16px]" data-icon="stable">table</span>
+<span>Stable vs target</span>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-96" data-icon="hub" style="font-size: 120px;">hub</span>
+</div>
+</div>
+</div>
+<!-- Complex Grid Layout: Table and Energy Mix -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Facility Energy Consumption Table -->
+<div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl custom-shadow overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant flex items-center justify-between bg-surface-container-low/30">
+<h3 class="font-title-lg text-title-lg text-on-surface">Facility Energy &amp; Compliance</h3>
+<div class="flex items-center gap-sm">
+<div class="flex items-center gap-xs text-on-surface-variant font-label-caps text-label-caps">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                Target Met
+                             </div>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-caps text-label-caps">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                                Above Limit
+                             </div>
+</div>
+</div>
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-lg py-sm font-label-caps text-label-caps text-outline uppercase tracking-wider">Facility Name</th>
+<th class="px-lg py-sm font-label-caps text-label-caps text-outline uppercase tracking-wider">Region</th>
+<th class="px-lg py-sm font-label-caps text-label-caps text-outline uppercase tracking-wider">Consumption (MWh)</th>
+<th class="px-lg py-sm font-label-caps text-label-caps text-outline uppercase tracking-wider">Emissions Status</th>
+<th class="px-lg py-sm font-label-caps text-label-caps text-outline uppercase tracking-wider">Blockchain ID</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md">
+<div class="flex flex-col">
+<span class="font-body-lg text-on-surface font-semibold">Berlin Alpha Hub</span>
+<span class="text-xs text-on-surface-variant">Industrial • Tier 1</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">EMEA</td>
+<td class="px-lg py-md font-body-md text-on-surface">
+                                        42,105
+                                        <div class="w-24 h-1.5 bg-surface-container-high rounded-full mt-1">
+<div class="bg-primary h-full rounded-full" style="width: 72%"></div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                                            Target Met
+                                        </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-xs font-mono text-[11px] text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified" data-weight="fill">verified</span>
+                                            0x7F...3B2
+                                        </div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md">
+<div class="flex flex-col">
+<span class="font-body-lg text-on-surface font-semibold">Singapore Tech Park</span>
+<span class="text-xs text-on-surface-variant">Data Center • Tier 1</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">APAC</td>
+<td class="px-lg py-md font-body-md text-on-surface">
+                                        68,240
+                                        <div class="w-24 h-1.5 bg-surface-container-high rounded-full mt-1">
+<div class="bg-error h-full rounded-full" style="width: 95%"></div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-error/10 text-error">
+                                            Above Limit
+                                        </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-xs font-mono text-[11px] text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified" data-weight="fill">verified</span>
+                                            0x4E...8C1
+                                        </div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md">
+<div class="flex flex-col">
+<span class="font-body-lg text-on-surface font-semibold">Austin Manufacturing</span>
+<span class="text-xs text-on-surface-variant">Heavy Prod • Tier 2</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">AMER</td>
+<td class="px-lg py-md font-body-md text-on-surface">
+                                        51,002
+                                        <div class="w-24 h-1.5 bg-surface-container-high rounded-full mt-1">
+<div class="bg-primary h-full rounded-full" style="width: 45%"></div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                                            Target Met
+                                        </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-xs font-mono text-[11px] text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified" data-weight="fill">verified</span>
+                                            0x2A...9F4
+                                        </div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md">
+<div class="flex flex-col">
+<span class="font-body-lg text-on-surface font-semibold">London Logistics</span>
+<span class="text-xs text-on-surface-variant">Warehouse • Tier 2</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">EMEA</td>
+<td class="px-lg py-md font-body-md text-on-surface">
+                                        12,300
+                                        <div class="w-24 h-1.5 bg-surface-container-high rounded-full mt-1">
+<div class="bg-primary h-full rounded-full" style="width: 15%"></div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                                            Target Met
+                                        </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-xs font-mono text-[11px] text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified" data-weight="fill">verified</span>
+                                            0x9B...0E7
+                                        </div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md flex items-center justify-between border-t border-outline-variant bg-surface-container-low/20">
+<span class="font-body-md text-on-surface-variant">Showing 1-4 of 14 facilities</span>
+<div class="flex items-center gap-xs">
+<button class="p-1 hover:bg-surface-container-high rounded transition-all"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
+<button class="p-1 hover:bg-surface-container-high rounded transition-all"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Energy Mix Side Panel (Pie Chart Visualization) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg custom-shadow flex flex-col">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-title-lg text-title-lg text-on-surface">Energy Source Mix</h3>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="bolt">bolt</span>
+</div>
+<div class="relative w-full aspect-square flex items-center justify-center mb-xl">
+<!-- Custom CSS Pie Chart Simulation -->
+<div class="relative w-48 h-48 rounded-full overflow-hidden" style="background: conic-gradient(#006b2c 0% 45%, #0051d5 45% 75%, #3e4a3d 75% 100%);">
+<div class="absolute inset-8 bg-surface-container-lowest rounded-full flex items-center justify-center flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">Q3</span>
+<span class="text-[10px] text-on-surface-variant font-label-caps uppercase tracking-tighter">Energy Mix</span>
+</div>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-sm">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-body-md font-semibold text-on-surface">Solar Renewable</span>
+</div>
+<span class="font-body-md text-on-surface">45%</span>
+</div>
+<div class="flex items-center justify-between p-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-sm">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-body-md font-semibold text-on-surface">Wind Energy</span>
+</div>
+<span class="font-body-md text-on-surface">30%</span>
+</div>
+<div class="flex items-center justify-between p-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-sm">
+<span class="w-3 h-3 rounded-full bg-on-surface-variant"></span>
+<span class="font-body-md font-semibold text-on-surface">Grid Baseline</span>
+</div>
+<span class="font-body-md text-on-surface">25%</span>
+</div>
+</div>
+<div class="mt-auto pt-lg">
+<button class="w-full py-sm px-md border border-outline bg-surface hover:bg-surface-container-high rounded-xl text-on-surface font-semibold flex items-center justify-center gap-sm transition-all">
+                            View Historical Trends
+                        </button>
+</div>
+</div>
+</div>
+<!-- Additional Resources Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+</div>
+<div>
+<p class="text-xs font-label-caps text-primary uppercase">Water Usage</p>
+<h4 class="font-title-lg text-title-lg text-on-surface">4.2M Liters</h4>
+</div>
+</div>
+<div class="bg-secondary/5 border border-secondary/20 rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="recycling">recycling</span>
+</div>
+<div>
+<p class="text-xs font-label-caps text-secondary uppercase">Waste Recovery</p>
+<h4 class="font-title-lg text-title-lg text-on-surface">88% Diversion</h4>
+</div>
+</div>
+<div class="bg-tertiary/5 border border-tertiary/20 rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-tertiary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="forest">forest</span>
+</div>
+<div>
+<p class="text-xs font-label-caps text-tertiary uppercase">Offset Credits</p>
+<h4 class="font-title-lg text-title-lg text-on-surface">$12,400 Validated</h4>
+</div>
+</div>
+<div class="bg-surface-container-highest border border-outline-variant rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-on-surface-variant rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="air">air</span>
+</div>
+<div>
+<p class="text-xs font-label-caps text-on-surface-variant uppercase">Air Quality Index</p>
+<h4 class="font-title-lg text-title-lg text-on-surface">42 (Optimal)</h4>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action for Quick Report -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary text-on-primary rounded-full shadow-xl flex items-center justify-center group active:scale-90 transition-all z-50">
+<span class="material-symbols-outlined group-hover:rotate-90 transition-transform" data-icon="auto_awesome">auto_awesome</span>
+<span class="absolute right-full mr-4 px-3 py-1.5 bg-on-surface text-surface text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-semibold">
+            Ask AI Assistant
+        </span>
+</button>
+<script>
+        // Simple interaction for tab switching simulation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (!link.classList.contains('bg-secondary-container')) {
+                    // Logic to show/hide sections would go here
+                    console.log('Navigation clicked:', link.innerText);
+                }
+            });
+        });
+
+        // Search highlight micro-interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-105');
+            searchInput.parentElement.classList.add('z-50');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-105');
+        });
+    </script>
+</body></html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoSphere 360 | Gamification Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .xp-shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+        .badge-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#00873a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2a1700",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#a36700",
+                        "surface-bright": "#f4fcf0",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9f0e5",
+                        "on-surface": "#171d16",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#f4fcf0",
+                        "tertiary": "#825100",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#f7fff2",
+                        "on-primary-fixed": "#002109",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary": "#006b2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#171d16",
+                        "outline": "#6e7b6c",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff6ea",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-surface-variant": "#3e4a3d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#dde5d9",
+                        "secondary": "#0051d5",
+                        "outline-variant": "#bdcaba",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed": "#7ffc97",
+                        "on-secondary-fixed": "#00174b",
+                        "background": "#f4fcf0",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary-fixed-variant": "#005320",
+                        "inverse-primary": "#62df7d",
+                        "secondary-container": "#316bf3",
+                        "surface-dim": "#d5dcd1",
+                        "primary-fixed-dim": "#62df7d",
+                        "surface-variant": "#dde5d9",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006e2d",
+                        "inverse-surface": "#2b322b",
+                        "inverse-on-surface": "#ecf3e7",
+                        "surface-container-high": "#e3eadf",
+                        "secondary-fixed": "#dbe1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xs": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "sm": "12px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "table-text": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col py-lg px-md shadow-sm">
+<div class="mb-xl px-xs">
+<h1 class="font-title-lg text-title-lg font-bold text-primary">EcoSphere 360</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mt-1">Enterprise ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary">eco</span>
+<span class="font-body-md">Environmental</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary">groups</span>
+<span class="font-body-md">Social</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary">gavel</span>
+<span class="font-body-md">Governance</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-primary font-bold bg-primary-container/10 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] fill-[1]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-body-md">Gamification</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary">assessment</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary">verified_user</span>
+<span class="font-body-md">Trust Center</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg space-y-4">
+<div class="bg-primary-container p-md rounded-xl text-on-primary">
+<p class="font-bold text-sm">Upgrade to Pro</p>
+<p class="text-xs opacity-80 mb-3">Unlock advanced analytics and team rewards.</p>
+<button class="w-full bg-white text-primary text-xs font-bold py-2 rounded-lg hover:bg-opacity-90 transition-all active:scale-95">Upgrade Now</button>
+</div>
+<a class="flex items-center gap-3 px-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface/80 backdrop-blur-md z-40 border-b border-outline-variant flex justify-between items-center px-lg">
+<div class="flex items-center bg-surface-container rounded-full px-md py-1.5 w-96 border border-outline-variant/30 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full ml-2 text-on-surface" placeholder="Search challenges, rewards..." type="text"/>
+</div>
+<div class="flex items-center gap-md">
+<button class="relative p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="flex items-center gap-sm pl-md border-l border-outline-variant">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Elena Rodriguez</p>
+<p class="text-[10px] text-on-surface-variant">Sustainability Lead</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary/20" data-alt="A professional headshot of a female executive in a modern, sustainable office setting. She has a confident smile and is wearing smart-casual professional attire. The lighting is bright and natural, reflecting a clean and modern corporate aesthetic consistent with EcoSphere 360's green and blue palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGqAsboE1CkX3xNp4Gl2ZeFbT8jurUi5LnyzyKCI0CGcYP4zFwbh8Lqimi6V1DRujpZaHv7nRo-0Ozj2zKQ1whE0RxhpZUATWZOr1WGxe9P_joLLxKulnXAPBRO_K5GuTnTSsAT_Y9BNtcalmHdUfwaiIq7-G-Qdl-nArOZKock8R25WZ7a-gne56CsGm2MIPIJzWiuY0OVxSbrHh_TDAa3Rnhiz720KZPr_SQjA0-XFNYZJbrfVHoufbxkPqYhsOeN9Whikbs6NkT"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="pt-24 px-lg pb-xl max-w-7xl mx-auto space-y-lg">
+<!-- Employee Profile Header -->
+<section class="glass-card rounded-2xl p-lg flex flex-col md:flex-row gap-lg items-center shadow-sm">
+<div class="relative">
+<div class="w-24 h-24 rounded-full border-4 border-primary p-1 bg-white">
+<img class="w-full h-full rounded-full object-cover" data-alt="Close up of a professional female profile photo with a circular glowing green progress ring around her headshot. The background is a soft, minimalist corporate office with green plants, creating a high-end SaaS user profile feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvcTC-xQDzjNCv-D6wmYlp5xJZ43wtJQK9TyF3eVlVn1VB6w6irEFi7N0V6jz89BjPuDXBcgcQm1HxD75NO45v66d2QtpTOXKD2borh3V9mdHhinJ7LeTaScApzgy9DxeiUAx6Fac2EepcXPAyinFJGi-NKOyHSQvW5dwWkp7ZK6tKo1ycMU7-l5cRo36q87sTWZ0snIZlWaiIEuDCiu-uiAVODNjKt-uJbC9yz0ckJKh1s6QMkNVy4S4J0SidLvsg1nrnM5PhZLez"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-white p-1 rounded-full border-2 border-white badge-float">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+</div>
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-end gap-2 mb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Elena Rodriguez</h2>
+<span class="px-3 py-1 rounded-full bg-primary-container/10 text-primary-container text-xs font-bold border border-primary-container/20">Rank: Guardian</span>
+</div>
+<div class="space-y-2 max-w-md">
+<div class="flex justify-between text-xs font-bold text-on-surface-variant">
+<span>Level 14</span>
+<span>2,450 / 3,000 XP</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden relative border border-outline-variant/30">
+<div class="h-full bg-primary rounded-full transition-all duration-1000 ease-out xp-shimmer" style="width: 82%"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-4 md:border-l border-outline-variant md:pl-lg">
+<div class="text-center group cursor-pointer">
+<div class="w-14 h-14 rounded-xl bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform mb-2">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">explore</span>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Explorer</p>
+</div>
+<div class="text-center group cursor-pointer">
+<div class="w-14 h-14 rounded-xl bg-secondary-container flex items-center justify-center text-white group-hover:scale-110 transition-transform mb-2">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Climate Hero</p>
+</div>
+<div class="text-center group cursor-pointer opacity-40 grayscale">
+<div class="w-14 h-14 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:scale-110 transition-transform mb-2">
+<span class="material-symbols-outlined text-3xl">workspace_premium</span>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Legend</p>
+</div>
+</div>
+</section>
+<!-- Main Grid: Challenges and Leaderboard -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Sustainability Challenges (2/3 width) -->
+<div class="lg:col-span-2 space-y-lg">
+<div class="flex justify-between items-center px-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">Sustainability Challenges</h3>
+<button class="text-primary text-sm font-bold hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Challenge Card 1 -->
+<div class="bg-white rounded-xl p-md border border-outline-variant hover:shadow-lg transition-all group overflow-hidden relative">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary/10 rounded-xl text-primary">
+<span class="material-symbols-outlined text-2xl">delete_sweep</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded bg-surface-container text-on-surface-variant uppercase tracking-wider">Ends in 2d</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-1">Zero Waste Week</h4>
+<p class="text-sm text-on-surface-variant mb-4">Minimize office waste by logging reusable containers and digital-only notes.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm font-bold">add_circle</span>
+<span class="font-bold text-sm">450 XP</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all">Join</button>
+</div>
+</div>
+<!-- Challenge Card 2 -->
+<div class="bg-white rounded-xl p-md border border-outline-variant hover:shadow-lg transition-all group overflow-hidden relative">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/10 rounded-xl text-secondary">
+<span class="material-symbols-outlined text-2xl">directions_bike</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded bg-surface-container text-on-surface-variant uppercase tracking-wider">Weekly</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-1">Commuter Hero</h4>
+<p class="text-sm text-on-surface-variant mb-4">Use public transport, bike, or walk to the office for 5 consecutive days.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm font-bold">add_circle</span>
+<span class="font-bold text-sm">300 XP</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all">Join</button>
+</div>
+</div>
+<!-- Challenge Card 3 -->
+<div class="bg-white rounded-xl p-md border border-outline-variant hover:shadow-lg transition-all group overflow-hidden relative">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary-container/10 rounded-xl text-tertiary">
+<span class="material-symbols-outlined text-2xl">lightbulb</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded bg-surface-container text-on-surface-variant uppercase tracking-wider">Ongoing</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-1">Energy Saver</h4>
+<p class="text-sm text-on-surface-variant mb-4">Ensure all workstations are powered down before leaving the workspace.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm font-bold">add_circle</span>
+<span class="font-bold text-sm">200 XP</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all">Join</button>
+</div>
+</div>
+<!-- Challenge Card 4 -->
+<div class="bg-white rounded-xl p-md border border-outline-variant hover:shadow-lg transition-all group overflow-hidden relative">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-error-container/20 rounded-xl text-error">
+<span class="material-symbols-outlined text-2xl">water_drop</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded bg-surface-container text-on-surface-variant uppercase tracking-wider">Monthly</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-1">H2O Conservation</h4>
+<p class="text-sm text-on-surface-variant mb-4">Report leaks and use filtered tap water instead of plastic bottles.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm font-bold">add_circle</span>
+<span class="font-bold text-sm">500 XP</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all">Join</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Department Leaderboard (1/3 width) -->
+<div class="space-y-lg">
+<div class="px-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">Department Leaderboard</h3>
+</div>
+<div class="bg-white rounded-2xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-lg bg-surface-container-low border-b border-outline-variant">
+<div class="flex items-end justify-center gap-4 py-4">
+<!-- 2nd Place -->
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-slate-200 border-2 border-white mb-2 overflow-hidden shadow-sm">
+<div class="w-full h-full bg-slate-400 flex items-center justify-center text-white text-xs font-bold">OPS</div>
+</div>
+<div class="h-16 w-10 bg-slate-100 rounded-t-lg relative">
+<span class="absolute bottom-1 left-0 right-0 text-center font-bold text-slate-400">2</span>
+</div>
+</div>
+<!-- 1st Place -->
+<div class="flex flex-col items-center scale-110">
+<span class="material-symbols-outlined text-tertiary mb-1" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<div class="w-14 h-14 rounded-full border-2 border-tertiary mb-2 overflow-hidden shadow-md">
+<div class="w-full h-full bg-primary-container flex items-center justify-center text-white text-xs font-bold">ENG</div>
+</div>
+<div class="h-24 w-12 bg-primary-container/20 rounded-t-lg relative">
+<span class="absolute bottom-1 left-0 right-0 text-center font-bold text-primary">1</span>
+</div>
+</div>
+<!-- 3rd Place -->
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-orange-100 border-2 border-white mb-2 overflow-hidden shadow-sm">
+<div class="w-full h-full bg-orange-300 flex items-center justify-center text-white text-xs font-bold">MKT</div>
+</div>
+<div class="h-12 w-10 bg-orange-50 rounded-t-lg relative">
+<span class="absolute bottom-1 left-0 right-0 text-center font-bold text-orange-400">3</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-md space-y-2">
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-on-surface-variant w-4">4</span>
+<span class="font-bold text-sm">Product & Design</span>
+</div>
+<span class="text-xs font-bold text-primary">12,450 pts</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors bg-primary-container/5 ring-1 ring-primary/20">
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-primary w-4">5</span>
+<span class="font-bold text-sm">Legal (You)</span>
+</div>
+<span class="text-xs font-bold text-primary">11,200 pts</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-on-surface-variant w-4">6</span>
+<span class="font-bold text-sm">Sales North Am.</span>
+</div>
+<span class="text-xs font-bold text-primary">9,800 pts</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Rewards Marketplace -->
+<section class="space-y-lg pt-4">
+<div class="flex justify-between items-center px-xs">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Rewards Marketplace</h3>
+<p class="text-xs text-on-surface-variant">Redeem your hard-earned impact points.</p>
+</div>
+<div class="flex items-center bg-primary-container text-white px-4 py-2 rounded-full font-bold text-sm gap-2">
+<span class="material-symbols-outlined text-sm">stars</span>
+<span>4,200 Points Available</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Reward 1 -->
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant group hover:shadow-lg transition-all">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A lush green forest area being reforested with young saplings. Sunlight filters through the leaves in a high-quality environmental photography style. This visual represents a carbon offset project, using professional colors that align with EcoSphere 360's sustainability brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVniDXUcA3ctMjBiuP6eKcB6tIlipL1FcL1TYN2niXaqoXfRKcGHzVxOTPelfa6oEDpyPzYFIi5uNRbCCUAX5sXyQxQGP3PJQ_7LYGfNXSuQNYIepy7ySLLXXtqpIae0uqMBAtx-5hYGT43ImB34WLh8To7s-RaRf_aGiaL4vx8kGSK2ZPyaIWSr62w0lkbkvJbXRIXKaVWam2gZxuiuQjYfOLiAe1Unidn7zl0NEvSm3EFFDcwMRwUk3iTOF1gZwDV2fuiWnq-8eE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-md">
+<span class="text-white text-xs font-bold uppercase tracking-widest">Impact Reward</span>
+</div>
+</div>
+<div class="p-md space-y-3">
+<h4 class="font-bold text-on-surface">Plant 5 Trees in Brazil</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Direct contribution to the Amazon Reforestation Project. Receive a digital certificate.</p>
+<div class="flex items-center justify-between pt-2">
+<span class="text-primary font-bold text-sm">1,500 Pts</span>
+<button class="px-4 py-2 border border-primary text-primary text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Redeem</button>
+</div>
+</div>
+</div>
+<!-- Reward 2 -->
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant group hover:shadow-lg transition-all">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist eco-friendly corporate merchandise including a high-end matte reusable water bottle, a sustainable cotton tote bag, and bamboo stationery. All items are branded with the clean EcoSphere 360 logo. Studio lighting, clean white background, premium feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTaxRLgFiTfkwRwowOBmCc3Jk262LACqN0hE4eRxXWcQ4AOFEnO6kaWinSNwO7bu-PH2Gs_diyGrK0GvFo6SpBjD9J_C_uB4KbGnpKWjU1ZGCFvkKPTeH0gibCo-jWNpC5q92Vj1kI5y8Y2sHrkFeBspgSaSpaKETAqDlVPcSPgpM89wcoCnpP5JO41p0Ba4OPzMKrMVWBSQPNKoeD5WUydu5Qfe9qIVKMgjZAOmb8K-dWwWMArJG9oljItS0ffd4UKxvEtR9vL_FS"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-md">
+<span class="text-white text-xs font-bold uppercase tracking-widest">Merchandise</span>
+</div>
+</div>
+<div class="p-md space-y-3">
+<h4 class="font-bold text-on-surface">Eco-Swag Bundle</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Sustainable tote, bamboo water bottle, and organic cotton t-shirt with EcoSphere branding.</p>
+<div class="flex items-center justify-between pt-2">
+<span class="text-primary font-bold text-sm">3,000 Pts</span>
+<button class="px-4 py-2 border border-primary text-primary text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Redeem</button>
+</div>
+</div>
+</div>
+<!-- Reward 3 -->
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant group hover:shadow-lg transition-all">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Abstract visualization of clean wind energy with giant wind turbines on a scenic green hillside under a bright blue sky. The image uses a vibrant, high-saturation color palette representing clean energy and carbon neutral initiatives." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGcl4Fg54wYlxfe8fO7PkPrKmAj_sZOqoGzr5f-lP5Gz_02rz9BYvS3aV33ywKcq9fc2Jza6cNB6VAd-DI7YzEGjSPvWcRcBLsLRkZucFc_aFP2vHfiZ7--uoQahqSwGVtlLUF4g-vNmn6FBoiMeZLR8aUkrOVxzs0uyJ-2i8fvQ7wB30oucVn1907sqTRFGe10x4oT7MFhP6aGTdmIzVnrMQdR0_p3OLqk9tAXiH2dUCnKZ1P4qA7ib76d3WPeUm1BjbmZTy9uJEv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-md">
+<span class="text-white text-xs font-bold uppercase tracking-widest">Verified Offset</span>
+</div>
+</div>
+<div class="p-md space-y-3">
+<h4 class="font-bold text-on-surface">1 Tonne Carbon Offset</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Verified Gold Standard carbon credit from wind farm projects in developing nations.</p>
+<div class="flex items-center justify-between pt-2">
+<span class="text-primary font-bold text-sm">5,000 Pts</span>
+<button class="px-4 py-2 border border-outline-variant text-on-surface-variant text-xs font-bold rounded-lg opacity-50 cursor-not-allowed">Not Enough Pts</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Challenge Timeline -->
+<section class="space-y-lg pt-4 pb-8">
+<div class="px-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">Challenge Timeline</h3>
+</div>
+<div class="relative">
+<!-- Vertical Line -->
+<div class="absolute left-4 top-0 bottom-0 w-0.5 bg-outline-variant"></div>
+<div class="space-y-lg">
+<!-- Timeline Item 1 -->
+<div class="relative flex gap-8 pl-12">
+<div class="absolute left-2.5 top-1.5 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="flex-1 glass-card p-md rounded-xl shadow-sm border-l-4 border-l-primary">
+<span class="text-[10px] font-bold text-primary uppercase mb-1 block">Active Now</span>
+<h4 class="font-bold text-sm mb-1">Sustainable Sourcing Audit</h4>
+<p class="text-xs text-on-surface-variant">Review vendor sustainability credentials to earn department bonuses.</p>
+</div>
+<div class="hidden md:block w-32 pt-2">
+<span class="text-xs font-bold text-on-surface-variant">Nov 12 - Nov 18</span>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative flex gap-8 pl-12">
+<div class="absolute left-3 top-1.5 w-2.5 h-2.5 rounded-full bg-outline-variant"></div>
+<div class="flex-1 bg-white p-md rounded-xl border border-outline-variant">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Coming Soon</span>
+<h4 class="font-bold text-sm mb-1">Green Workspace Redesign</h4>
+<p class="text-xs text-on-surface-variant">Propose workspace improvements to reduce building energy consumption.</p>
+</div>
+<div class="hidden md:block w-32 pt-2">
+<span class="text-xs font-bold text-on-surface-variant">Nov 22 - Dec 01</span>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative flex gap-8 pl-12">
+<div class="absolute left-3 top-1.5 w-2.5 h-2.5 rounded-full bg-outline-variant"></div>
+<div class="flex-1 bg-white p-md rounded-xl border border-outline-variant">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase mb-1 block">Coming Soon</span>
+<h4 class="font-bold text-sm mb-1">Holiday Plastic-Free Drive</h4>
+<p class="text-xs text-on-surface-variant">Eco-friendly gift wrapping and plastic-free holiday decoration challenge.</p>
+</div>
+<div class="hidden md:block w-32 pt-2">
+<span class="text-xs font-bold text-on-surface-variant">Dec 10 - Dec 24</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script>
+        // Micro-interactions and animations
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', function() {
+                this.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('scale-95');
+            });
+        });
+
+        // XP Bar simulation
+        window.addEventListener('load', () => {
+            const xpBar = document.querySelector('.xp-shimmer');
+            if(xpBar) {
+                xpBar.style.width = '0%';
+                setTimeout(() => {
+                    xpBar.style.width = '82%';
+                }, 300);
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blockchain Verification Log | EcoSphere 360</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#3e4a3d",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "primary-fixed-dim": "#62df7d",
+                        "surface-container": "#e9f0e5",
+                        "surface-dim": "#d5dcd1",
+                        "inverse-on-surface": "#ecf3e7",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-fixed": "#ffddb8",
+                        "tertiary": "#825100",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#bdcaba",
+                        "surface-container-high": "#e3eadf",
+                        "on-surface": "#171d16",
+                        "secondary": "#0051d5",
+                        "inverse-surface": "#2b322b",
+                        "surface-variant": "#dde5d9",
+                        "primary": "#006b2c",
+                        "inverse-primary": "#62df7d",
+                        "surface-tint": "#006e2d",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary-fixed-variant": "#005320",
+                        "surface-container-low": "#eff6ea",
+                        "background": "#f4fcf0",
+                        "surface-container-highest": "#dde5d9",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-tertiary-fixed": "#2a1700",
+                        "outline": "#6e7b6c",
+                        "surface": "#f4fcf0",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#f7fff2",
+                        "secondary-container": "#316bf3",
+                        "primary-container": "#00873a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#00174b",
+                        "on-background": "#171d16",
+                        "tertiary-container": "#a36700",
+                        "primary-fixed": "#7ffc97",
+                        "surface-bright": "#f4fcf0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xl": "32px",
+                        "container-max": "1440px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "table-text": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .glass-effect { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .ambient-shadow { box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar -->
+<aside class="w-60 h-screen fixed left-0 top-0 overflow-y-auto bg-surface border-r border-outline-variant shadow-sm z-50 flex flex-col gap-sm p-md">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EcoSphere 360</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">eco</span> Environmental
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">groups</span> Social
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">gavel</span> Governance
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">military_tech</span> Gamification
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">description</span> Reports
+            </a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-semibold rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span> Blockchain Verification
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">smart_toy</span> AI Assistant
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<div class="mt-auto p-xs">
+<button class="w-full py-md bg-primary text-on-primary rounded-xl font-body-lg font-bold flex items-center justify-center gap-xs hover:bg-primary-container transition-all active:scale-95">
+<span class="material-symbols-outlined">add_circle</span> New ESG Audit
+            </button>
+</div>
+</aside>
+<!-- Header / Top Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 z-40 bg-surface/80 glass-effect border-b border-outline-variant flex items-center justify-between px-lg">
+<div class="flex items-center gap-lg flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">search</span>
+<input class="w-full bg-surface-container-low border-outline-variant rounded-full py-2 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Search hash, category or date..." type="text"/>
+</div>
+<div class="hidden md:flex gap-lg">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Analytics</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Audits</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Forecasting</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-primary-container/10 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-primary-container/10 transition-all">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-sm pl-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-xs">JD</div>
+<span class="font-body-md text-on-surface font-semibold">Julian Draxler</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-60 pt-24 pb-lg px-lg">
+<div class="max-w-container-max mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-xl gap-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Blockchain Verification Log</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Immutable audit trail for global ESG compliance and data integrity.</p>
+</div>
+<div class="flex items-center gap-md">
+<button class="flex items-center gap-xs px-lg py-md border border-outline-variant bg-surface rounded-xl font-body-md text-on-surface hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">filter_list</span> Filters
+                    </button>
+<button class="flex items-center gap-xs px-lg py-md bg-secondary text-on-secondary rounded-xl font-body-md font-semibold shadow-sm hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">download</span> Export Ledger
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Highlights -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg mb-xl">
+<!-- Trust Score Card -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-lg ambient-shadow flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-500"></div>
+<div>
+<div class="flex items-center justify-between mb-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Global Trust Score</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-display-lg text-display-lg text-primary">99.8</span>
+<span class="font-headline-md text-headline-md text-on-surface-variant opacity-60">/100</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">High-confidence rating based on 2,451 immutable nodes.</p>
+</div>
+<div class="mt-lg h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 99.8%"></div>
+</div>
+</div>
+<!-- Live Network Status -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-lg ambient-shadow overflow-hidden relative">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Live Verification Network</h3>
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 bg-primary rounded-full active-dot"></span>
+<span class="font-label-caps text-label-caps text-primary">Network Online</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30">
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70 mb-xs">Active Nodes</p>
+<p class="font-headline-md text-headline-md text-on-surface">1,204</p>
+</div>
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30">
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70 mb-xs">Total TXs</p>
+<p class="font-headline-md text-headline-md text-on-surface">4.2M</p>
+</div>
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30">
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70 mb-xs">Daily Verifications</p>
+<p class="font-headline-md text-headline-md text-on-surface">12,842</p>
+</div>
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30">
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70 mb-xs">Avg. Block Time</p>
+<p class="font-headline-md text-headline-md text-on-surface">1.2s</p>
+</div>
+</div>
+<div class="absolute right-0 top-0 h-full w-48 opacity-10 pointer-events-none">
+
+</div>
+</div>
+</div>
+<!-- Verification Timeline / Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant ambient-shadow overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Immutable Verification Trail</h3>
+<div class="flex gap-xs">
+<span class="px-md py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">Environmental</span>
+<span class="px-md py-1 bg-secondary/10 text-secondary text-xs font-bold rounded-full border border-secondary/20">Social</span>
+<span class="px-md py-1 bg-tertiary/10 text-tertiary text-xs font-bold rounded-full border border-tertiary/20">Governance</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Showing latest 50 entries</p>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-container-high border-b border-outline-variant">
+<th class="text-left py-md px-lg font-label-caps text-label-caps text-on-surface-variant uppercase">Timestamp</th>
+<th class="text-left py-md px-lg font-label-caps text-label-caps text-on-surface-variant uppercase">Data Category</th>
+<th class="text-left py-md px-lg font-label-caps text-label-caps text-on-surface-variant uppercase">Transaction Hash</th>
+<th class="text-left py-md px-lg font-label-caps text-label-caps text-on-surface-variant uppercase">Origin Node</th>
+<th class="text-left py-md px-lg font-label-caps text-label-caps text-on-surface-variant uppercase">Status</th>
+<th class="text-right py-md px-lg font-label-caps text-label-caps text-on-surface-variant uppercase">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Entry 1 -->
+<tr class="hover:bg-surface-container/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-semibold">Oct 24, 2023</span>
+<span class="text-xs text-on-surface-variant">14:22:11 GMT</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-sm">eco</span>
+<span class="font-body-md text-on-surface">Carbon Offset</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<code class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant font-mono">0x71C...3aF2</code>
+</td>
+<td class="py-md px-lg">
+<span class="text-body-md text-on-surface-variant">EU-WEST-04 (Berlin)</span>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs px-2 py-1 bg-primary/10 text-primary rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-xs font-bold uppercase">Verified</span>
+</div>
+</td>
+<td class="py-md px-lg text-right">
+<button class="text-secondary font-bold text-xs uppercase tracking-wider hover:underline flex items-center gap-xs justify-end ml-auto">
+                                        View Certificate <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Entry 2 -->
+<tr class="hover:bg-surface-container/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-semibold">Oct 24, 2023</span>
+<span class="text-xs text-on-surface-variant">13:05:45 GMT</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-tertiary text-sm">gavel</span>
+<span class="font-body-md text-on-surface">Board Composition</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<code class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant font-mono">0x4aB...1e90</code>
+</td>
+<td class="py-md px-lg">
+<span class="text-body-md text-on-surface-variant">US-EAST-01 (NY)</span>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs px-2 py-1 bg-primary/10 text-primary rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-xs font-bold uppercase">Verified</span>
+</div>
+</td>
+<td class="py-md px-lg text-right">
+<button class="text-secondary font-bold text-xs uppercase tracking-wider hover:underline flex items-center gap-xs justify-end ml-auto">
+                                        View Certificate <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Entry 3 -->
+<tr class="hover:bg-surface-container/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-semibold">Oct 24, 2023</span>
+<span class="text-xs text-on-surface-variant">11:59:02 GMT</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-sm">groups</span>
+<span class="font-body-md text-on-surface">Pay Equity Audit</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<code class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant font-mono">0x9d2...77c1</code>
+</td>
+<td class="py-md px-lg">
+<span class="text-body-md text-on-surface-variant">AP-SOUTH-02 (SGP)</span>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs px-2 py-1 bg-primary/10 text-primary rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-xs font-bold uppercase">Verified</span>
+</div>
+</td>
+<td class="py-md px-lg text-right">
+<button class="text-secondary font-bold text-xs uppercase tracking-wider hover:underline flex items-center gap-xs justify-end ml-auto">
+                                        View Certificate <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Entry 4 -->
+<tr class="hover:bg-surface-container/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-semibold">Oct 24, 2023</span>
+<span class="text-xs text-on-surface-variant">09:15:30 GMT</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-sm">water_drop</span>
+<span class="font-body-md text-on-surface">Water Consumption</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<code class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant font-mono">0x2fE...8a33</code>
+</td>
+<td class="py-md px-lg">
+<span class="text-body-md text-on-surface-variant">EU-WEST-01 (LDN)</span>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-xs px-2 py-1 bg-primary/10 text-primary rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-xs font-bold uppercase">Verified</span>
+</div>
+</td>
+<td class="py-md px-lg text-right">
+<button class="text-secondary font-bold text-xs uppercase tracking-wider hover:underline flex items-center gap-xs justify-end ml-auto">
+                                        View Certificate <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-lg bg-surface-container-low border-t border-outline-variant flex items-center justify-between">
+<span class="font-body-md text-on-surface-variant">Showing 1 to 10 of 2,451 results</span>
+<div class="flex gap-xs">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Integrity Map / Trust Indicators -->
+<div class="mt-xl grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant p-lg ambient-shadow">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-title-lg text-title-lg text-on-surface">Regional Integrity Compliance</h3>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 bg-primary rounded-full"></span>
+<span class="text-xs font-label-caps">High</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 bg-primary-container rounded-full"></span>
+<span class="text-xs font-label-caps">Moderate</span>
+</div>
+</div>
+</div>
+<!-- Placeholder for Map Visualization -->
+<div class="relative w-full h-64 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/30 flex items-center justify-center">
+<div class="absolute inset-0 opacity-20 pointer-events-none grayscale">
+<div class="w-full h-full bg-cover bg-center" data-alt="A sophisticated digital world map with glowing data nodes and interconnected lines representing a global blockchain network. The aesthetic is professional, using deep greens and cool blues, set against a clean white background, reflecting a light-mode enterprise dashboard." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7iYbm4GyBzTm_SoXm6QXqai6SH1w4TrNMN-vZf-mkGwkGCWMLA6q9lxmvfy3_H0w9-rPfQzcszavsc5jLQc5OIoDFVPljixFSzfDpq8QPkchFzcD5o1gEzs7sIf2XZEbEL19INWX_zFw0mvbDkzNpSkfqbBofw1g1YxJTuwXP9xr2vpMeDU3QSBv9Dt5XLnkoLqFMKJTdnGTWpRUrNrxUYAnHlL4TFvJt-cmRiIXnC2yPwfeCl1dr6NzMAKVJlr6ba0Z27qzPG7d2')"></div>
+</div>
+<div class="z-10 bg-surface/90 glass-effect p-lg rounded-xl border border-outline-variant text-center max-w-xs ambient-shadow">
+<span class="material-symbols-outlined text-primary text-headline-lg mb-sm">public</span>
+<p class="font-body-md text-on-surface font-semibold">Geospatial Audit Active</p>
+<p class="text-xs text-on-surface-variant mt-xs">All regions currently compliant with standard ESG validation protocols.</p>
+</div>
+</div>
+</div>
+<!-- Consensus Log -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg ambient-shadow flex flex-col">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-lg">Network Consensus</h3>
+<div class="flex-1 space-y-md">
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+<div class="w-px h-full bg-outline-variant mt-1"></div>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant">09:42:01</p>
+<p class="text-body-md text-on-surface">Block #18,442,109 Confirmed</p>
+<p class="text-xs text-primary font-mono">Consensus: 100% agreement</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+<div class="w-px h-full bg-outline-variant mt-1"></div>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant">09:41:59</p>
+<p class="text-body-md text-on-surface">Environmental Data Hashed</p>
+<p class="text-xs text-on-surface-variant">Category: Carbon Scopes 1-3</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+<div class="w-px h-full bg-outline-variant mt-1"></div>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant">09:41:55</p>
+<p class="text-body-md text-on-surface">New Audit Entry Received</p>
+<p class="text-xs text-secondary font-mono">ID: AUD-7731-X</p>
+</div>
+</div>
+</div>
+<button class="mt-lg w-full py-sm text-primary font-bold text-xs uppercase tracking-widest border border-primary/20 rounded-lg hover:bg-primary/5 transition-all">
+                        View Node Analytics
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple Micro-interaction: Table row hover effect enhancements
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.querySelector('.material-symbols-outlined[style*="FILL"]')?.classList.add('scale-110');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.querySelector('.material-symbols-outlined[style*="FILL"]')?.classList.remove('scale-110');
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+    </script>
+</body></html>

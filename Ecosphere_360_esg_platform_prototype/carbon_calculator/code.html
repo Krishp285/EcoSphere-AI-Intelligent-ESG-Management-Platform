@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Carbon Calculator | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#00873a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2a1700",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#a36700",
+                        "surface-bright": "#f4fcf0",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9f0e5",
+                        "on-surface": "#171d16",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#f4fcf0",
+                        "tertiary": "#825100",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#f7fff2",
+                        "on-primary-fixed": "#002109",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary": "#006b2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#171d16",
+                        "outline": "#6e7b6c",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff6ea",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-surface-variant": "#3e4a3d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#dde5d9",
+                        "secondary": "#0051d5",
+                        "outline-variant": "#bdcaba",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed": "#7ffc97",
+                        "on-secondary-fixed": "#00174b",
+                        "background": "#f4fcf0",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary-fixed-variant": "#005320",
+                        "inverse-primary": "#62df7d",
+                        "secondary-container": "#316bf3",
+                        "surface-dim": "#d5dcd1",
+                        "primary-fixed-dim": "#62df7d",
+                        "surface-variant": "#dde5d9",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006e2d",
+                        "inverse-surface": "#2b322b",
+                        "inverse-on-surface": "#ecf3e7",
+                        "surface-container-high": "#e3eadf",
+                        "secondary-fixed": "#dbe1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xs": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "sm": "12px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "table-text": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid #E2E8F0; }
+        .standard-shadow { box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-lowest dark:bg-surface-container-low text-body-md font-body-md h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline shadow-sm flex flex-col py-lg px-md z-50">
+<div class="mb-xl px-sm">
+<h1 class="font-title-lg text-title-lg font-bold text-primary dark:text-primary-fixed">EcoSphere 360</h1>
+<p class="text-on-surface-variant text-[11px] uppercase tracking-widest font-semibold mt-1">Enterprise ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto scrollbar-hide">
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-primary dark:text-primary-fixed font-bold bg-primary-container/10 dark:bg-primary-container/20 group" href="#">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-medium">Environmental</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-medium">Social</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-medium">Governance</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-medium">Gamification</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-medium">Trust Center</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-medium">AI Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-md bg-primary-container rounded-xl text-on-primary">
+<p class="text-xs font-bold uppercase mb-1">Scale your impact</p>
+<p class="text-[13px] opacity-90 mb-3">Get advanced climate scenario modeling.</p>
+<button class="w-full bg-white text-primary font-bold py-2 rounded-lg text-sm hover:bg-surface-container transition-all active:scale-95">Upgrade to Pro</button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md z-40 border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center px-lg ml-60">
+<div class="flex items-center gap-xl flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search carbon data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-on-surface leading-none">Marcus Thorne</p>
+<p class="text-[11px] text-on-surface-variant font-semibold">Chief Sustainability Officer</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container/20 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up professional portrait of a male corporate executive in a modern eco-conscious office environment. He has short hair and is wearing a high-quality navy blue linen shirt. The background is softly blurred with lush indoor green plants and natural light. Cinematic, high-end photography style with crisp details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAahfoPmuuKncYADVBVS4ahSmg6sLHfrUdyWg10_7F8m5KXs1JELrcngrepgnR_p4ckmJxZKpIhLCthI5_-zojaAzh09vJqzlH4b6Bv-hF4qe7UXvCK0YmN1eHeorkO7qnp121xhF3NhSA21GZp7d0KDm2esexT4ek57b0rgIGTw-0-_cPyOE7QyV3o2xPDv9nAn653sXVcCVVmaDT8eoXIC2bgQfSr5qMV3jlG3B8M28AQTS6U6rsRyESaDtSNd65rX-LilToXOqe5"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 px-lg pb-xl">
+<div class="max-w-[1440px] mx-auto">
+<header class="mb-lg">
+<nav class="flex items-center gap-2 text-[12px] text-on-surface-variant font-semibold mb-2">
+<span>Environmental</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">Carbon Calculator</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">GHG Carbon Calculator</h2>
+<p class="text-body-lg text-on-surface-variant max-w-2xl">Calculate, verify, and anchor your Scope 1, 2, and 3 emissions using real-time ERP data and verified blockchain timestamps.</p>
+</header>
+<div class="grid grid-cols-12 gap-gutter items-start">
+<!-- Left: Form Section -->
+<div class="col-span-12 lg:col-span-8 space-y-lg">
+<!-- Multi-step Wizard Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant standard-shadow overflow-hidden">
+<div class="flex border-b border-outline-variant bg-surface-container-low/30">
+<button class="flex-1 py-4 px-2 text-center border-b-2 border-primary text-primary font-bold text-sm flex items-center justify-center gap-2">
+<span class="w-5 h-5 rounded-full bg-primary text-white text-[10px] flex items-center justify-center">1</span>
+                                Energy &amp; Fuels
+                            </button>
+<button class="flex-1 py-4 px-2 text-center border-b-2 border-transparent text-on-surface-variant font-semibold text-sm flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
+<span class="w-5 h-5 rounded-full bg-on-surface-variant text-white text-[10px] flex items-center justify-center">2</span>
+                                Operations &amp; Waste
+                            </button>
+<button class="flex-1 py-4 px-2 text-center border-b-2 border-transparent text-on-surface-variant font-semibold text-sm flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
+<span class="w-5 h-5 rounded-full bg-on-surface-variant text-white text-[10px] flex items-center justify-center">3</span>
+                                Supply Chain
+                            </button>
+</div>
+<div class="p-lg space-y-xl">
+<!-- Energy Input Group -->
+<section>
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-primary">bolt</span>
+<h3 class="font-title-lg text-title-lg">Energy Consumption (Scope 2)</h3>
+</div>
+<div class="grid grid-cols-2 gap-lg">
+<div class="space-y-1">
+<label class="text-label-caps text-on-surface-variant">Electricity Usage (kWh)</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" type="number" value="12540"/>
+</div>
+<div class="space-y-1">
+<label class="text-label-caps text-on-surface-variant">Grid Region / Mix</label>
+<select class="w-full bg-surface border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all appearance-none">
+<option>Northern Europe (Clean Mix)</option>
+<option>US East (Standard Mix)</option>
+<option>APAC (Coal Intensive)</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Fuel Input Group -->
+<section>
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-primary">local_gas_station</span>
+<h3 class="font-title-lg text-title-lg">Stationary Combustion (Scope 1)</h3>
+</div>
+<div class="grid grid-cols-2 gap-lg">
+<div class="space-y-1">
+<label class="text-label-caps text-on-surface-variant">Natural Gas (m³)</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="0.00" type="number"/>
+</div>
+<div class="space-y-1">
+<label class="text-label-caps text-on-surface-variant">Diesel Fuel (L)</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="0.00" type="number"/>
+</div>
+</div>
+</section>
+<!-- Verification Section -->
+<div class="pt-lg border-t border-outline-variant">
+<div class="flex items-start gap-4 p-md bg-secondary-container/5 rounded-xl border border-secondary-container/20">
+<div class="flex items-center h-6">
+<input class="h-5 w-5 text-secondary border-outline-variant rounded focus:ring-secondary/20" id="blockchain-anchor" type="checkbox"/>
+</div>
+<div>
+<label class="font-bold text-on-surface text-sm flex items-center gap-2" for="blockchain-anchor">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+                                            Enable Blockchain Anchor
+                                        </label>
+<p class="text-on-surface-variant text-xs mt-1">Immutable cryptographic hash will be generated upon submission to the EcoSphere Trust Network, ensuring audit-ready data integrity.</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-md">
+<button class="px-lg py-2.5 border border-outline-variant rounded-lg text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+                                    Export PDF Draft
+                                </button>
+<button class="px-xl py-2.5 bg-primary text-white rounded-lg font-bold text-sm hover:shadow-lg transition-all active:scale-95 flex items-center gap-2">
+                                    Calculate &amp; Verify Emissions
+                                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Emission Factors Reference Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant standard-shadow">
+<div class="p-md border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-title-lg text-title-lg">Emission Factors Reference (2024.1)</h3>
+<span class="bg-primary-container/10 text-primary-container text-[11px] font-bold px-3 py-1 rounded-full uppercase">Verified GHG Protocol</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-table-text text-table-text">
+<thead class="bg-surface-container-low text-label-caps text-on-surface-variant">
+<tr>
+<th class="px-md py-3 font-semibold">Activity Type</th>
+<th class="px-md py-3 font-semibold">Unit</th>
+<th class="px-md py-3 font-semibold">kg CO2e / Unit</th>
+<th class="px-md py-3 font-semibold">Confidence</th>
+<th class="px-md py-3 font-semibold text-right">Source</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-md py-3 text-on-surface font-medium">Electricity (Grid Mix)</td>
+<td class="px-md py-3 text-on-surface-variant">kWh</td>
+<td class="px-md py-3 text-on-surface">0.423</td>
+<td class="px-md py-3">
+<span class="inline-flex items-center gap-1 text-primary"><span class="w-2 h-2 rounded-full bg-primary"></span> High</span>
+</td>
+<td class="px-md py-3 text-right text-on-surface-variant">IEA 2023</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-md py-3 text-on-surface font-medium">Natural Gas (Residential)</td>
+<td class="px-md py-3 text-on-surface-variant">m³</td>
+<td class="px-md py-3 text-on-surface">1.890</td>
+<td class="px-md py-3">
+<span class="inline-flex items-center gap-1 text-primary"><span class="w-2 h-2 rounded-full bg-primary"></span> High</span>
+</td>
+<td class="px-md py-3 text-right text-on-surface-variant">DEFRA 2023</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-md py-3 text-on-surface font-medium">Water Supply</td>
+<td class="px-md py-3 text-on-surface-variant">m³</td>
+<td class="px-md py-3 text-on-surface">0.149</td>
+<td class="px-md py-3">
+<span class="inline-flex items-center gap-1 text-tertiary"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Medium</span>
+</td>
+<td class="px-md py-3 text-right text-on-surface-variant">Local Utility</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right: Impact Preview & AI Copilot -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<!-- Impact Preview Card -->
+<div class="glass-card rounded-xl p-lg standard-shadow border-primary/20 sticky top-24">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-title-lg text-title-lg text-on-surface">Live Impact Preview</h3>
+<span class="flex items-center gap-1 text-primary text-xs font-bold bg-primary/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+                                Live
+                            </span>
+</div>
+<div class="text-center py-xl bg-surface/50 rounded-2xl mb-lg relative overflow-hidden">
+
+<p class="text-label-caps text-on-surface-variant mb-1 uppercase tracking-widest">Total Estimated Footprint</p>
+<div class="flex flex-col items-center">
+<span class="font-display-lg text-display-lg text-primary tracking-tighter" id="total-val">42.8</span>
+<span class="text-title-lg font-bold text-on-surface-variant">tCO2e / Mo</span>
+</div>
+</div>
+<div class="space-y-md">
+<div>
+<div class="flex justify-between text-xs font-bold mb-1">
+<span class="text-on-surface-variant">Target (2024 Projection)</span>
+<span class="text-primary">82% Achieved</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[82%] h-full bg-primary rounded-full"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Scope 1</p>
+<p class="text-lg font-bold text-on-surface">12.4 <span class="text-xs font-normal opacity-70">t</span></p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Scope 2</p>
+<p class="text-lg font-bold text-on-surface">30.4 <span class="text-xs font-normal opacity-70">t</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Copilot Side-Panel -->
+<div class="bg-on-surface text-surface rounded-xl overflow-hidden standard-shadow">
+<div class="p-md bg-white/10 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div>
+<h4 class="text-sm font-bold">AI Sustainability Copilot</h4>
+<p class="text-[10px] opacity-70">Analyzing your inputs in real-time...</p>
+</div>
+</div>
+<div class="p-lg space-y-lg">
+<div class="flex gap-3 group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">lightbulb</span>
+<p class="text-xs leading-relaxed">Your Scope 2 emissions for the <span class="text-primary-fixed font-bold">Northern Europe</span> region are 12% lower than Q4 average. Moving operations to off-peak hours could save an additional 3 tCO2e.</p>
+</div>
+<div class="flex gap-3 group">
+<span class="material-symbols-outlined text-tertiary group-hover:scale-110 transition-transform">warning</span>
+<p class="text-xs leading-relaxed">Anomaly detected: Natural Gas input is missing for <span class="italic">Facility B</span>. This could result in a -4.2 ton bias in your verified report.</p>
+</div>
+<button class="w-full border border-white/20 hover:bg-white/10 py-2 rounded-lg text-xs font-bold transition-all">
+                                Ask Copilot for Strategy
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for the calculator
+        const inputs = document.querySelectorAll('input[type="number"]');
+        const totalDisplay = document.getElementById('total-val');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // Mock calculation logic
+                let base = 42.8;
+                let val = parseFloat(input.value) || 0;
+                let adjusted = base + (val / 10000);
+                totalDisplay.innerText = adjusted.toFixed(1);
+                
+                // Add a little glow pulse to the display
+                totalDisplay.classList.add('scale-105');
+                setTimeout(() => totalDisplay.classList.remove('scale-105'), 150);
+            });
+        });
+
+        // Theme management for browser compatibility
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            // document.documentElement.classList.add('dark'); // Disabled for light mode mandate
+        }
+    </script>
+</body></html>

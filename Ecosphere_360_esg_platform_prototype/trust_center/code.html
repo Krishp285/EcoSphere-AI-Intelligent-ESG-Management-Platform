@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trust Center | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#00873a",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#2a1700",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "tertiary-container": "#a36700",
+                    "surface-bright": "#f4fcf0",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#e9f0e5",
+                    "on-surface": "#171d16",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface": "#f4fcf0",
+                    "tertiary": "#825100",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#f7fff2",
+                    "on-primary-fixed": "#002109",
+                    "tertiary-fixed": "#ffddb8",
+                    "primary": "#006b2c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#171d16",
+                    "outline": "#6e7b6c",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#eff6ea",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-surface-variant": "#3e4a3d",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#dde5d9",
+                    "secondary": "#0051d5",
+                    "outline-variant": "#bdcaba",
+                    "on-secondary-container": "#fefcff",
+                    "primary-fixed": "#7ffc97",
+                    "on-secondary-fixed": "#00174b",
+                    "background": "#f4fcf0",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-tertiary-container": "#fffbff",
+                    "on-primary-fixed-variant": "#005320",
+                    "inverse-primary": "#62df7d",
+                    "secondary-container": "#316bf3",
+                    "surface-dim": "#d5dcd1",
+                    "primary-fixed-dim": "#62df7d",
+                    "surface-variant": "#dde5d9",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#006e2d",
+                    "inverse-surface": "#2b322b",
+                    "inverse-on-surface": "#ecf3e7",
+                    "surface-container-high": "#e3eadf",
+                    "secondary-fixed": "#dbe1ff",
+                    "trust-accent": "#2563EB"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "xs": "8px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "md": "16px",
+                    "container-max": "1440px",
+                    "sm": "12px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "title-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "table-text": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .trust-gradient {
+            background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #bdcaba; border-radius: 10px; }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-trust-accent/20">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg px-md z-50">
+<div class="mb-xl px-sm">
+<h1 class="font-title-lg text-title-lg font-bold text-primary">EcoSphere 360</h1>
+<p class="text-[11px] font-semibold text-outline tracking-wider uppercase">Enterprise ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">eco</span>
+<span class="font-body-md text-body-md">Environmental</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="font-body-md text-body-md">Social</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+<span class="font-body-md text-body-md">Governance</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+<span class="font-body-md text-body-md">Gamification</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-trust-accent font-bold bg-trust-accent/5" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-body-md text-body-md">Trust Center</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span class="font-body-md text-body-md">AI Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-sm py-xs rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-md rounded-xl bg-primary-container/10 border border-primary-container/20">
+<p class="text-xs font-bold text-primary mb-2">PRO PLAN ACTIVE</p>
+<button class="w-full py-2 bg-primary text-white rounded-lg text-xs font-bold hover:bg-primary-container transition-all active:scale-95">Upgrade to Pro</button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant z-40 flex items-center justify-between px-lg ml-60">
+<div class="flex items-center flex-1 max-w-2xl relative group">
+<span class="material-symbols-outlined absolute left-3 text-outline group-focus-within:text-trust-accent transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-trust-accent/20 transition-all outline-none" placeholder="Blockchain Hash Explorer: Search transaction, block, or certificate ID..." type="text"/>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-on-surface leading-none">Alex Sterling</p>
+<p class="text-[11px] text-outline leading-none mt-1">Chief Sustainability Officer</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-trust-accent/20 shadow-sm" data-alt="A professional headshot of an executive in their 40s with a confident expression, soft corporate lighting, and a blurred high-tech office background. The style is modern enterprise with a clean, high-end SaaS aesthetic using a palette of crisp whites and subtle blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-yngKp7dZx2JD1nhk8BE1R9Gd4R1VlXhZKDgww_1ekHzBzPq_K0KzXUcyti0pCvPYIAie0R2k1tqpW8WNDgB-3ZCuR-KvV7bzSodn7w5_G9lkVe67tG5tMOERyJ-0wew2Q-DLb_6RRrtp6hMeWbT1oBE2egaO78MRgr5Hl3B-e1p5FbqSFg8hVYfQ-q3yTS1CEF6M5k5me-GB86EXdib_IAKMDzRaOY2zW-WIhOf5c9FBb2NNFrXt7r99flVwIPBsxjEGbVOESSGn"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-lg min-h-screen">
+<div class="max-w-[1600px] mx-auto grid grid-cols-12 gap-lg">
+<!-- Verification Network Status -->
+<section class="col-span-12 flex flex-col md:flex-row gap-lg">
+<div class="flex-1 glass-panel rounded-xl p-lg flex items-center justify-between shadow-sm relative overflow-hidden group">
+<div class="absolute inset-0 bg-trust-accent/[0.02] -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div>
+<p class="text-label-caps text-outline mb-1 uppercase">Verification Network Status</p>
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                            Global Node Sync
+                            <span class="flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-2.5 w-2.5 rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+</span>
+</h2>
+</div>
+<div class="flex gap-xl">
+<div class="text-center">
+<p class="text-label-caps text-outline uppercase">Nodes Active</p>
+<p class="text-title-lg font-bold text-trust-accent">1,204</p>
+</div>
+<div class="text-center border-x border-outline-variant px-xl">
+<p class="text-label-caps text-outline uppercase">Block Height</p>
+<p class="text-title-lg font-bold text-on-surface">#18,442,091</p>
+</div>
+<div class="text-center">
+<p class="text-label-caps text-outline uppercase">Network Latency</p>
+<p class="text-title-lg font-bold text-on-surface">14ms</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Integrity Dashboard (Bento Style) -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+<div class="glass-panel rounded-xl p-lg shadow-sm flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-lg text-title-lg text-on-surface">Integrity Health</h3>
+<span class="material-symbols-outlined text-trust-accent">verified</span>
+</div>
+<div class="relative h-48 w-48 mx-auto flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-trust-accent" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="33.17" stroke-width="12"></circle>
+</svg>
+<div class="absolute text-center">
+<p class="text-4xl font-extrabold text-on-surface">94%</p>
+<p class="text-xs text-outline font-bold">ANCHORED</p>
+</div>
+</div>
+<p class="text-body-md text-on-surface-variant mt-6 text-center">
+                            94.2% of corporate data points are currently secured via immutable blockchain anchors.
+                        </p>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant space-y-3">
+<div class="flex justify-between items-center text-sm">
+<span class="text-outline">Immutable Audit Log</span>
+<span class="text-primary font-bold">Enabled</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-outline">Consensus Layer</span>
+<span class="text-on-surface font-bold">Multi-Sig (3/5)</span>
+</div>
+</div>
+</div>
+<!-- Trust Signal Card -->
+<div class="bg-trust-accent rounded-xl p-lg shadow-lg text-white relative overflow-hidden group h-40">
+<div class="absolute -right-8 -bottom-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]">security</span>
+</div>
+<p class="text-label-caps opacity-80 uppercase tracking-widest mb-2">Certificate Status</p>
+<h4 class="text-headline-md font-bold mb-4">Zero-Leak Integrity</h4>
+<button class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/30 transition-all">Download Master Audit</button>
+</div>
+</section>
+<!-- Verified Carbon Records Explorer -->
+<section class="col-span-12 lg:col-span-8 space-y-lg">
+<div class="glass-panel rounded-xl shadow-sm flex flex-col overflow-hidden h-[620px]">
+<div class="p-lg border-b border-outline-variant flex items-center justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Verified Carbon Records</h3>
+<p class="text-body-md text-outline">Real-time ledger of sustainability transactions</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-low z-10">
+<tr class="text-label-caps text-outline uppercase border-b border-outline-variant">
+<th class="px-lg py-3 font-semibold">Timestamp</th>
+<th class="px-lg py-3 font-semibold">Data Category</th>
+<th class="px-lg py-3 font-semibold">Transaction Hash</th>
+<th class="px-lg py-3 font-semibold">Status</th>
+<th class="px-lg py-3 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer" onclick="toggleAuditPanel()">
+<td class="px-lg py-4 font-table-text text-on-surface">Oct 24, 14:02:11</td>
+<td class="px-lg py-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">Scope 1 Emission</span>
+</td>
+<td class="px-lg py-4 font-mono text-xs text-outline">0x8a2f...3b9e</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-1.5 text-trust-accent font-bold text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                            VERIFIED
+                                        </div>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="text-trust-accent hover:underline text-xs font-bold">View Certificate</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="px-lg py-4 font-table-text text-on-surface">Oct 24, 12:45:55</td>
+<td class="px-lg py-4">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-bold">Water Usage</span>
+</td>
+<td class="px-lg py-4 font-mono text-xs text-outline">0x2c5d...fa12</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-1.5 text-trust-accent font-bold text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                            VERIFIED
+                                        </div>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="text-trust-accent hover:underline text-xs font-bold">View Certificate</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="px-lg py-4 font-table-text text-on-surface">Oct 24, 11:30:02</td>
+<td class="px-lg py-4">
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-xs font-bold">Carbon Offset</span>
+</td>
+<td class="px-lg py-4 font-mono text-xs text-outline">0x4e9a...88cc</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-1.5 text-trust-accent font-bold text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                            VERIFIED
+                                        </div>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="text-trust-accent hover:underline text-xs font-bold">View Certificate</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="px-lg py-4 font-table-text text-on-surface">Oct 24, 10:15:20</td>
+<td class="px-lg py-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">Renewable REC</span>
+</td>
+<td class="px-lg py-4 font-mono text-xs text-outline">0x11bb...f92a</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-1.5 text-trust-accent font-bold text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                            VERIFIED
+                                        </div>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="text-trust-accent hover:underline text-xs font-bold">View Certificate</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="px-lg py-4 font-table-text text-on-surface">Oct 24, 09:05:44</td>
+<td class="px-lg py-4">
+<span class="bg-outline-variant text-on-surface px-3 py-1 rounded-full text-xs font-bold">Supply Chain Audit</span>
+</td>
+<td class="px-lg py-4 font-mono text-xs text-outline">0xdd43...bb11</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-1.5 text-trust-accent font-bold text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                            VERIFIED
+                                        </div>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="text-trust-accent hover:underline text-xs font-bold">View Certificate</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Audit Evidence Viewer (Side Panel) -->
+<div class="fixed top-0 right-0 h-full w-[450px] bg-white shadow-2xl z-[60] transform translate-x-full transition-transform duration-500 border-l border-outline-variant flex flex-col" id="auditPanel">
+<div class="p-lg border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Audit Evidence</h2>
+<p class="text-xs text-trust-accent font-bold font-mono tracking-tight">ID: TXN_8A2F_3B9E_2024</p>
+</div>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-colors" onclick="toggleAuditPanel()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 p-lg overflow-y-auto custom-scrollbar space-y-lg">
+<!-- Blockchain Proof Section -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+<p class="text-label-caps text-outline mb-3 uppercase">Blockchain Proof</p>
+<div class="space-y-2">
+<div class="flex justify-between text-xs">
+<span class="text-outline">Anchor Network</span>
+<span class="text-on-surface font-bold">Ethereum Mainnet</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-outline">Validation Date</span>
+<span class="text-on-surface font-bold">2024-10-24 14:02:11</span>
+</div>
+<div class="flex justify-between text-xs overflow-hidden">
+<span class="text-outline shrink-0 mr-4">IPFS Hash</span>
+<span class="text-trust-accent font-mono truncate">QmXoyp...M844X</span>
+</div>
+</div>
+</div>
+<!-- Document Preview -->
+<div>
+<p class="text-label-caps text-outline mb-3 uppercase">Linked Certificate (PDF)</p>
+<div class="relative rounded-xl border border-outline-variant overflow-hidden aspect-[3/4] bg-surface-container-highest group">
+<div class="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+<button class="bg-white text-on-surface px-4 py-2 rounded-full font-bold text-xs flex items-center gap-2 shadow-lg">
+<span class="material-symbols-outlined text-sm">open_in_new</span> Full Preview
+                        </button>
+</div>
+<div class="absolute inset-0 bg-white p-lg flex flex-col">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-trust-accent rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Carbon Neutrality Certificate</h4>
+<p class="text-[10px] text-outline">Verified by EcoStandard Intl.</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="h-2 w-full bg-surface-container-highest rounded"></div>
+<div class="h-2 w-5/6 bg-surface-container-highest rounded"></div>
+<div class="h-2 w-4/6 bg-surface-container-highest rounded"></div>
+<div class="pt-4 border-t border-outline-variant"></div>
+<div class="h-24 w-full bg-surface-container-highest rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-outline opacity-20 text-[48px]">signature</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Evidence Photos -->
+<div>
+<p class="text-label-caps text-outline mb-3 uppercase">Field Verification Images</p>
+<div class="grid grid-cols-2 gap-sm">
+<div class="aspect-square rounded-lg border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A detailed wide shot of a lush green forest restoration project with a 'Verified Progress' digital overlay. The lighting is soft morning sunlight, emphasizing a healthy ecosystem. The style matches the EcoSphere 360 professional blue and green aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjXdYJcTY5Tbv1EsNPdIrYZvA34PzQAB5acIhio-W8neqY-0blEvPzbjHNzI6MSonx6MuGqTWHcXmJgj4GZG-0PTCM0JP1AEttBiFQ9Q6Uu0vqey6PfkzbyiGZCsXlu8NeVk5N_33IP1TxUQ5V9pSexrL_tWBeeaSG9MOP_8VliU8WRicevrs_k1tf7oj2z69DNaIXERMN8qzyhNhl7-ZV3ZAG58cgwTDz_btcaI1nDwx1iBkampiHcZqA4G8SjYMpp_mjnoY_46sn"/>
+</div>
+<div class="aspect-square rounded-lg border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up of high-tech environmental monitoring sensors installed in a forest, featuring clean metallic textures and subtle blue LED indicators. The shot is crisp and professional, symbolizing precision and data integrity within the EcoSphere 360 ecosystem." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJFv0ih3zJrma1ZQRKbE5Ybro444sW4-tPf1b1usCNMssiYKNpeKq6GOpTX-JfXpiDVya1heHhYinJ7Rt8n9_0nAruIwKuxzGtp171YVfwYJVBIrzBufTGH0EalzDVcto6zCHXoQWJI5fdku6GPp9MpvpXzN3WT_S8EzSsWjFWdi8k-4-z9KZAKf_MOwn9OIX0HmNNmrYIjpCoCiIIbh8Qjn4GzJkdyQa_tl-W_WNwaVVshn7qdshJyNMxoWNOzMd-6bJQgUpC4742"/>
+</div>
+</div>
+</div>
+</div>
+<div class="p-lg bg-surface-container-low border-t border-outline-variant grid grid-cols-2 gap-md">
+<button class="py-3 border border-trust-accent text-trust-accent rounded-xl text-sm font-bold hover:bg-trust-accent/5 transition-all">Verify Node</button>
+<button class="py-3 bg-trust-accent text-white rounded-xl text-sm font-bold hover:bg-trust-accent/90 transition-all shadow-md">Download ZIP</button>
+</div>
+</div>
+<script>
+        let isPanelOpen = false;
+        function toggleAuditPanel() {
+            const panel = document.getElementById('auditPanel');
+            isPanelOpen = !isPanelOpen;
+            if (isPanelOpen) {
+                panel.classList.remove('translate-x-full');
+            } else {
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+        // Simple animation logic for the 'integrity circle'
+        window.addEventListener('DOMContentLoaded', () => {
+            const circle = document.querySelector('circle.text-trust-accent');
+            if (circle) {
+                circle.style.transition = 'stroke-dashoffset 2s ease-out';
+                circle.style.strokeDashoffset = '33.17'; // Set to actual value
+            }
+        });
+    </script>
+</body></html>

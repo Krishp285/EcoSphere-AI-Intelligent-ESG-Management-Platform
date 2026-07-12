@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Social Module | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bdcaba;
+            border-radius: 10px;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#00873a",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#2a1700",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "tertiary-container": "#a36700",
+                      "surface-bright": "#f4fcf0",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#e9f0e5",
+                      "on-surface": "#171d16",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "surface": "#f4fcf0",
+                      "tertiary": "#825100",
+                      "on-primary": "#ffffff",
+                      "on-primary-container": "#f7fff2",
+                      "on-primary-fixed": "#002109",
+                      "tertiary-fixed": "#ffddb8",
+                      "primary": "#006b2c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#171d16",
+                      "outline": "#6e7b6c",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#eff6ea",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "on-surface-variant": "#3e4a3d",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#dde5d9",
+                      "secondary": "#0051d5",
+                      "outline-variant": "#bdcaba",
+                      "on-secondary-container": "#fefcff",
+                      "primary-fixed": "#7ffc97",
+                      "on-secondary-fixed": "#00174b",
+                      "background": "#f4fcf0",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "on-tertiary-container": "#fffbff",
+                      "on-primary-fixed-variant": "#005320",
+                      "inverse-primary": "#62df7d",
+                      "secondary-container": "#316bf3",
+                      "surface-dim": "#d5dcd1",
+                      "primary-fixed-dim": "#62df7d",
+                      "surface-variant": "#dde5d9",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#006e2d",
+                      "inverse-surface": "#2b322b",
+                      "inverse-on-surface": "#ecf3e7",
+                      "surface-container-high": "#e3eadf",
+                      "secondary-fixed": "#dbe1ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "margin-desktop": "40px",
+                      "xs": "8px",
+                      "xl": "32px",
+                      "base": "4px",
+                      "md": "16px",
+                      "container-max": "1440px",
+                      "sm": "12px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "title-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "table-text": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden">
+<!-- Side Navigation Bar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg px-md z-50">
+<div class="flex items-center gap-sm mb-xl">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h1 class="font-title-lg text-title-lg font-bold text-primary">EcoSphere 360</h1>
+<p class="text-[10px] text-on-surface-variant font-label-caps uppercase tracking-wider">Enterprise ESG Intelligence</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 custom-scrollbar overflow-y-auto">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">eco</span>
+<span class="font-body-md">Environmental</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold bg-primary-container/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-body-md">Social</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+<span class="font-body-md">Governance</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+<span class="font-body-md">Gamification</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">assessment</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="font-body-md">Trust Center</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span class="font-body-md">AI Assistant</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full bg-primary-container text-on-primary-container py-md rounded-xl font-bold flex items-center justify-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined">workspace_premium</span>
+                Upgrade to Pro
+            </button>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-lg ml-60">
+<div class="flex items-center gap-lg flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full pl-xl pr-md py-xs focus:ring-2 focus:ring-primary/20 focus:outline-none text-body-md" placeholder="Search social impact data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="flex items-center gap-sm ml-sm pl-md border-l border-outline-variant">
+<div class="text-right">
+<p class="font-bold text-body-md">Elena Rodriguez</p>
+<p class="text-xs text-on-surface-variant">Chief Diversity Officer</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary/20 object-cover" data-alt="A professional headshot of a corporate executive in a modern bright office environment. Soft professional lighting, shallow depth of field, high-end DSLR photography style with a calm and confident expression. Background includes hints of minimalist architectural design in neutral light tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbZGlERRX0RR-3nlWIQuP6ISInT_CZQnVRoA8IunN1LNZFcml7RdDO3nToK41DdE875oVoN0wEQlTmF3-2eh0Y-RTS8MAvI9XZdSeDo0o9udxkI-HZB35KSw8mpB0WANxV8H08JJMYYSwDzr74TSkf9TORVYg6juot4PdBDCRpR1XqLgiVaKJ_K3S7yFH5h9CTY9DCFMVDjTABOGB9lD9QJgqsG0ry6RWQG_DO_XDU-GjVZObQX8fmMEtEE7gkNgYMkecXblHfG0aB"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-lg h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar">
+<div class="max-w-container-max mx-auto space-y-lg">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Social Module: Diversity Dashboard</h2>
+<p class="text-on-surface-variant mt-xs">Real-time monitoring of global inclusion and social responsibility metrics.</p>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm bg-white border border-outline-variant rounded-lg font-bold text-on-surface-variant hover:bg-surface-container transition-all flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">download</span> Export Report
+                    </button>
+<button class="px-md py-sm bg-secondary text-on-secondary rounded-lg font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span> Log Activity
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Diversity Metrics Grid (Progress Rings) -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-4 gap-lg">
+<!-- Metric Card 1: Gender -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col items-center">
+<span class="font-label-caps text-on-surface-variant mb-md self-start">GENDER RATIO</span>
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#E2E8F0" stroke-width="8"></circle>
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#00873a" stroke-dasharray="301.59" stroke-dashoffset="144.76" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-headline-md text-primary">52%</span>
+</div>
+<p class="mt-md text-xs text-on-surface-variant text-center">Female Representation (+2% YoY)</p>
+</div>
+<!-- Metric Card 2: Ethnicity -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col items-center">
+<span class="font-label-caps text-on-surface-variant mb-md self-start">ETHNICITY</span>
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#E2E8F0" stroke-width="8"></circle>
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#316bf3" stroke-dasharray="301.59" stroke-dashoffset="180.95" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-headline-md text-secondary">40%</span>
+</div>
+<p class="mt-md text-xs text-on-surface-variant text-center">Minority Groups (+5% YoY)</p>
+</div>
+<!-- Metric Card 3: Age -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col items-center">
+<span class="font-label-caps text-on-surface-variant mb-md self-start">AGE DIVERSITY</span>
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#E2E8F0" stroke-width="8"></circle>
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#a36700" stroke-dasharray="301.59" stroke-dashoffset="105.55" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-headline-md text-tertiary">65%</span>
+</div>
+<p class="mt-md text-xs text-on-surface-variant text-center">Multi-Gen Workforce (Global)</p>
+</div>
+<!-- Metric Card 4: Disability -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col items-center">
+<span class="font-label-caps text-on-surface-variant mb-md self-start">ACCESSIBILITY</span>
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#E2E8F0" stroke-width="8"></circle>
+<circle cx="56" cy="56" fill="transparent" r="48" stroke="#ba1a1a" stroke-dasharray="301.59" stroke-dashoffset="274.44" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-headline-md text-error">9%</span>
+</div>
+<p class="mt-md text-xs text-on-surface-variant text-center">Differently-Abled Hires</p>
+</div>
+</div>
+<!-- AI Insight Panel -->
+<div class="col-span-12 lg:col-span-4 h-full">
+<div class="bg-primary/5 border border-primary/20 p-lg rounded-xl h-full flex flex-col relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<h3 class="font-title-lg text-primary font-bold">AI Social Insight</h3>
+</div>
+<div class="space-y-md relative z-10">
+<p class="text-on-surface font-semibold leading-relaxed">
+                                "Diversity in leadership roles is <span class="text-primary">up 5%</span> this quarter."
+                            </p>
+<div class="p-md bg-white/50 backdrop-blur-sm border border-primary/10 rounded-lg">
+<p class="text-body-md text-on-surface-variant">
+<span class="font-bold text-on-surface">Recommended:</span> Expand 'Inclusive Leadership' training to APAC region for <span class="text-secondary font-bold">12% engagement lift</span> in underrepresented markets.
+                                </p>
+</div>
+<button class="text-primary font-bold flex items-center gap-xs hover:gap-md transition-all">
+                                Action Recommendation <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Charts Row -->
+<!-- Employee Engagement Trend -->
+<div class="col-span-12 lg:col-span-6 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-title-lg text-on-surface">Employee Engagement Score</h3>
+<div class="flex gap-xs">
+<span class="w-2 h-2 bg-secondary rounded-full inline-block mt-2"></span>
+<span class="text-xs text-on-surface-variant">2024 Trends</span>
+</div>
+</div>
+<div class="h-64 relative">
+<!-- Simulated Trend Line Chart with SVGs -->
+<svg class="w-full h-full" preserveaspectratio="none">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#316bf3" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#316bf3" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 200 L100 180 L200 190 L300 150 L400 160 L500 120 L600 130 L700 90 L800 100 L900 80 L1000 60" fill="none" stroke="#316bf3" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0 200 L100 180 L200 190 L300 150 L400 160 L500 120 L600 130 L700 90 L800 100 L900 80 L1000 60 V256 H0 Z" fill="url(#chartGradient)"></path>
+</svg>
+<div class="absolute inset-0 flex justify-between items-end text-[10px] text-on-surface-variant px-1 pb-1">
+<span>JAN</span><span>MAR</span><span>MAY</span><span>JUL</span><span>SEP</span><span>NOV</span>
+</div>
+</div>
+</div>
+<!-- Training Completion by Dept -->
+<div class="col-span-12 lg:col-span-6 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-title-lg text-on-surface">Training Completion % by Department</h3>
+<button class="p-xs text-on-surface-variant"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="space-y-md">
+<div class="space-y-xs">
+<div class="flex justify-between text-xs">
+<span class="font-bold">Engineering</span>
+<span class="text-primary">94%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 94%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-xs">
+<span class="font-bold">Sales & Marketing</span>
+<span class="text-primary">82%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 82%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-xs">
+<span class="font-bold">Operations</span>
+<span class="text-tertiary">71%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 71%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-xs">
+<span class="font-bold">Human Resources</span>
+<span class="text-primary">98%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 98%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-xs">
+<span class="font-bold">Product Design</span>
+<span class="text-primary">89%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 89%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent CSR Activities Timeline -->
+<div class="col-span-12 bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+<h3 class="font-title-lg text-on-surface mb-xl">Recent CSR Activities</h3>
+<div class="relative overflow-x-auto">
+<div class="flex gap-lg min-w-[1000px] pb-md">
+<!-- Timeline Item 1 -->
+<div class="flex-1 border-l-2 border-primary pl-md relative">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-white"></div>
+<p class="text-[10px] font-bold text-primary uppercase">Oct 12, 2024</p>
+<h4 class="font-bold mt-xs">Urban Reforestation Drive</h4>
+<p class="text-xs text-on-surface-variant mb-md">350 employees planted 2,000 native trees in Singapore Metro area.</p>
+<div class="flex items-center gap-xs text-[10px] bg-primary/10 text-primary w-fit px-md py-1 rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                    Evidence Uploaded
+                                </div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="flex-1 border-l-2 border-primary/30 pl-md relative">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary/30 ring-4 ring-white"></div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Oct 05, 2024</p>
+<h4 class="font-bold mt-xs">STEM Mentorship Program</h4>
+<p class="text-xs text-on-surface-variant mb-md">Engineering team launched the annual high-school tech labs.</p>
+<div class="flex items-center gap-xs text-[10px] bg-primary/10 text-primary w-fit px-md py-1 rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                    Evidence Uploaded
+                                </div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="flex-1 border-l-2 border-outline-variant pl-md relative">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-outline-variant ring-4 ring-white"></div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Sep 28, 2024</p>
+<h4 class="font-bold mt-xs">Supply Chain Fair Trade Audit</h4>
+<p class="text-xs text-on-surface-variant mb-md">External audit of Tier 1 manufacturing social compliance.</p>
+<div class="flex items-center gap-xs text-[10px] bg-tertiary/10 text-tertiary w-fit px-md py-1 rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]">pending</span>
+                                    Pending Audit Evidence
+                                </div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="flex-1 border-l-2 border-primary/30 pl-md relative">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary/30 ring-4 ring-white"></div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Sep 15, 2024</p>
+<h4 class="font-bold mt-xs">Disability Inclusion Workshop</h4>
+<p class="text-xs text-on-surface-variant mb-md">Global HR training session on universal office design.</p>
+<div class="flex items-center gap-xs text-[10px] bg-primary/10 text-primary w-fit px-md py-1 rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                    Evidence Uploaded
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating AI Assistant Button -->
+<div class="fixed bottom-lg right-lg z-50">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all animate-float" id="ai-fab">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+<!-- AI Assistant Mini-Dialog (Hidden by default) -->
+<div class="absolute bottom-16 right-0 w-80 glass-panel border border-primary/20 rounded-2xl shadow-2xl p-lg opacity-0 translate-y-4 pointer-events-none transition-all duration-300" id="ai-box">
+<div class="flex items-center gap-sm mb-md border-b border-outline-variant pb-sm">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-[18px]">
+<span class="material-symbols-outlined text-on-primary">auto_awesome</span>
+</div>
+<span class="font-bold text-primary">EcoSphere AI</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                Hello Elena! I noticed your **social impact score** is tracking 8% above your peers. Would you like me to generate the **Q3 Sustainability Report** for the board?
+            </p>
+<div class="mt-lg flex flex-col gap-sm">
+<button class="w-full py-sm bg-primary/10 text-primary font-bold rounded-lg text-xs hover:bg-primary/20 transition-colors">Generate Board Report</button>
+<button class="w-full py-sm bg-secondary/10 text-secondary font-bold rounded-lg text-xs hover:bg-secondary/20 transition-colors">Compare Global Benchmarks</button>
+</div>
+</div>
+</div>
+<script>
+        // Micro-interactions for AI FAB
+        const fab = document.getElementById('ai-fab');
+        const box = document.getElementById('ai-box');
+        let isOpen = false;
+
+        fab.addEventListener('click', () => {
+            isOpen = !isOpen;
+            if (isOpen) {
+                box.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                box.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                box.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                box.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!fab.contains(e.target) && !box.contains(e.target) && isOpen) {
+                isOpen = false;
+                box.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                box.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+    </script>
+</body></html>

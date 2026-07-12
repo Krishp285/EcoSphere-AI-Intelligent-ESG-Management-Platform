@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings &amp; Configuration | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bdcaba;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#00873a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2a1700",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#a36700",
+                        "surface-bright": "#f4fcf0",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9f0e5",
+                        "on-surface": "#171d16",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#f4fcf0",
+                        "tertiary": "#825100",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#f7fff2",
+                        "on-primary-fixed": "#002109",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary": "#006b2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#171d16",
+                        "outline": "#6e7b6c",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff6ea",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-surface-variant": "#3e4a3d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#dde5d9",
+                        "secondary": "#0051d5",
+                        "outline-variant": "#bdcaba",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed": "#7ffc97",
+                        "on-secondary-fixed": "#00174b",
+                        "background": "#f4fcf0",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary-fixed-variant": "#005320",
+                        "inverse-primary": "#62df7d",
+                        "secondary-container": "#316bf3",
+                        "surface-dim": "#d5dcd1",
+                        "primary-fixed-dim": "#62df7d",
+                        "surface-variant": "#dde5d9",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006e2d",
+                        "inverse-surface": "#2b322b",
+                        "inverse-on-surface": "#ecf3e7",
+                        "surface-container-high": "#e3eadf",
+                        "secondary-fixed": "#dbe1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xs": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "sm": "12px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "table-text": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg px-md z-50">
+<div class="mb-xl px-xs">
+<h1 class="font-title-lg text-title-lg font-bold text-primary">EcoSphere 360</h1>
+<p class="text-on-surface-variant font-body-md text-[11px] uppercase tracking-wider">Enterprise ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1 custom-scrollbar overflow-y-auto">
+<!-- Navigation Items Mapping from JSON -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+                Environmental
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+                Social
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+                Governance
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+                Gamification
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                Reports
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+                Trust Center
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+                AI Assistant
+            </a>
+<!-- Active State: Settings -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-primary font-bold bg-primary-container/10 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto pt-lg border-t border-outline-variant">
+<button class="w-full bg-primary text-on-primary py-md rounded-xl font-title-lg flex items-center justify-center gap-sm active:scale-95 transition-transform shadow-sm">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+                Upgrade to Pro
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-lg z-40">
+<div class="flex items-center gap-lg flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary/20 rounded-lg transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-10 pr-4 text-body-md focus:ring-0" placeholder="Search configurations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-sm">
+<div class="text-right hidden sm:block">
+<p class="font-label-caps text-[11px] text-on-surface-variant">System Admin</p>
+<p class="font-body-md text-on-surface font-semibold">Alex Rivera</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed shadow-sm" data-alt="A professional headshot of a corporate executive in a modern, light-filled office. The lighting is soft and neutral, reflecting a premium enterprise SaaS aesthetic. The subject is wearing a professional charcoal blazer, and the background shows a blurred high-end tech workspace with glass partitions and soft green plants, maintaining the sustainability theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCljUc3INlihwZGUgz2dZkSB1idHwar7uqR7kSm9zrKmlqGA8bcHISuMED1rA06nxmkt56tKHIGKzWoq2tcw5Ade4k2ABmKmiizFpyuFKdW-3RB-tpZWQ8f89W6ZI7mwE8tqvnbush3j2gHZdY9ZHXbeuGuFOD5HU6RKbMN7YoS4LwlHHGBoAffmEcmg622XERA5vd3jnTXyYSdcovLMc2dO2FEdmhq-6IGiq8TX8o2ODMKqkLUMF8XyRgIf1ygFjfOATKSLJsctoxT"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen bg-background">
+<div class="p-lg max-w-container-max mx-auto">
+<div class="mb-lg flex justify-between items-end">
+<div>
+<nav class="flex gap-2 text-label-caps text-on-surface-variant mb-2">
+<span>System</span>
+<span class="material-symbols-outlined text-[12px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">Configuration</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Settings &amp; Configuration</h2>
+</div>
+<div class="flex gap-md">
+<button class="px-lg py-md rounded-xl border border-outline-variant bg-surface text-on-surface-variant font-title-lg hover:bg-surface-container transition-all">Discard</button>
+<button class="px-lg py-md rounded-xl bg-primary text-on-primary font-title-lg shadow-sm hover:opacity-90 active:scale-95 transition-all">Save Changes</button>
+</div>
+</div>
+<!-- Settings Layout: Vertical Tabs + Content -->
+<div class="grid grid-cols-12 gap-lg h-full">
+<!-- Vertical Settings Navigation -->
+<div class="col-span-12 lg:col-span-3 space-y-md">
+<div class="glass-card rounded-xl p-md flex flex-col gap-1">
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md bg-primary-container/10 text-primary font-semibold text-left">
+<span class="material-symbols-outlined" data-icon="settings_applications">settings_applications</span>
+                            General Settings
+                        </button>
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined" data-icon="corporate_fare">corporate_fare</span>
+                            Departments
+                        </button>
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined" data-icon="key">key</span>
+                            Roles &amp; Permissions
+                        </button>
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+                            Emission Factors
+                        </button>
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                            Blockchain Network
+                        </button>
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                            AI Assistant Config
+                        </button>
+<button class="flex items-center gap-md px-md py-sm rounded-lg font-body-md text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+                            Integrations &amp; API
+                        </button>
+</div>
+<!-- Environment Status Card -->
+<div class="glass-card rounded-xl p-md bg-secondary-container/5">
+<h4 class="font-label-caps text-secondary mb-md">DEPLOYMENT STATUS</h4>
+<div class="flex items-center gap-md mb-sm">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-body-md text-on-surface">Mainnet Sync Active</span>
+</div>
+<div class="p-sm bg-surface-container-highest/50 rounded-lg">
+<p class="font-table-text text-[11px] text-on-surface-variant mb-1">Last Sync: 4m ago</p>
+<p class="font-table-text text-[11px] text-on-surface-variant">Block: 18,492,021</p>
+</div>
+</div>
+</div>
+<!-- Main Configuration Panel -->
+<div class="col-span-12 lg:col-span-9 space-y-lg pb-xl">
+<!-- Section: Emission Factors -->
+<section class="glass-card rounded-xl overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
+<div>
+<h3 class="font-title-lg text-on-surface">Emission Factors Management</h3>
+<p class="text-body-md text-on-surface-variant">Update conversion rates for ESG reporting accuracy.</p>
+</div>
+<button class="flex items-center gap-xs text-primary font-semibold hover:underline">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+                                Add New Factor
+                            </button>
+</div>
+<table class="w-full text-left">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-lg py-md font-label-caps text-on-surface-variant">FACTOR TYPE</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant">CONVERSION (kgCO2e)</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant">UNIT</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant">SOURCE</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant">STATUS</th>
+<th class="px-lg py-md"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md font-body-md font-medium">Electricity (Grid)</td>
+<td class="px-lg py-md font-table-text">0.417</td>
+<td class="px-lg py-md font-table-text">per kWh</td>
+<td class="px-lg py-md">
+<span class="flex items-center gap-1 font-table-text text-secondary">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span>
+                                            EPA 2023
+                                        </span>
+</td>
+<td class="px-lg py-md">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed/30 text-on-primary-fixed-variant font-label-caps text-[10px]">VERIFIED</span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-1 opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md font-body-md font-medium">Natural Gas</td>
+<td class="px-lg py-md font-table-text">2.021</td>
+<td class="px-lg py-md font-table-text">per m3</td>
+<td class="px-lg py-md font-table-text text-on-surface-variant italic">DEFRA Standard</td>
+<td class="px-lg py-md">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed/30 text-on-tertiary-fixed-variant font-label-caps text-[10px]">PENDING</span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-1 opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md font-body-md font-medium">Logistics (Diesel)</td>
+<td class="px-lg py-md font-table-text">2.68</td>
+<td class="px-lg py-md font-table-text">per Liter</td>
+<td class="px-lg py-md font-table-text text-on-surface-variant">Internal Data</td>
+<td class="px-lg py-md">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed/30 text-on-primary-fixed-variant font-label-caps text-[10px]">VERIFIED</span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-1 opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<!-- Section: Blockchain & Organization Structure (Bento Style) -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Blockchain Verification -->
+<div class="col-span-12 md:col-span-5 glass-card rounded-xl p-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-title-lg text-on-surface">Blockchain Verification</h3>
+<div class="relative inline-block w-12 h-6 rounded-full bg-primary-container p-1 cursor-pointer" onclick="this.classList.toggle('bg-primary-container'); this.classList.toggle('bg-outline-variant')">
+<div class="w-4 h-4 rounded-full bg-white transition-transform transform translate-x-6"></div>
+</div>
+</div>
+<p class="text-body-md text-on-surface-variant mb-lg">Automatically notarize all ESG audit trails on the private blockchain ledger for immutable reporting.</p>
+<div class="space-y-md">
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-1">NETWORK SELECTOR</label>
+<select class="w-full bg-surface-container border border-outline-variant rounded-lg text-body-md focus:ring-primary focus:border-primary">
+<option>EcoSphere Private Node (v2.4)</option>
+<option>Ethereum Mainnet (L2 Polygon)</option>
+<option>Hyperledger Fabric (Corporate)</option>
+</select>
+</div>
+<div class="flex items-center gap-md p-md bg-primary-container/5 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-primary" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+<p class="font-table-text text-on-primary-fixed-variant">Trust score: <strong>99.98%</strong> - All nodes synchronized.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Organization Structure -->
+<div class="col-span-12 md:col-span-7 glass-card rounded-xl p-lg">
+<h3 class="font-title-lg text-on-surface mb-md">Organization Structure</h3>
+<div class="space-y-sm">
+<!-- Department Item -->
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Manufacturing Hub A</p>
+<p class="text-[11px] font-label-caps text-on-surface-variant">DETROIT, MI • 14 FACILITIES</p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Department Item -->
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="corporate_fare">corporate_fare</span>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Corporate HQ</p>
+<p class="text-[11px] font-label-caps text-on-surface-variant">NEW YORK, NY • 2 FACILITIES</p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<button class="w-full py-md border-2 border-dashed border-outline-variant rounded-xl text-on-surface-variant font-body-md hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                                    Add New Department
+                                </button>
+</div>
+</div>
+</div>
+<!-- Section: API & Integration Management -->
+<section class="glass-card rounded-xl p-lg">
+<div class="flex items-center gap-md mb-lg">
+<div class="p-3 bg-secondary/10 rounded-xl text-secondary">
+<span class="material-symbols-outlined" data-icon="api">api</span>
+</div>
+<div>
+<h3 class="font-title-lg text-on-surface">Integrations &amp; API Management</h3>
+<p class="text-body-md text-on-surface-variant">Manage your data pipes and third-party ERP connections.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-md">
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-2">ACTIVE API KEY</label>
+<div class="flex gap-2">
+<div class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-md py-md font-mono text-[13px] text-on-surface truncate">
+                                            es_prod_992x_8832_v1_live_token_77492
+                                        </div>
+<button class="p-md rounded-lg bg-surface-container-highest text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<p class="mt-2 text-[11px] text-on-surface-variant">Last used 2 hours ago by Odoo Connector.</p>
+</div>
+</div>
+<div class="space-y-md">
+<label class="block font-label-caps text-on-surface-variant mb-2">EXTERNAL CONNECTORS</label>
+<div class="flex items-center justify-between p-sm border border-outline-variant rounded-lg">
+<div class="flex items-center gap-md">
+<img class="w-8 h-8 rounded bg-white p-1 object-contain shadow-sm" data-alt="A minimalist tech logo for Odoo Enterprise ERP, styled with clean geometric shapes and a professional corporate color palette of deep purples and crisp whites. The background is pure white to maintain the high-end SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL1uzkvcsARzv6z6j_bSsyHwosk1XpKYzhzTz2SDhU4DVgLBRkK099i17-VfL6_rzAbXp9XmPw5CzZ5q9L-97P2GsCLebMGEuCq-oYIPkXlOt7jAtl2HYe_HPwt1unww0P2m8hCRgP-lX8_8ZbHwiFi5cizol2UQBMpBSN5VjMzhC0TQ6YzDtGgsVxwsI4biwNaIQDkEoMv6L2_ai8yXoa4irUYbz1r1qg2qCG9qvGpaDgIjA_hiuBfDVhynEI57rxIU14K8EpP2Ey"/>
+<span class="font-body-md font-medium">Odoo ERP</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed/30 text-on-primary-fixed-variant font-label-caps text-[10px]">CONNECTED</span>
+</div>
+<div class="flex items-center justify-between p-sm border border-outline-variant rounded-lg">
+<div class="flex items-center gap-md">
+<img class="w-8 h-8 rounded bg-white p-1 object-contain shadow-sm" data-alt="A sleek corporate logo for SAP S/4HANA software, featuring a modern blue gradient. The design is minimalist and professional, perfectly suited for an enterprise ESG software settings module. High-quality render on a light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJI5M4KOlhcf9UXWOVWzceDkjuWfsWEbN8CdFhpvIfTkta0Z8KLqc26h-jbi5y5-nQBByHAeLdw8kKYjWRFPaZpuCJt6IQQWi4wBi-J8W4zj6jnCWpcrjbu1FGW0xyTe5XhO5IaOkIfCaKCuCbeA6BK6HFwzG7uPJfjHK0d69-lkg2eNaIJcGr-GuTqJk_xyklnC8pBfCMyqPBComB7hzyw-0i7QZXDcn8X9W76kDc0TDD35ftMWNvTpF-AydHru9Wp_ZAUIQtJzRc"/>
+<span class="font-body-md font-medium">SAP Integration</span>
+</div>
+<button class="px-3 py-1 bg-primary-container/10 text-primary font-label-caps text-[10px] rounded-full hover:bg-primary-container/20 transition-all">CONNECT</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Organization Config Form (ERP Style) -->
+<section class="glass-card rounded-xl p-lg">
+<h3 class="font-title-lg text-on-surface mb-lg">General Organization Details</h3>
+<div class="grid grid-cols-12 gap-lg">
+<div class="col-span-12 md:col-span-6 space-y-md">
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-1">LEGAL ENTITY NAME</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-md px-md text-body-md focus:ring-primary focus:border-primary" type="text" value="EcoSphere Solutions Global Ltd."/>
+</div>
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-1">REGISTRATION ID</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-md px-md text-body-md focus:ring-primary focus:border-primary" type="text" value="TAX-ES-88294401"/>
+</div>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-md">
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-1">PRIMARY ESG FRAMEWORK</label>
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-md px-md text-body-md focus:ring-primary focus:border-primary">
+<option>GRI (Global Reporting Initiative)</option>
+<option>SASB Standards</option>
+<option>TCFD Recommendations</option>
+</select>
+</div>
+<div>
+<label class="block font-label-caps text-on-surface-variant mb-1">REPORTING CURRENCY</label>
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-md px-md text-body-md focus:ring-primary focus:border-primary">
+<option>USD ($)</option>
+<option>EUR (€)</option>
+<option>GBP (£)</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action for Quick Add (Only on relevant screens as per rule) -->
+<!-- Suppressed for Settings page as per "Contextual FAB Suppression" rule -->
+<script>
+        // Micro-interactions and UI logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logic for active state navigation handling already implemented in HTML classes
+            console.log('EcoSphere 360 Settings Module Initialized');
+        });
+
+        // Simple Toggle interaction helper
+        function toggleBlockchain(el) {
+            const circle = el.querySelector('div');
+            el.classList.toggle('bg-primary-container');
+            el.classList.toggle('bg-outline-variant');
+            circle.classList.toggle('translate-x-6');
+        }
+    </script>
+</body></html>

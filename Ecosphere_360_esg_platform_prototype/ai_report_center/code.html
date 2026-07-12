@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI ESG Report Generator | EcoSphere 360</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#3e4a3d",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "primary-fixed-dim": "#62df7d",
+                    "surface-container": "#e9f0e5",
+                    "surface-dim": "#d5dcd1",
+                    "inverse-on-surface": "#ecf3e7",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "tertiary-fixed": "#ffddb8",
+                    "tertiary": "#825100",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#bdcaba",
+                    "surface-container-high": "#e3eadf",
+                    "on-surface": "#171d16",
+                    "secondary": "#0051d5",
+                    "inverse-surface": "#2b322b",
+                    "surface-variant": "#dde5d9",
+                    "primary": "#006b2c",
+                    "inverse-primary": "#62df7d",
+                    "surface-tint": "#006e2d",
+                    "on-tertiary-container": "#fffbff",
+                    "on-primary-fixed-variant": "#005320",
+                    "surface-container-low": "#eff6ea",
+                    "background": "#f4fcf0",
+                    "surface-container-highest": "#dde5d9",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-secondary-container": "#fefcff",
+                    "on-primary-fixed": "#002109",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-tertiary-fixed": "#2a1700",
+                    "outline": "#6e7b6c",
+                    "surface": "#f4fcf0",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#f7fff2",
+                    "secondary-container": "#316bf3",
+                    "primary-container": "#00873a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#00174b",
+                    "on-background": "#171d16",
+                    "tertiary-container": "#a36700",
+                    "primary-fixed": "#7ffc97",
+                    "surface-bright": "#f4fcf0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "xl": "32px",
+                    "container-max": "1440px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "table-text": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #171d16;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .wizard-step-active {
+            @apply border-primary text-primary;
+        }
+    </style>
+</head>
+<body class="bg-background overflow-hidden">
+<!-- Side Navigation Shell -->
+<aside class="w-60 h-screen fixed left-0 top-0 overflow-y-auto bg-surface border-r border-outline-variant flex flex-col gap-sm p-md shadow-sm z-50">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EcoSphere 360</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Environmental -->
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-body-md text-body-md">Environmental</span>
+</a>
+<!-- Reports - ACTIVE -->
+<a class="flex items-center gap-md p-md bg-secondary-container text-on-secondary-container font-semibold rounded-lg active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<!-- Blockchain -->
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span class="font-body-md text-body-md">Blockchain Verification</span>
+</a>
+<!-- AI Assistant -->
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-lg active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-body-md text-body-md">AI Assistant</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg">
+<button class="w-full bg-primary text-on-primary py-md rounded-lg font-title-lg flex items-center justify-center gap-xs hover:bg-primary-container transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                New ESG Audit
+            </button>
+</div>
+</aside>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex items-center justify-between px-lg shadow-sm">
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-md py-xs bg-surface-container-low border-none rounded-full w-64 focus:ring-2 focus:ring-primary/20 font-body-md text-body-md" placeholder="Search analytics..." type="text"/>
+</div>
+<nav class="flex items-center gap-md">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-all" href="#">Analytics</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary font-bold transition-all" href="#">Audits</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-all" href="#">Forecasting</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-xs text-on-surface-variant hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-primary-container/10 rounded-full transition-all">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-container/20 flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional corporate headshot of a female executive with a confident smile, wearing a sleek navy blue blazer, set against a soft-focus modern office background with green sustainable plants. The lighting is bright and airy, reflecting a high-end corporate ESG environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU7kq7a3IAdl39qI_5DkciUYLewsMB-pPiVIZ66jSY0bUBwLS159meZopw03ivWcGYu82qvqf5AlZqvC1N1fnKepd7FATuzBEFJmzqUbjYq6uAgNlQIlDRHKtr_W9RrJiVd2lAKc1-ZdLDQ02yYaGNjqSQVFurWHbzCL0y9M0ErqIbCC7PaBSC8mbCtXS5ijLXpqXGdBXTNlYZqFwTM45OqcDaim9GqDvY-xos4z1mfEpydFYA2j19v4TaYl9EhHsXWoJwZgMOeaAI"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-60 pt-16 h-screen bg-background relative overflow-y-auto">
+<div class="p-lg max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">AI ESG Report Generator</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Designate parameters for autonomous sustainability reporting &amp; blockchain anchoring.</p>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm border border-outline text-on-surface rounded-lg font-body-md flex items-center gap-xs hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">drafts</span>
+                        Save Draft
+                    </button>
+</div>
+</div>
+<!-- Wizard / Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Left Column: Generator Form -->
+<div class="col-span-12 lg:col-span-5 space-y-lg">
+<section class="bg-surface rounded-xl p-lg border border-outline-variant ambient-shadow">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold font-body-md">1</div>
+<h3 class="font-title-lg text-title-lg">Report Configuration</h3>
+</div>
+<div class="space-y-md">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">REPORT TYPE</label>
+<select class="w-full border border-outline-variant rounded-lg bg-surface-container-lowest p-md font-body-md focus:ring-2 focus:ring-primary/20 outline-none">
+<option>Annual ESG Impact Report</option>
+<option>GRI (Global Reporting Initiative) Standard</option>
+<option>SASB (Sustainability Accounting Standards Board)</option>
+<option>TCFD Financial Disclosure</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">FISCAL START</label>
+<input class="w-full border border-outline-variant rounded-lg bg-surface-container-lowest p-md font-body-md focus:ring-2 focus:ring-primary/20 outline-none" type="date" value="2023-01-01"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-xs">FISCAL END</label>
+<input class="w-full border border-outline-variant rounded-lg bg-surface-container-lowest p-md font-body-md focus:ring-2 focus:ring-primary/20 outline-none" type="date" value="2023-12-31"/>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface rounded-xl p-lg border border-outline-variant ambient-shadow">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold font-body-md">2</div>
+<h3 class="font-title-lg text-title-lg">AI Insight Depth</h3>
+</div>
+<div class="space-y-md">
+<div class="p-md border-2 border-primary bg-primary-container/5 rounded-lg flex items-center justify-between cursor-pointer group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">neurology</span>
+<div>
+<p class="font-title-lg text-title-lg text-on-surface">Deep Analytical</p>
+<p class="text-on-surface-variant font-body-md text-body-md">Causal inference and 5-year predictive modeling.</p>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-4 border-primary"></div>
+</div>
+<div class="p-md border border-outline-variant rounded-lg flex items-center justify-between cursor-pointer hover:border-primary/50 transition-all">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">bar_chart_4_bars</span>
+<div>
+<p class="font-title-lg text-title-lg text-on-surface">Standard Descriptive</p>
+<p class="text-on-surface-variant font-body-md text-body-md">Direct data synthesis and benchmarking.</p>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant"></div>
+</div>
+</div>
+</section>
+<div class="pt-sm space-y-sm">
+<button class="w-full bg-primary text-on-primary py-lg rounded-xl font-headline-md flex items-center justify-center gap-md shadow-lg hover:shadow-primary/20 transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">auto_awesome</span>
+                            Generate AI Preview
+                        </button>
+<p class="text-center font-label-caps text-label-caps text-on-surface-variant">Estimated compute time: 45 seconds</p>
+</div>
+</div>
+<!-- Right Column: Live Preview Area -->
+<div class="col-span-12 lg:col-span-7">
+<div class="bg-surface rounded-xl border border-outline-variant ambient-shadow flex flex-col h-full min-h-[600px] overflow-hidden">
+<!-- Preview Header -->
+<div class="p-md bg-surface-container-high border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">visibility</span>
+<h3 class="font-title-lg text-title-lg uppercase tracking-widest text-on-surface-variant">LIVE PREVIEW</h3>
+</div>
+<div class="flex gap-xs">
+<span class="bg-primary/10 text-primary px-sm py-1 rounded-full text-xs font-bold border border-primary/20">DRAFT: v0.9.2</span>
+</div>
+</div>
+<!-- Preview Canvas -->
+<div class="flex-1 p-xl overflow-y-auto space-y-lg relative">
+<!-- Background Decoration -->
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+
+</div>
+<div class="relative z-10 space-y-xl">
+<!-- Report Title Card -->
+<div class="text-center space-y-sm py-lg border-b border-outline-variant">
+<h4 class="font-display-lg text-display-lg text-on-surface">2023 ESG IMPACT</h4>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">Consolidated sustainability and corporate governance assessment for EcoSphere Enterprise Solutions.</p>
+</div>
+<!-- Metric Grid -->
+<div class="grid grid-cols-3 gap-md">
+<div class="p-lg bg-surface-container-lowest rounded-xl border border-outline-variant">
+<p class="font-label-caps text-label-caps text-primary mb-xs">CARBON FOOTPRINT</p>
+<p class="text-headline-md font-headline-md">-12.4%</p>
+<div class="mt-xs w-full bg-surface-container-high h-1 rounded-full">
+<div class="bg-primary h-1 rounded-full w-3/4"></div>
+</div>
+</div>
+<div class="p-lg bg-surface-container-lowest rounded-xl border border-outline-variant">
+<p class="font-label-caps text-label-caps text-tertiary mb-xs">DIVERSITY RATIO</p>
+<p class="text-headline-md font-headline-md">48.2%</p>
+<div class="mt-xs w-full bg-surface-container-high h-1 rounded-full">
+<div class="bg-tertiary h-1 rounded-full w-1/2"></div>
+</div>
+</div>
+<div class="p-lg bg-surface-container-lowest rounded-xl border border-outline-variant">
+<p class="font-label-caps text-label-caps text-secondary mb-xs">BOARD INDEPENDENCE</p>
+<p class="text-headline-md font-headline-md">92%</p>
+<div class="mt-xs w-full bg-surface-container-high h-1 rounded-full">
+<div class="bg-secondary h-1 rounded-full w-11/12"></div>
+</div>
+</div>
+</div>
+<!-- AI Insight Box -->
+<div class="p-lg glass-panel rounded-xl border-l-4 border-primary">
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-primary mt-1">lightbulb</span>
+<div>
+<p class="font-title-lg text-title-lg mb-xs">AI Insight: Resource Efficiency</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                                                Based on current trajectory, the transition to circular procurement in Q3 2023 has yielded a <span class="text-primary font-bold">2.4x ROI</span> on material costs while simultaneously reducing Scope 3 emissions by 800 metric tons.
+                                            </p>
+</div>
+</div>
+</div>
+<!-- Chart Visualization Placeholder -->
+<div class="h-64 w-full bg-surface-container-low rounded-xl border border-outline-variant overflow-hidden flex flex-col">
+<div class="p-md flex justify-between items-center border-b border-outline-variant bg-surface-container">
+<span class="font-label-caps text-label-caps">EMISSIONS OVER TIME (PREDICTIVE)</span>
+<span class="material-symbols-outlined text-xs">open_in_full</span>
+</div>
+<div class="flex-1 flex items-end justify-between p-lg gap-sm h-full">
+<div class="bg-primary/20 w-full h-32 rounded-t-lg relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-24 rounded-t-lg transition-all group-hover:h-28"></div>
+</div>
+<div class="bg-primary/20 w-full h-24 rounded-t-lg relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-16 rounded-t-lg transition-all group-hover:h-20"></div>
+</div>
+<div class="bg-primary/20 w-full h-40 rounded-t-lg relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-36 rounded-t-lg transition-all group-hover:h-38"></div>
+</div>
+<div class="bg-primary/20 w-full h-20 rounded-t-lg relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-12 rounded-t-lg transition-all group-hover:h-16"></div>
+</div>
+<div class="bg-primary/20 w-full h-48 rounded-t-lg relative group">
+<div class="absolute inset-x-0 bottom-0 bg-primary h-44 rounded-t-lg transition-all group-hover:h-46"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Preview Actions -->
+<div class="p-lg bg-surface border-t border-outline-variant flex items-center justify-between gap-md">
+<button class="flex-1 px-lg py-md bg-surface border border-outline text-on-surface rounded-lg font-title-lg flex items-center justify-center gap-xs hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+                                Generate PDF
+                            </button>
+<button class="flex-1 px-lg py-md bg-secondary text-on-secondary rounded-lg font-title-lg flex items-center justify-center gap-xs hover:opacity-90 transition-all shadow-md active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                Export to Blockchain
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Assistant Floating Action Button (FAB) -->
+<div class="fixed bottom-lg right-lg z-50 flex flex-col items-end gap-md">
+<!-- Active Conversation Bubble (Subtle) -->
+<div class="hidden glass-panel p-md rounded-2xl shadow-xl max-w-xs border border-primary/20 mb-xs animate-bounce-slow" id="ai-bubble">
+<p class="font-body-md text-body-md text-on-surface">"Ready to finalize the GRI disclosure? I've cross-referenced 42 internal data sources."</p>
+</div>
+<button class="h-16 w-16 bg-primary-container text-on-primary-container rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all group border-2 border-white" onclick="toggleAIBubble()">
+<span class="material-symbols-outlined text-4xl group-hover:rotate-12 transition-transform" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<!-- Pulse Effect -->
+<span class="absolute inset-0 rounded-full bg-primary animate-ping opacity-20 group-hover:opacity-40"></span>
+</button>
+</div>
+</main>
+<script>
+        function toggleAIBubble() {
+            const bubble = document.getElementById('ai-bubble');
+            bubble.classList.toggle('hidden');
+        }
+
+        // Simple animation logic for chart hover
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Potential for more complex JS micro-interactions
+            });
+        });
+
+        // Simulating the "Generate" flow for UI feedback
+        const generateBtn = document.querySelector('button.bg-primary.group');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', () => {
+                const btnContent = generateBtn.innerHTML;
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> Processing AI...`;
+                
+                setTimeout(() => {
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = btnContent;
+                }, 3000);
+            });
+        }
+    </script>
+<style>
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 4s ease-in-out infinite;
+        }
+    </style>
+</body></html>

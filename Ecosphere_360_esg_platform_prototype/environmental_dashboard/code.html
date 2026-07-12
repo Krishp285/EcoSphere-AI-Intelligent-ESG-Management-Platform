@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoSphere 360 | Environmental Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#00873a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2a1700",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#a36700",
+                        "surface-bright": "#f4fcf0",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9f0e5",
+                        "on-surface": "#171d16",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#f4fcf0",
+                        "tertiary": "#825100",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#f7fff2",
+                        "on-primary-fixed": "#002109",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary": "#16A34A",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#171d16",
+                        "outline": "#6e7b6c",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff6ea",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-surface-variant": "#3e4a3d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#dde5d9",
+                        "secondary": "#0051d5",
+                        "outline-variant": "#bdcaba",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed": "#7ffc97",
+                        "on-secondary-fixed": "#00174b",
+                        "background": "#f4fcf0",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary-fixed-variant": "#005320",
+                        "inverse-primary": "#62df7d",
+                        "secondary-container": "#316bf3",
+                        "surface-dim": "#d5dcd1",
+                        "primary-fixed-dim": "#62df7d",
+                        "surface-variant": "#dde5d9",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006e2d",
+                        "inverse-surface": "#2b322b",
+                        "inverse-on-surface": "#ecf3e7",
+                        "surface-container-high": "#e3eadf",
+                        "secondary-fixed": "#dbe1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "xs": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "sm": "12px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "table-text": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "table-text": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .chart-bar {
+            transition: height 1s ease-out;
+        }
+        .side-nav-active {
+            color: #16A34A !important;
+            font-weight: 700 !important;
+            background-color: rgba(0, 135, 58, 0.1) !important;
+        }
+    </style>
+</head>
+<body class="text-on-surface overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<aside class="bg-surface-container-lowest dark:bg-surface-container-low h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline shadow-sm flex flex-col h-full py-lg px-md z-50" id="side-nav">
+<div class="mb-xl px-sm">
+<h1 class="font-title-lg text-title-lg font-bold text-primary dark:text-primary-fixed">EcoSphere 360</h1>
+<p class="text-[11px] uppercase tracking-widest text-on-surface-variant/70 font-semibold">Enterprise ESG Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+<!-- Nav Item: Dashboard -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Nav Item: Environmental (ACTIVE) -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl side-nav-active text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+<span class="font-body-md text-body-md">Environmental</span>
+</a>
+<!-- Nav Item: Social -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="font-body-md text-body-md">Social</span>
+</a>
+<!-- Nav Item: Governance -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+<span class="font-body-md text-body-md">Governance</span>
+</a>
+<!-- Nav Item: Gamification -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+<span class="font-body-md text-body-md">Gamification</span>
+</a>
+<!-- Nav Item: Reports -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<!-- Nav Item: Trust Center -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="font-body-md text-body-md">Trust Center</span>
+</a>
+<!-- Nav Item: AI Assistant -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span class="font-body-md text-body-md">AI Assistant</span>
+</a>
+<!-- Nav Item: Settings -->
+<a class="flex items-center gap-3 px-sm py-md rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg">
+<button class="w-full bg-primary text-on-primary py-md px-lg rounded-xl font-body-md text-body-md font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+                Upgrade to Pro
+            </button>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-sm z-40 flex justify-between items-center px-lg ml-60">
+<div class="flex items-center gap-lg flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary/20 rounded-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-10 pr-4 text-body-md font-body-md focus:ring-0 focus:outline-none" placeholder="Search ESG indicators, reports, or data points..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-xs"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-low p-1 rounded-lg transition-all">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a female sustainability executive with a warm, confident expression. She is wearing a modern charcoal blazer. The background is a clean, minimalist corporate office with soft, bright lighting and a hint of greenery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL1u7f-Rh0uN-7We8S0qOSeqksYaYD0-b3CHIfyr6w5Y0oS4zdfoFIvOVXPj3C7-0q1JTh-T14XUhLxDcfvScQkkXHGUoLhMiWDzIW0dbxGcnFOgAI6UOcq1g9TQ3f7LnWtxVto2bDwwLpNkXODIBgVi51yG_lEdu0RCfOgqrO0GJJV0Wn2VXwhyiCQvfZMPwj9YGTQRPMDA_IFzlObZ6-dOo1KQ6BhDExe2xg7fSV0vtP49_S-5bPIlQChhSZnliCtQMw-XyKWFoe"/>
+<div class="hidden lg:block text-left">
+<p class="font-body-md text-body-md font-bold leading-none">Sarah Jenkins</p>
+<p class="text-[11px] text-on-surface-variant">Chief Sustainability Officer</p>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-24 px-lg pb-xl max-w-[1600px]">
+<!-- Header & Breadcrumbs -->
+<div class="mb-lg">
+<div class="flex items-center gap-xs text-on-surface-variant mb-xs">
+<span class="text-[12px] font-medium">Dashboard</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-[12px] font-medium text-primary">Environmental Strategy</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Environmental Performance</h2>
+<p class="text-on-surface-variant text-body-md">Real-time monitoring of carbon footprint and sustainability goals.</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-2 bg-white border border-outline-variant px-md py-sm rounded-xl text-body-md font-medium hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        Last 30 Days
+                    </button>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-md py-sm rounded-xl text-body-md font-medium shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Report
+                    </button>
+</div>
+</div>
+</div>
+<!-- KPI Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-lg">
+<!-- Scope 1 -->
+<div class="bg-white p-lg rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-outline-variant flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">factory</span>
+</div>
+<span class="flex items-center gap-1 text-primary text-[12px] font-bold bg-primary/10 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_down</span>
+                            -4.2%
+                        </span>
+</div>
+<p class="text-on-surface-variant text-body-md font-medium">Scope 1 Emissions</p>
+<h3 class="text-[32px] font-bold text-on-surface leading-tight mt-1">12,450 <span class="text-label-caps text-on-surface-variant">tCO2e</span></h3>
+</div>
+<div class="mt-md pt-md border-t border-outline-variant/50">
+<p class="text-[12px] text-on-surface-variant">Direct emissions from company-owned sources.</p>
+</div>
+</div>
+<!-- Scope 2 -->
+<div class="bg-white p-lg rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-outline-variant flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">bolt</span>
+</div>
+<span class="flex items-center gap-1 text-error text-[12px] font-bold bg-error/10 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            +2.1%
+                        </span>
+</div>
+<p class="text-on-surface-variant text-body-md font-medium">Scope 2 Emissions</p>
+<h3 class="text-[32px] font-bold text-on-surface leading-tight mt-1">8,210 <span class="text-label-caps text-on-surface-variant">tCO2e</span></h3>
+</div>
+<div class="mt-md pt-md border-t border-outline-variant/50">
+<p class="text-[12px] text-on-surface-variant">Indirect emissions from purchased energy.</p>
+</div>
+</div>
+<!-- Scope 3 -->
+<div class="bg-white p-lg rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-outline-variant flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+</div>
+<span class="flex items-center gap-1 text-primary text-[12px] font-bold bg-primary/10 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_down</span>
+                            -8.4%
+                        </span>
+</div>
+<p class="text-on-surface-variant text-body-md font-medium">Scope 3 Emissions</p>
+<h3 class="text-[32px] font-bold text-on-surface leading-tight mt-1">45,120 <span class="text-label-caps text-on-surface-variant">tCO2e</span></h3>
+</div>
+<div class="mt-md pt-md border-t border-outline-variant/50">
+<p class="text-[12px] text-on-surface-variant">Indirect emissions in the value chain.</p>
+</div>
+</div>
+</div>
+<!-- Charts Bento Grid -->
+<div class="grid grid-cols-12 gap-lg mb-lg">
+<!-- Monthly Comparison -->
+<div class="col-span-12 lg:col-span-8 bg-white p-lg rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-outline-variant">
+<div class="flex justify-between items-center mb-xl">
+<h4 class="font-title-lg text-title-lg text-on-surface">Monthly Carbon Comparison</h4>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-[12px] font-medium text-on-surface-variant">Current Year</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-surface-container-highest"></span>
+<span class="text-[12px] font-medium text-on-surface-variant">Previous Year</span>
+</div>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-4 px-2">
+<!-- Dynamic Bars Placeholder -->
+<script>
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        const currentData = [65, 59, 80, 81, 56, 55, 40, 48, 52, 60, 45, 38];
+                        const prevData = [70, 75, 78, 85, 70, 68, 62, 55, 60, 65, 58, 50];
+                        
+                        document.write(months.map((m, i) => `
+                            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+                                <div class="w-full flex justify-center gap-1 h-full items-end">
+                                    <div class="w-2.5 bg-surface-container-highest rounded-t-sm" style="height: ${prevData[i]}%"></div>
+                                    <div class="w-2.5 bg-primary rounded-t-sm relative" style="height: ${currentData[i]}%">
+                                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">${currentData[i]}%</div>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] font-semibold text-on-surface-variant/70 uppercase">${m}</span>
+                            </div>
+                        `).join(''));
+                    </script>
+</div>
+</div>
+<!-- Carbon Source Breakdown (Donut) -->
+<div class="col-span-12 lg:col-span-4 bg-white p-lg rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-outline-variant flex flex-col">
+<h4 class="font-title-lg text-title-lg text-on-surface mb-xl">Carbon Source Breakdown</h4>
+<div class="flex-1 flex flex-col justify-center items-center relative">
+<!-- Circular Donut SVG -->
+<div class="relative w-48 h-48">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#E2E8F0" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#16A34A" stroke-dasharray="40 60" stroke-dashoffset="0" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#316bf3" stroke-dasharray="25 75" stroke-dashoffset="-40" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#825100" stroke-dasharray="20 80" stroke-dashoffset="-65" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#ba1a1a" stroke-dasharray="15 85" stroke-dashoffset="-85" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-md font-bold text-on-surface">100%</span>
+<span class="text-[11px] text-on-surface-variant font-medium">Total Impact</span>
+</div>
+</div>
+</div>
+<div class="mt-lg grid grid-cols-2 gap-y-sm gap-x-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-[12px] text-on-surface-variant font-medium">Manufacturing (40%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-[12px] text-on-surface-variant font-medium">Electricity (25%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="text-[12px] text-on-surface-variant font-medium">Fleet (20%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="text-[12px] text-on-surface-variant font-medium">Waste (15%)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-lg">
+<!-- Department Carbon Tracking Table -->
+<div class="col-span-12 lg:col-span-8 bg-white rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-outline-variant overflow-hidden">
+<div class="p-lg border-b border-outline-variant/50 flex justify-between items-center">
+<h4 class="font-title-lg text-title-lg text-on-surface">Department Carbon Tracking</h4>
+<button class="text-primary text-body-md font-semibold hover:underline">View All Departments</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase">Department</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase">Emission (tCO2e)</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase">Verified Status</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr>
+<td class="px-lg py-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">precision_manufacturing</span>
+</div>
+<span class="font-table-text text-table-text font-semibold">Manufacturing - Plant A</span>
+</div>
+</td>
+<td class="px-lg py-md font-table-text text-table-text">4,821.50</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 text-secondary font-semibold text-[11px] bg-secondary/10 px-2 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                        BC_8x2F9...
+                                    </div>
+</td>
+<td class="px-lg py-md">
+<a class="text-primary font-bold text-[12px] hover:underline flex items-center gap-1" href="#">
+                                        Verify <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</td>
+</tr>
+<tr>
+<td class="px-lg py-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">corporate_fare</span>
+</div>
+<span class="font-table-text text-table-text font-semibold">HQ Operations</span>
+</div>
+</td>
+<td class="px-lg py-md font-table-text text-table-text">1,120.25</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 text-secondary font-semibold text-[11px] bg-secondary/10 px-2 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                        BC_4a1K2...
+                                    </div>
+</td>
+<td class="px-lg py-md">
+<a class="text-primary font-bold text-[12px] hover:underline flex items-center gap-1" href="#">
+                                        Verify <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</td>
+</tr>
+<tr>
+<td class="px-lg py-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">local_shipping</span>
+</div>
+<span class="font-table-text text-table-text font-semibold">Logistics Fleet</span>
+</div>
+</td>
+<td class="px-lg py-md font-table-text text-table-text">3,450.10</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 text-secondary font-semibold text-[11px] bg-secondary/10 px-2 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                        BC_9q8L0...
+                                    </div>
+</td>
+<td class="px-lg py-md">
+<a class="text-primary font-bold text-[12px] hover:underline flex items-center gap-1" href="#">
+                                        Verify <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</td>
+</tr>
+<tr>
+<td class="px-lg py-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">biotech</span>
+</div>
+<span class="font-table-text text-table-text font-semibold">R&amp;D Center</span>
+</div>
+</td>
+<td class="px-lg py-md font-table-text text-table-text">890.30</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 text-secondary font-semibold text-[11px] bg-secondary/10 px-2 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                        BC_1m4X7...
+                                    </div>
+</td>
+<td class="px-lg py-md">
+<a class="text-primary font-bold text-[12px] hover:underline flex items-center gap-1" href="#">
+                                        Verify <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- AI Insight Panel -->
+<div class="col-span-12 lg:col-span-4">
+<div class="glass-panel p-lg rounded-xl shadow-lg border-primary/20 flex flex-col h-full relative overflow-hidden group">
+<!-- Animation Background (Subtle) -->
+<div class="absolute inset-0 opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity">
+
+</div>
+<div class="relative z-10 flex flex-col h-full">
+<div class="flex items-center gap-2 mb-md">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-primary">smart_toy</span>
+</div>
+<div>
+<h5 class="font-title-lg text-title-lg text-on-surface leading-tight">AI Strategic Insights</h5>
+<p class="text-[11px] text-primary font-bold uppercase tracking-widest">Efficiency Engine Active</p>
+</div>
+</div>
+<div class="bg-white/60 p-md rounded-xl border border-primary/10 mb-lg">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-0.5">warning</span>
+<p class="text-body-md text-on-surface leading-relaxed">
+                                    Manufacturing emissions increased <span class="font-bold text-error">14%</span> this quarter due to supply chain variance.
+                                </p>
+</div>
+<div class="h-[1px] bg-primary/10 my-md"></div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">lightbulb</span>
+<p class="text-body-md text-on-surface leading-relaxed">
+                                    Switching to <span class="font-bold text-primary">Supplier B</span> for raw materials can reduce Scope 3 emissions by <span class="font-bold">18%</span> without impacting lead times.
+                                </p>
+</div>
+</div>
+<div class="mt-auto">
+<button class="w-full bg-on-surface text-white py-md px-lg rounded-xl font-body-md text-body-md font-bold shadow-lg hover:bg-black transition-all transform active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                                Apply Recommendation
+                            </button>
+<p class="text-center text-[11px] text-on-surface-variant mt-md">Predicted savings: <span class="font-bold">$124,500 / Year</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating AI Assistant -->
+<button class="fixed bottom-lg right-lg w-16 h-16 bg-primary text-on-primary rounded-full shadow-[0px_8px_30px_rgba(22,163,74,0.4)] flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-all group overflow-hidden">
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-[32px] animate-bounce">smart_toy</span>
+<div class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white font-bold">2</div>
+</button>
+<script>
+        // Micro-interaction for hover effects on table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('bg-surface-container-low');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('bg-surface-container-low');
+            });
+        });
+
+        // Simple animation trigger for KPI cards (simulation)
+        window.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.bg-white');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body></html>
