@@ -1,30 +1,38 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
+import Dashboard from './pages/Dashboard';
+import PlaceholderPage from './pages/PlaceholderPage';
+import Login from './pages/Authentication/Login';
+import Register from './pages/Authentication/Register';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
+import EmptyState from './components/common/EmptyState';
+import { ShieldAlert } from 'lucide-react';
 
-// Placeholder Page Components
-const Dashboard = () => <div><h1 className="text-2xl font-bold mb-4">Dashboard</h1><p>Welcome to EcoSphere AI.</p></div>;
-const Environmental = () => <div><h1 className="text-2xl font-bold mb-4">Environmental</h1></div>;
-const Social = () => <div><h1 className="text-2xl font-bold mb-4">Social</h1></div>;
-const Governance = () => <div><h1 className="text-2xl font-bold mb-4">Governance</h1></div>;
-const Reports = () => <div><h1 className="text-2xl font-bold mb-4">Reports</h1></div>;
-const TrustCenter = () => <div><h1 className="text-2xl font-bold mb-4">Trust Center</h1></div>;
-const NotFound = () => <div><h1 className="text-2xl font-bold mb-4">404 - Not Found</h1></div>;
-const Login = () => <div className="flex h-screen items-center justify-center bg-gray-50"><div className="p-8 bg-white shadow rounded">Login Page Placeholder</div></div>;
+const NotFound = () => (
+  <div className="flex items-center justify-center h-screen bg-gray-50">
+    <EmptyState icon={ShieldAlert} title="404 - Not Found" description="The page you are looking for does not exist." />
+  </div>
+);
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="environmental" element={<Environmental />} />
-          <Route path="social" element={<Social />} />
-          <Route path="governance" element={<Governance />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="trust-center" element={<TrustCenter />} />
+          <Route path="environmental" element={<PlaceholderPage title="Environmental" />} />
+          <Route path="social" element={<PlaceholderPage title="Social" />} />
+          <Route path="governance" element={<PlaceholderPage title="Governance" />} />
+          <Route path="gamification" element={<PlaceholderPage title="Gamification" />} />
+          <Route path="reports" element={<PlaceholderPage title="Reports" />} />
+          <Route path="trust-center" element={<PlaceholderPage title="Trust Center" />} />
+          <Route path="ai-copilot" element={<PlaceholderPage title="AI Copilot" />} />
+          <Route path="settings" element={<PlaceholderPage title="Settings" />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
