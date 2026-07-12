@@ -1,15 +1,22 @@
-import React from 'react';
-import { Bell, Search, Menu, Leaf } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bell, Search, Menu, Leaf, LogOut, User } from 'lucide-react';
 import { useSidebar } from '../../context/SidebarContext';
 import { useUser } from '../../context/UserContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import Avatar from '../common/Avatar';
 import Badge from '../common/Badge';
 
 export const Navbar = () => {
   const { toggleSidebar } = useSidebar();
-  const { currentOrganization, organizations, setCurrentOrganization } = useUser();
+  const { currentOrganization, organizations } = useUser();
+  const { user, logout } = useAuth();
   const { unreadCount } = useNotifications();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const initials = user?.name
+    ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    : 'U';
 
   return (
     <header className="bg-surface shadow-sm h-16 flex items-center px-4 md:px-6 justify-between sticky top-0 z-20 border-b border-gray-200">
@@ -44,7 +51,7 @@ export const Navbar = () => {
           <select 
             className="text-sm border-none bg-transparent font-medium text-gray-700 focus:ring-0 cursor-pointer"
             value={currentOrganization}
-            onChange={(e) => setCurrentOrganization(e.target.value)}
+            onChange={() => {}}
           >
             {organizations.map(org => (
               <option key={org} value={org}>{org}</option>
@@ -66,9 +73,21 @@ export const Navbar = () => {
         </button>
 
         <div className="relative">
-          <button className="flex items-center focus:outline-none">
-            <Avatar initials="AJ" size="sm" className="ring-2 ring-white shadow-sm" />
+          <button onClick={() => setShowUserMenu(v => !v)} className="flex items-center focus:outline-none" title={user?.name}>
+            <Avatar initials={initials} size="sm" className="ring-2 ring-white shadow-sm" />
           </button>
+          {showUserMenu && (
+            <div className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+              </div>
+              <button onClick={() => { setShowUserMenu(false); logout(); }}
+                className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                <LogOut className="w-4 h-4 mr-2" /> Sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

@@ -4,7 +4,7 @@ Inherits from BaseService and adds domain-specific carbon calculation logic.
 """
 from datetime import datetime, date
 from app.services.base_service import BaseService
-from app.models.environment import CarbonTransaction, EmissionFactor, EnvironmentalGoal, DepartmentScore
+from app.models.environment import CarbonTransaction, EmissionFactor, EnvironmentalGoal, DepartmentScore, ESGReport
 from app.extensions import db
 
 
@@ -120,3 +120,7 @@ class DepartmentScoreService(BaseService):
             module_scores.get(k, 0) * w for k, w in weights.items()
         )
         return round(weighted_sum / total_weight, 2) if total_weight else 0
+
+
+class ESGReportService(BaseService):
+    model = ESGReport

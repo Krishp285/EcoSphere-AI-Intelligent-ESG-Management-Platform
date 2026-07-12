@@ -19,6 +19,15 @@ import SustainabilityGoals from './pages/Environmental/SustainabilityGoals';
 import DepartmentTracking from './pages/Environmental/DepartmentTracking';
 import EnvironmentalReports from './pages/Environmental/EnvironmentalReports';
 
+// ESG Module Pages
+import Social from './pages/Social';
+import Governance from './pages/Governance';
+import Gamification from './pages/Gamification';
+import Reports from './pages/Reports';
+import TrustCenter from './pages/TrustCenter';
+import AICopilot from './pages/AICopilot';
+import Settings from './pages/Settings';
+
 const NotFound = () => (
   <div className="flex items-center justify-center h-screen bg-gray-50">
     <EmptyState icon={ShieldAlert} title="404 - Not Found" description="The page you are looking for does not exist." />
@@ -49,14 +58,14 @@ function App() {
             <Route path="reports" element={<EnvironmentalReports />} />
           </Route>
 
-          {/* Other Module Placeholders */}
-          <Route path="social" element={<PlaceholderPage title="Social" />} />
-          <Route path="governance" element={<PlaceholderPage title="Governance" />} />
-          <Route path="gamification" element={<PlaceholderPage title="Gamification" />} />
-          <Route path="reports" element={<PlaceholderPage title="Reports" />} />
-          <Route path="trust-center" element={<PlaceholderPage title="Trust Center" />} />
-          <Route path="ai-copilot" element={<PlaceholderPage title="AI Copilot" />} />
-          <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+          {/* Core ESG Modules */}
+          <Route path="social" element={<Social />} />
+          <Route path="governance" element={<Governance />} />
+          <Route path="gamification" element={<Gamification />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="trust-center" element={<TrustCenter />} />
+          <Route path="ai-copilot" element={<AICopilot />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -6,7 +6,7 @@ Designed for extensibility; Social/Governance controllers follow the same patter
 from flask import Blueprint, request, jsonify
 from app.services.environmental_service import (
     CarbonTransactionService, EmissionFactorService,
-    EnvironmentalGoalService, DepartmentScoreService
+    EnvironmentalGoalService, DepartmentScoreService, ESGReportService
 )
 from app.services.ai_service import AIService
 
@@ -195,3 +195,30 @@ def apply_recommendation(rec_id):
     user_id = request.get_json().get('user_id', 'anonymous')
     result = AIService.apply_recommendation(rec_id, user_id)
     return success(result)
+
+
+# ── ESG Reports ───────────────────────────────────────────────────────────────
+
+@environment_bp.route('/reports', methods=['GET'])
+def list_reports():
+    result = ESGReportService.get_all()
+    return success([r.to_dict() for r in result.items])
+
+
+@environment_bp.route('/reports', methods=['POST'])
+def create_report():
+    data = request.get_json()
+    required = ['title', 'category', 'format', 'generated_by']
+    missing = [f for f in required if f not in data]
+    if missing:
+        return error(f"Missing fields: {', '.join(missing)}")
+    report = ESGReportService.create(data)
+    return success(report.to_dict(), 201)
+
+
+@environment_bp.route('/reports/<string:report_id>', methods=['DELETE'])
+def delete_report(report_id):
+    deleted = ESGReportService.delete(report_id)
+    if not deleted:
+        return error('Report not found', 404)
+    return success({'deleted': report_id})

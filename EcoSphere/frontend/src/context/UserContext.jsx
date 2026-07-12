@@ -1,15 +1,23 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+import { useAuth } from './AuthContext';
 
 const UserContext = createContext();
-
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [currentOrganization, setCurrentOrganization] = useState('Acme Corp (Global)');
-  const organizations = ['Acme Corp (Global)', 'Acme Corp (EMEA)', 'Acme Corp (NA)'];
+  const { user } = useAuth();
+
+  // Derive from authenticated user — no hardcoded name
+  const currentUser = user || { name: 'Guest', email: '', role: 'User', organization: 'EcoSphere' };
+  const currentOrganization = currentUser.organization || 'EcoSphere';
+  const organizations = [currentOrganization];
 
   return (
-    <UserContext.Provider value={{ currentOrganization, setCurrentOrganization, organizations }}>
+    <UserContext.Provider value={{
+      user: currentUser,
+      currentOrganization,
+      organizations,
+    }}>
       {children}
     </UserContext.Provider>
   );

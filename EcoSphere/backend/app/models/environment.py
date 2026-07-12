@@ -123,3 +123,18 @@ class DepartmentScore(BaseModel):
     __table_args__ = (
         db.UniqueConstraint('department', 'period_year', 'period_month', 'organization_id', name='uq_dept_period'),
     )
+
+
+class ESGReport(BaseModel):
+    """Stores metadata of generated ESG reports."""
+    __tablename__ = 'esg_reports'
+
+    title = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(100), nullable=False)      # e.g. Environmental, Executive
+    format = db.Column(db.String(50), nullable=False)        # e.g. PDF, CSV, Excel
+    generated_by = db.Column(db.String(200), nullable=False)
+    file_path = db.Column(db.String(500), nullable=True)
+    report_data = db.Column(db.Text, nullable=True)          # JSON representation of summary metrics
+
+    def to_dict(self):
+        return super().to_dict()
