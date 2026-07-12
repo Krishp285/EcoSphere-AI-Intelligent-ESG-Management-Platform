@@ -4,6 +4,7 @@ import { ThemeProvider } from './ThemeContext';
 import { SidebarProvider } from './SidebarContext';
 import { NotificationProvider } from './NotificationContext';
 import { UserProvider } from './UserContext';
+import { EsgProvider } from './EsgContext';
 
 export const AppProviders = ({ children }) => {
   return (
@@ -12,7 +13,9 @@ export const AppProviders = ({ children }) => {
         <UserProvider>
           <NotificationProvider>
             <SidebarProvider>
-              {children}
+              <EsgProvider>
+                {children}
+              </EsgProvider>
             </SidebarProvider>
           </NotificationProvider>
         </UserProvider>

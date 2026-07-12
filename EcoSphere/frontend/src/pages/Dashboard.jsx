@@ -1,13 +1,11 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Activity, 
-  Leaf, 
-  Users, 
-  Scale, 
-  Award, 
-  AlertCircle,
+import {
+  TrendingUp,
+  TrendingDown,
+  Leaf,
+  Users,
+  Scale,
+  Award,
   FileText,
   Zap,
   Target,
@@ -17,42 +15,34 @@ import Card, { CardHeader, CardContent } from '../components/common/Card';
 import Badge from '../components/common/Badge';
 import Progress from '../components/common/Progress';
 import Button from '../components/common/Button';
-import Avatar from '../components/common/Avatar';
 import { useUser } from '../context/UserContext';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { useEsg } from '../context/EsgContext';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Mock Data
-const kpiData = [
-  { title: 'Overall ESG Score', value: '85', change: '+2.5', icon: Award, color: 'text-primary-600', trend: 'up' },
-  { title: 'Carbon Saved (tons)', value: '1,240', change: '+12%', icon: Leaf, color: 'text-green-600', trend: 'up' },
-  { title: 'Social Impact Score', value: '92', change: '+4.1', icon: Users, color: 'text-blue-600', trend: 'up' },
-  { title: 'Governance Score', value: '78', change: '-1.2', icon: Scale, color: 'text-indigo-600', trend: 'down' },
-];
+const KPI_ICONS = {
+  overall_score: Award,
+  carbon_saved: Leaf,
+  social_score: Users,
+  governance_score: Scale,
+  env_score: Leaf,
+};
 
-const chartData = [
-  { name: 'Jan', carbon: 400, target: 240 },
-  { name: 'Feb', carbon: 300, target: 220 },
-  { name: 'Mar', carbon: 200, target: 200 },
-  { name: 'Apr', carbon: 278, target: 180 },
-  { name: 'May', carbon: 189, target: 160 },
-  { name: 'Jun', carbon: 239, target: 140 },
-];
-
-const deptData = [
-  { name: 'Manufacturing', score: 65, color: '#f87171' },
-  { name: 'Logistics', score: 72, color: '#fbbf24' },
-  { name: 'IT', score: 88, color: '#34d399' },
-  { name: 'HR', score: 95, color: '#60a5fa' },
-];
-
-const timelineData = [
-  { id: 1, type: 'audit', title: 'Q3 Environmental Audit Completed', time: '2 hours ago', status: 'success' },
-  { id: 2, type: 'policy', title: 'New Diversity Policy Approved', time: '5 hours ago', status: 'success' },
-  { id: 3, type: 'alert', title: 'Water usage spike in Facility B', time: '1 day ago', status: 'warning' },
-];
+const KPI_COLORS = {
+  overall_score: 'text-primary-600',
+  carbon_saved: 'text-green-600',
+  social_score: 'text-blue-600',
+  governance_score: 'text-indigo-600',
+  env_score: 'text-emerald-600',
+};
 
 export const Dashboard = () => {
   const { user, currentOrganization } = useUser();
+  const { kpis, departments, transactions, aiInsights, monthlyTrend } = useEsg();
+
+  // Show only the 4 headline KPIs on the executive dashboard
+  const execKpis = kpis.filter(k => ['overall_score', 'carbon_saved', 'social_score', 'governance_score'].includes(k.id));
+
+  const recentTransactions = transactions.slice(0, 3);
 
   return (
     <div className="space-y-6">
@@ -61,7 +51,7 @@ export const Dashboard = () => {
         <div className="relative z-10">
           <h1 className="text-3xl font-bold mb-2">Good morning, {user?.name || 'Alex'}! 👋</h1>
           <p className="text-primary-100 max-w-xl">
-            Here's what's happening with {currentOrganization}'s ESG initiatives today. Your overall health score is trending upwards.
+            Here's what's happening with {currentOrganization || 'your organisation'}'s ESG initiatives today. Your overall health score is trending upwards.
           </p>
           <div className="mt-6 flex space-x-4">
             <Button variant="secondary" icon={FileText}>Generate Report</Button>
@@ -73,56 +63,58 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      {/* KPI Grid */}
+      {/* KPI Grid — driven by EsgContext */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {kpiData.map((kpi, idx) => (
-          <Card key={idx} className="hover:-translate-y-1 transition-transform duration-200">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-gray-500">{kpi.title}</p>
-                <h3 className="text-2xl font-bold text-gray-900 mt-1">{kpi.value}</h3>
+        {execKpis.map((kpi) => {
+          const Icon = KPI_ICONS[kpi.id] || Award;
+          const color = KPI_COLORS[kpi.id] || 'text-primary-600';
+          return (
+            <Card key={kpi.id} className="hover:-translate-y-1 transition-transform duration-200">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">{kpi.title}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mt-1">{kpi.value}</h3>
+                </div>
+                <div className={`p-2 rounded-lg bg-gray-50 ${color}`}>
+                  <Icon className="w-5 h-5" />
+                </div>
               </div>
-              <div className={`p-2 rounded-lg bg-gray-50 ${kpi.color}`}>
-                <kpi.icon className="w-5 h-5" />
+              <div className="mt-4 flex items-center text-sm">
+                {kpi.trend === 'up' ? (
+                  <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                ) : (
+                  <TrendingDown className="w-4 h-4 text-red-500 mr-1" />
+                )}
+                <span className={kpi.trend === 'up' ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                  {kpi.change}
+                </span>
+                <span className="text-gray-500 ml-2">vs last month</span>
               </div>
-            </div>
-            <div className="mt-4 flex items-center text-sm">
-              {kpi.trend === 'up' ? (
-                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-              ) : (
-                <TrendingDown className="w-4 h-4 text-red-500 mr-1" />
-              )}
-              <span className={kpi.trend === 'up' ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                {kpi.change}
-              </span>
-              <span className="text-gray-500 ml-2">vs last month</span>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          );
+        })}
       </div>
 
       {/* Analytics & Leaderboard */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="col-span-1 lg:col-span-2">
-          <CardHeader title="Carbon Emissions Trend" subtitle="Actual vs Target (metric tons)" />
+          <CardHeader title="Carbon Emissions Trend" subtitle="Actual vs Target (metric tons CO₂)" />
           <CardContent>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <AreaChart data={monthlyTrend} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorCarbon" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00A86B" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#00A86B" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#00A86B" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#00A86B" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  />
-                  <Area type="monotone" dataKey="carbon" stroke="#00A86B" fillOpacity={1} fill="url(#colorCarbon)" />
-                  <Area type="monotone" dataKey="target" stroke="#9ca3af" strokeDasharray="5 5" fill="none" />
+                  <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                  <Area type="monotone" dataKey="actual" stroke="#00A86B" fillOpacity={1} fill="url(#colorCarbon)" name="Actual" />
+                  <Area type="monotone" dataKey="target" stroke="#9ca3af" strokeDasharray="5 5" fill="none" name="Target" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -130,20 +122,20 @@ export const Dashboard = () => {
         </Card>
 
         <Card>
-          <CardHeader title="Department Leaderboard" subtitle="Overall ESG Score by Dept" />
+          <CardHeader title="Department Leaderboard" subtitle="ESG Score by Department" />
           <CardContent>
             <div className="space-y-4">
-              {deptData.sort((a, b) => b.score - a.score).map((dept, idx) => (
-                <div key={idx} className="flex items-center justify-between">
+              {[...departments].sort((a, b) => b.score - a.score).map((dept, idx) => (
+                <div key={dept.name} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">
                       #{idx + 1}
                     </div>
-                    <span className="font-medium text-gray-700">{dept.name}</span>
+                    <span className="font-medium text-gray-700 text-sm">{dept.name}</span>
                   </div>
-                  <div className="flex items-center space-x-3 w-1/3">
-                    <Progress value={dept.score} color={`bg-[${dept.color}]`} className="flex-1" />
-                    <span className="text-sm font-bold text-gray-900">{dept.score}</span>
+                  <div className="flex items-center space-x-3 w-1/2">
+                    <Progress value={dept.score} className="flex-1" color="bg-primary-500" />
+                    <span className="text-sm font-bold text-gray-900 w-8 text-right">{dept.score}</span>
                   </div>
                 </div>
               ))}
@@ -155,30 +147,36 @@ export const Dashboard = () => {
       {/* AI Insight & Recent Activities */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="col-span-1 lg:col-span-2 border border-primary-100 bg-primary-50/30">
-          <CardHeader 
+          <CardHeader
             title={
               <div className="flex items-center text-primary-800">
                 <Bot className="w-5 h-5 mr-2" />
                 AI Copilot Insights
               </div>
             }
-            action={<Badge variant="primary">98% Confidence</Badge>}
+            action={<Badge variant="primary">Live</Badge>}
           />
           <CardContent>
-            <div className="space-y-4">
-              <div className="p-4 bg-white rounded-lg border border-primary-100 shadow-sm">
-                <h4 className="font-semibold text-gray-900 flex items-center">
-                  <Target className="w-4 h-4 mr-2 text-primary-600" />
-                  Recommendation: Optimize Logistics Routes
-                </h4>
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                  Based on recent carbon output data, optimizing delivery routes in the NA region could reduce emissions by approximately <strong>12%</strong> this quarter.
-                </p>
-                <div className="mt-4 flex space-x-3">
-                  <Button size="sm">Apply Optimization</Button>
-                  <Button size="sm" variant="outline">View Details</Button>
+            <div className="space-y-3">
+              {aiInsights.slice(0, 2).map(insight => (
+                <div key={insight.id} className="p-4 bg-white rounded-lg border border-primary-100 shadow-sm">
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="font-semibold text-gray-900 flex items-center text-sm">
+                      <Target className="w-4 h-4 mr-2 text-primary-600" />
+                      {insight.recommendation}
+                    </h4>
+                    <Badge variant={insight.priority === 'Critical' ? 'danger' : 'warning'}>
+                      {insight.priority}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-gray-500 mb-2">{insight.root_cause}</p>
+                  <div className="flex items-center gap-4 text-xs text-gray-600">
+                    <span className="text-green-600 font-medium">↓ {insight.expected_carbon_reduction} CO₂</span>
+                    <span className="text-blue-600 font-medium">+{insight.esg_score_improvement} ESG</span>
+                    <span className="font-medium">{insight.confidence}% confidence</span>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -186,15 +184,16 @@ export const Dashboard = () => {
         <Card>
           <CardHeader title="Recent Activities" />
           <CardContent>
-            <div className="space-y-4 relative before:absolute before:inset-0 before:ml-2 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-              {timelineData.map((item, idx) => (
-                <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full border border-white bg-slate-300 group-[.is-active]:bg-primary-500 text-slate-500 group-[.is-active]:text-emerald-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10" />
-                  <div className="w-[calc(100%-2rem)] md:w-[calc(50%-1.25rem)] p-3 rounded-lg border border-slate-200 bg-white shadow-sm ml-4 md:ml-0">
-                    <div className="flex items-center justify-between mb-1 space-x-2">
-                      <div className="font-bold text-slate-900 text-sm">{item.title}</div>
-                      <time className="font-medium text-xs text-primary-500">{item.time}</time>
-                    </div>
+            <div className="space-y-3">
+              {recentTransactions.map((tx) => (
+                <div key={tx.id} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50">
+                  <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${tx.status === 'Verified' ? 'bg-green-500' : tx.status === 'Failed' ? 'bg-red-500' : 'bg-yellow-500'}`} />
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">{tx.source} — {tx.department}</p>
+                    <p className="text-xs text-gray-500">{tx.total_co2} tCO₂ · {tx.date}</p>
+                    <Badge variant={tx.status === 'Verified' ? 'success' : tx.status === 'Failed' ? 'danger' : 'warning'} className="mt-1">
+                      {tx.status}
+                    </Badge>
                   </div>
                 </div>
               ))}

@@ -12,11 +12,9 @@ def create_app(config_class=Config):
     cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
     migrate.init_app(app, db)
 
-    # Register blueprints (placeholders)
-    # from app.api.routes.auth import auth_bp
-    # from app.api.routes.dashboard import dashboard_bp
-    # app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    # app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+    # Register blueprints
+    from app.api.routes.environment import environment_bp
+    app.register_blueprint(environment_bp, url_prefix='/api/environment')
 
     @app.route('/health', methods=['GET'])
     def health_check():
