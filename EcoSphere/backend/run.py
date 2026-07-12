@@ -52,7 +52,9 @@ def create_app(config_class=Config):
     return app
 
 
-# Create app instance for Gunicorn
+
+
+# Create application instance for Gunicorn
 app = create_app()
 
 if __name__ == '__main__':
