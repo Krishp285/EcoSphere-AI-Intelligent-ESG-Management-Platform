@@ -49,8 +49,17 @@ def create_app(config_class=Config):
     def internal_error(e):
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
+    @app.route("/", methods=["GET"])
+    def home():
+        return jsonify({
+            "project": "EcoSphere AI",
+            "status": "Running",
+            "version": "1.0",
+            "health": "/health"
+        }), 200
+        
     return app
-
+    
 
 
 
